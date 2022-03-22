@@ -3,6 +3,8 @@ package com.androidrealm.bookhub
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -10,8 +12,6 @@ class FavoriteListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorite_list)
-        val recyclerViewFavorite = findViewById<RecyclerView>(R.id.RecyclerViewFavorite)
-
 
         val listOfComic=ArrayList<Comic>()
         listOfComic.add(Comic(R.drawable.amagami_cover,"Amagami"))
@@ -25,8 +25,12 @@ class FavoriteListActivity : AppCompatActivity() {
         listOfComic.add(Comic(R.drawable.yofukashi_cover,"Yofukashi no uta"))
 
         val adapter = ComicAdapter(listOfComic)
-        recyclerViewFavorite!!.adapter = adapter
-        recyclerViewFavorite.setHasFixedSize(true)
-        recyclerViewFavorite.layoutManager = GridLayoutManager(this,3)
+
+        if (savedInstanceState == null) {
+            val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+            val fragment: Fragment = ListComicFragment.newInstance(adapter,3)
+            ft.replace(R.id.fragment_Favorite_List, fragment)
+            ft.commit()
+        }
     }
 }

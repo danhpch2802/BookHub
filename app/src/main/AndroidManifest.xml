@@ -11,7 +11,8 @@
         android:theme="@style/Theme.BookHub">
         <activity
             android:name=".FavoriteListActivity"
-            android:exported="false" />
+            android:exported="false">
+        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">
