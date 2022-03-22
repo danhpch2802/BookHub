@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import java.io.Serializable
 
 class Comic(
     val imagePath:Int,
@@ -13,7 +14,7 @@ class Comic(
 )
 class ComicAdapter (private var listOfComic : List<Comic>
                       ):
-    RecyclerView.Adapter<ComicAdapter.ViewHolder>() {
+    RecyclerView.Adapter<ComicAdapter.ViewHolder>(), Serializable {
 
     inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
         val comicNameTV = listItemView.findViewById(R.id.comicNameTV) as TextView
