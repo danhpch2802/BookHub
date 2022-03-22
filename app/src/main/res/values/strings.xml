@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">BookHub</string>
     <string name="home">Home</string>
+    <string name="Favorite">Favorite</string>
     <string name="profile">Profile</string>
     <string name="favorite">Favorite</string>
     <string name="manage_book">Manage book</string>\
