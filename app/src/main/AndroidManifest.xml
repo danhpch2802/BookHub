@@ -10,8 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BookHub">
         <activity
+            android:name=".HistoryActivity"
+            android:exported="false" >
+
+        </activity>
+        <activity
             android:name=".FavoriteListActivity"
             android:exported="false">
+
         </activity>
         <activity
             android:name=".MainActivity"
