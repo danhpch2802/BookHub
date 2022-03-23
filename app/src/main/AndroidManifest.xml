@@ -19,14 +19,23 @@
             android:exported="false">
 
         </activity>
+        <activity android:name=".BookReadActivity">
+
+        </activity>
         <activity
-            android:name=".BookDetailActivity"
+            android:name=".BookUpdateActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".ManageBookActivity">
+
+        </activity>
+        <activity android:name=".BookDetailActivity">
+
         </activity>
     </application>
 

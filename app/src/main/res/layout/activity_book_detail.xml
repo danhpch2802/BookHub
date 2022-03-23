@@ -15,13 +15,12 @@
             android:id="@+id/topAppbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:menu="@menu/top_app_manage_book"
             app:layout_scrollFlags="scroll|enterAlways|snap">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/detail_book_barTV"
-                android:text="@string/book_name"
+                android:text="@string/bookName"
                 android:textSize="20dp"
                 android:layout_gravity="center_horizontal"
                 android:textStyle="bold">

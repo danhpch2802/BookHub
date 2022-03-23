@@ -24,7 +24,9 @@
                 android:layout_height="323dp"
                 android:layout_marginStart="13dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/ic_launcher_foreground"
+                />
 
             <EditText
                 android:id="@+id/comicNameET"
@@ -34,7 +36,7 @@
 
                 android:layout_marginEnd="20dp"
                 android:background="@android:color/transparent"
-                android:text="@string/comicName"
+                android:text="@string/bookName"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +50,7 @@
 
                 android:layout_marginBottom="16dp"
                 android:background="@android:color/transparent"
-                android:text="@string/comicRating"
+                android:text="@string/bookRating"
                 android:textColor="#A8040404"
 
                 android:textSize="18sp"
@@ -68,7 +70,7 @@
 
                 android:layout_marginEnd="20dp"
                 android:background="@android:color/transparent"
-                android:text="@string/comicAuthor"
+                android:text="@string/bookAuthor"
                 android:textColor="#68040404"
 
                 android:textSize="16sp"
@@ -86,7 +88,7 @@
 
                 android:layout_marginEnd="13dp"
                 android:background="@android:color/transparent"
-                android:text="@string/comicSummary"
+                android:text="@string/bookSummary"
                 android:textColor="#A8040404"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"

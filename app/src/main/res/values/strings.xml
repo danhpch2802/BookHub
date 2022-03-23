@@ -9,18 +9,20 @@
     <string name="request">Request</string>
     <string name="day_night">Day/Night</string>
     <string name="create">Create</string>
-    <string name="comicName"></string>
     <string name="comicCoverPath"></string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="chapter">Chapters</string>
     <string name="comment">Comment</string>
-    <string name="book_name" />
+    <string name="bookName">Book name</string>
     <string name="markAsFavorite">Mark as favorite</string>
-    <string name="comicSummary" />
-    <string name="comicAuthor" />
-    <string name="comicRating" />
+    <string name="bookSummary" >Book Summary</string>
+    <string name="bookAuthor">Book Author</string>
+    <string name="bookRating">Book rating</string>
     <string name="recommend">Recommend</string>
     <string name="send">Send</string>
+    <string name="create_book">Create</string>
+    <string name="image">Image</string>
+    <string name="update">Save</string>
+    <string name="delete">Delete</string>
+    <string name="upload_chapter">Upload chapter</string>
 
 </resources>

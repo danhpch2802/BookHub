@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ManageBookActivity">
+    tools:context=".BookUpdateActivity">
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,12 +15,13 @@
             android:id="@+id/topAppbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:menu="@menu/top_app_manage_book"
+            app:menu="@menu/top_app_update_book"
             app:layout_scrollFlags="scroll|enterAlways|snap">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/manage_book"
+                android:id="@+id/detail_book_barTV"
+                android:text="@string/bookName"
                 android:textSize="20dp"
                 android:layout_gravity="center_horizontal"
                 android:textStyle="bold">
@@ -32,32 +33,13 @@
                 android:layout_gravity="left"/>
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-        <!-- Your scrolling content -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:id="@+id/createButton"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="320dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:backgroundTint="#FFFFFF"
-                android:text="@string/create"
-                android:textColor="@android:color/holo_blue_bright"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-        <androidx.fragment.app.FragmentContainerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/fragment_manage_book"
-            />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
-
+<androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+            <androidx.fragment.app.FragmentContainerView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/fragment_book"
+                />
+</androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
