@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.HorizontalScrollView
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
@@ -64,7 +65,7 @@ class BookFragment : Fragment() {
         ) as Comic
 
 
-        val categoryContent=view.findViewById<ConstraintLayout>(R.id.categoriesID)
+        val categoryContent=view.findViewById<LinearLayout>(R.id.categoriesID)
         var categoryView= arrayListOf<View>()
 
         for (category in detailComic.listCategory!!) {

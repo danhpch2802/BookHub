@@ -19,7 +19,8 @@ class BookDetailActivity : AppCompatActivity() {
             "Naito Marcey"
                 ,4.75
         )
-        val listCategory=arrayListOf("Romance","Harem","Comedy")
+        val listCategory=arrayListOf("Romance","Harem","Comedy", "Horror", "Gore", "Drama", "Ecchi",
+        "Fantasy", "Sexual")
         val listChapters= ArrayList<Chapter>()
 
         listChapters.add(Chapter("Hello","abc"))
