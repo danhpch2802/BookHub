@@ -1,23 +1,24 @@
-package com.androidrealm.bookhub
+package com.androidrealm.bookhub.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.androidrealm.bookhub.ComicAdapter
+import com.androidrealm.bookhub.R
 
 
 class ListComicFragment : Fragment() {
-    private lateinit var studentRW:RecyclerView
+    private lateinit var listComicsRW:RecyclerView
     companion object {
         fun newInstance
-                    (adapter: ComicAdapter,gridLayoutSpanNum:Int): ListComicFragment
+                    (adapter: ComicAdapter, gridLayoutSpanNum:Int): ListComicFragment
         {
-            val fragment=ListComicFragment()
+            val fragment= ListComicFragment()
             val bundle = Bundle()
             bundle.putSerializable("adapter", adapter)
             bundle.putSerializable("gridLayoutSpanNum", gridLayoutSpanNum)//-1 means Linear Layout
@@ -31,25 +32,25 @@ class ListComicFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         var view=inflater.inflate(R.layout.fragment_list_comic, container, false)
-        studentRW=view.findViewById(R.id.comicRW)
+        listComicsRW=view.findViewById(R.id.comicRW)
         // set the custom adapter to the RecyclerView
 
         var adapter=requireArguments().getSerializable(
             "adapter"
         ) as ComicAdapter
 
-        studentRW.adapter=adapter
+        listComicsRW.adapter=adapter
 
         var layout=requireArguments().getSerializable(
         "gridLayoutSpanNum"
         ) as Int
         if(layout>0){
-            studentRW.layoutManager = GridLayoutManager(activity,layout)
+            listComicsRW.layoutManager = GridLayoutManager(activity,layout)
         }
         else
         {
-            studentRW.layoutManager = LinearLayoutManager(activity)
-
+            if(layout==-1) listComicsRW.layoutManager = LinearLayoutManager(activity,LinearLayoutManager.HORIZONTAL,false)
+            else listComicsRW.layoutManager = LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
         }
         return view
     }

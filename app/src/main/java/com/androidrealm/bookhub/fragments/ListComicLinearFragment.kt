@@ -1,4 +1,4 @@
-package com.androidrealm.bookhub
+package com.androidrealm.bookhub.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,15 +9,16 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.androidrealm.bookhub.Adapter.ComicAdapterLinear
+import com.androidrealm.bookhub.R
 
 
 class ListComicLinearFragment : Fragment() {
-    private lateinit var studentRW:RecyclerView
+    private lateinit var listComicsRW:RecyclerView
     companion object {
         fun newInstance
                     (adapter: ComicAdapterLinear): ListComicLinearFragment
         {
-            val fragment=ListComicLinearFragment()
+            val fragment= ListComicLinearFragment()
             val bundle = Bundle()
             bundle.putSerializable("adapter", adapter)
             fragment.setArguments(bundle)
@@ -31,7 +32,7 @@ class ListComicLinearFragment : Fragment() {
         // Inflate the layout for this fragment
 
         var view=inflater.inflate(R.layout.fragment_list_comic_linear, container, false)
-        studentRW=view.findViewById(R.id.comicRWLinear)
+        listComicsRW=view.findViewById(R.id.comicRWLinear)
 
         // set the custom adapter to the RecyclerView
 
@@ -39,15 +40,15 @@ class ListComicLinearFragment : Fragment() {
             "adapter"
         ) as ComicAdapterLinear
 
-        studentRW.addItemDecoration(
+        listComicsRW.addItemDecoration(
             DividerItemDecoration(
-                studentRW.getContext(),
+                listComicsRW.getContext(),
                 DividerItemDecoration.VERTICAL
             )
         )
-        studentRW.adapter=adapter
+        listComicsRW.adapter=adapter
 
-        studentRW.layoutManager = LinearLayoutManager(activity)
+        listComicsRW.layoutManager = LinearLayoutManager(activity)
 
         return view
     }

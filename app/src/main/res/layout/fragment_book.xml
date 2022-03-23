@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".fragments.BookFragment"
+    >
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fillViewport="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="707dp">
+
+            <ImageView
+                android:id="@+id/comicCoverIV"
+                android:layout_width="123dp"
+                android:layout_height="323dp"
+                android:layout_marginStart="13dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/comicNameET"
+                android:layout_width="227dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="80dp"
+
+                android:layout_marginEnd="20dp"
+                android:background="@android:color/transparent"
+                android:text="@string/comicName"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"></EditText>
+
+            <EditText
+                android:id="@+id/comicRatingTV"
+                android:layout_width="79dp"
+                android:layout_height="45dp"
+                android:layout_marginEnd="168dp"
+
+                android:layout_marginBottom="16dp"
+                android:background="@android:color/transparent"
+                android:text="@string/comicRating"
+                android:textColor="#A8040404"
+
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/button2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/comicAuthorET"
+                app:layout_constraintVertical_bias="0.0">
+
+            </EditText>
+
+            <EditText
+                android:id="@+id/comicAuthorET"
+                android:layout_width="226dp"
+                android:layout_height="42dp"
+                android:layout_marginTop="12dp"
+
+                android:layout_marginEnd="20dp"
+                android:background="@android:color/transparent"
+                android:text="@string/comicAuthor"
+                android:textColor="#68040404"
+
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/comicNameET">
+
+            </EditText>
+
+            <EditText
+                android:id="@+id/comicSummaryET"
+                android:layout_width="376dp"
+                android:layout_height="202dp"
+                android:layout_marginStart="13dp"
+
+                android:layout_marginEnd="13dp"
+                android:background="@android:color/transparent"
+                android:text="@string/comicSummary"
+                android:textColor="#A8040404"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.333"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/comicCoverIV">
+
+            </EditText>
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="176dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:drawableLeft="@android:drawable/btn_star"
+                android:text="@string/markAsFavorite"
+                android:textColor="#090909"
+                app:layout_constraintBottom_toTopOf="@+id/comicSummaryET"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <HorizontalScrollView
+                android:id="@+id/categoriesScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/comicSummaryET">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/categoriesID"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </HorizontalScrollView>
+            <TextView
+                android:id="@+id/recommendTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/recommend"
+                android:textColor="#090909"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/categoriesScrollView" />
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/recommendFragmentContainer"
+                android:layout_width="376dp"
+                android:layout_height="200dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="48dp"
+                android:layout_marginEnd="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/recommendTV">
+
+            </androidx.fragment.app.FragmentContainerView>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/bookTab"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recommendFragmentContainer"
+                app:tabGravity="fill"
+                app:tabMinWidth="0dp"
+                app:tabMode="fixed"
+                app:tabPaddingEnd="0dp"
+                app:tabPaddingStart="0dp">
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:icon="@drawable/book_icon"
+                    android:text="@string/chapter"
+                    app:tabGravity="fill"
+                    app:tabMinWidth="0dp"
+                    app:tabMode="fixed" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:icon="@drawable/profile_icon"
+                    android:text="@string/comment"
+                    app:tabGravity="fill"
+                    app:tabMinWidth="0dp"
+                    app:tabMode="fixed" />
+
+            </com.google.android.material.tabs.TabLayout>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/bookViewPage2"
+                app:layout_constraintTop_toBottomOf="@id/bookTab">
+
+            </androidx.viewpager2.widget.ViewPager2>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</FrameLayout>

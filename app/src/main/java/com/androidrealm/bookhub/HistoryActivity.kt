@@ -5,6 +5,8 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.androidrealm.bookhub.Adapter.ComicAdapterLinear
+import com.androidrealm.bookhub.Models.Comic
+import com.androidrealm.bookhub.fragments.ListComicLinearFragment
 
 class HistoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

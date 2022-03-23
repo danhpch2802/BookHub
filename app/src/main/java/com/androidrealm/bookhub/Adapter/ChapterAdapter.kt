@@ -1,4 +1,4 @@
-package com.androidrealm.bookhub
+package com.androidrealm.bookhub.Adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,40 +6,41 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.androidrealm.bookhub.Models.Chapter
 import com.androidrealm.bookhub.Models.Comic
+import com.androidrealm.bookhub.R
 import java.io.Serializable
 
-
-class ComicAdapter (private var listOfComic : List<Comic>
-                      ):
-    RecyclerView.Adapter<ComicAdapter.ViewHolder>(), Serializable {
+class ChapterAdapter (private var listChapters : List<Chapter>
+):
+    RecyclerView.Adapter<ChapterAdapter.ViewHolder>(), Serializable {
 
     inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
-        val comicNameTV = listItemView.findViewById(R.id.comicNameTV) as TextView
-        val comicIV = listItemView.findViewById(R.id.comicIV) as ImageView
+        val chapterNameTV = listItemView.findViewById(R.id.chapterNameTV) as TextView
 
-        }
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
 
-            ComicAdapter.ViewHolder {
+            ChapterAdapter.ViewHolder {
         val context = parent.context
         val inflater = LayoutInflater.from(context)
 // Inflate the custom layout
-        val contactView = inflater.inflate(R.layout.item_list_comic_grid, parent, false)
+        val chapterView = inflater.inflate(R.layout.item_chapter, parent, false)
 // Return a new holder instance
-        return ViewHolder(contactView)
+        return ViewHolder(chapterView)
     }
     override fun getItemCount(): Int {
-        return listOfComic.size
+        return listChapters.size
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 // Get the data model based on position
-        val comic: Comic = listOfComic.get(position)
+        val chapter: Chapter = listChapters.get(position)
 // Set item views based on your views and data model
-        val comicNameTV = holder.comicNameTV
-        comicNameTV.setText(comic.name)
-        val comicIV = holder.comicIV
-        comicIV.setImageResource(comic.imagePath!!)
+        val chapterNameTW = holder.chapterNameTV
+        chapterNameTW.setText(chapter.chapterName)
+
     }
+
+
 
 }

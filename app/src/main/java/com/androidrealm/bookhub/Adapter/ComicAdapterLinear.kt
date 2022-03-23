@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.androidrealm.bookhub.Comic
+import com.androidrealm.bookhub.Models.Comic
 import com.androidrealm.bookhub.R
 import java.io.Serializable
 
@@ -39,7 +39,7 @@ class ComicAdapterLinear (private var listOfComic : List<Comic>
         val comicNameTV = holder.comicNameTVlinear
         comicNameTV.setText(comic.name)
         val comicIV = holder.comicIVlinear
-        comicIV.setImageResource(comic.imagePath)
+        comicIV.setImageResource(comic.imagePath!!)
     }
 
 }

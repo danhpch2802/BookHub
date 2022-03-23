@@ -2,11 +2,10 @@ package com.androidrealm.bookhub
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.androidrealm.bookhub.Models.Comic
+import com.androidrealm.bookhub.fragments.ListComicFragment
 
 class FavoriteListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
