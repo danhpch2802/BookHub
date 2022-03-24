@@ -42,11 +42,7 @@
         </activity>
 
         <activity
-<<<<<<< Updated upstream
             android:name=".BookCreateActivity"
-=======
-            android:name=".WelcomeActivity"
->>>>>>> Stashed changes
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
