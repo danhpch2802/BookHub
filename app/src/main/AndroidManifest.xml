@@ -11,6 +11,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BookHub">
         <activity
+            android:name=".SignupActivity"
+            android:exported="false" >
+
+        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" >
+
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" >
+
+        </activity>
+        <activity
             android:name=".HistoryActivity"
             android:exported="false" >
 
@@ -27,7 +42,11 @@
         </activity>
 
         <activity
+<<<<<<< Updated upstream
             android:name=".BookCreateActivity"
+=======
+            android:name=".WelcomeActivity"
+>>>>>>> Stashed changes
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
