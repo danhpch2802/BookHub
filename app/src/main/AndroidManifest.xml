@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.androidrealm.bookhub">
+    package="com.androidrealm.bookhub"
+    >
 
     <application
         android:allowBackup="true"
@@ -20,10 +21,13 @@
 
         </activity>
         <activity android:name=".BookReadActivity">
+        </activity>
+        <activity android:name=".BookUpdateActivity">
 
         </activity>
+
         <activity
-            android:name=".BookUpdateActivity"
+            android:name=".BookCreateActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

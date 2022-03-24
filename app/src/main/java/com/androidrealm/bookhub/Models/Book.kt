@@ -2,7 +2,7 @@ package com.androidrealm.bookhub.Models
 
 import java.io.Serializable
 
-class Comic(
+class Book(
     var imagePath:Int?=null,
     var name:String?=null,
     var summary:String?=null,

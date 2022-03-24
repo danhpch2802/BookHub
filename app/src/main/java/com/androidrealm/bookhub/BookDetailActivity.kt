@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.androidrealm.bookhub.Models.Chapter
-import com.androidrealm.bookhub.Models.Comic
+import com.androidrealm.bookhub.Models.Book
 import com.androidrealm.bookhub.Models.Comment
 import com.androidrealm.bookhub.fragments.BookFragment
 
@@ -15,7 +15,7 @@ class BookDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_detail)
 
-        val comic=Comic(R.drawable.amagami_cover,"Amagami-san Chi no Enmusubi",
+        val comic=Book(R.drawable.amagami_cover,"Amagami-san Chi no Enmusubi",
             "Kamihate Uryuu, orphaned since childhood, receives an invitation to stay at the local Shinto shrine. All he wanted was a quiet place to study so that he can fulfill his dream of making it into a top medical school, but after arriving there, he comes across three beautiful shrine maiden sisters... and the head priest requests that he marry one of them and take over the shrine. A tale of love and miracles is about to unfold!",
             "Naito Marcey"
                 ,4.75
@@ -33,16 +33,16 @@ class BookDetailActivity : AppCompatActivity() {
         comic.listChapter=listChapters
         comic.listCategory=listCategory
 
-        val recommendedList=ArrayList<Comic>()
-        recommendedList.add(Comic(R.drawable.amagami_cover,"Amagami"))
-        recommendedList.add(Comic(R.drawable.fechippuru_cover,"Fechippuuru"))
-        recommendedList.add(Comic(R.drawable.kanojo_cover,"Kanojo Okarimasu"))
-        recommendedList.add(Comic(R.drawable.komi_cover,"Komi-san",""))
-        recommendedList.add(Comic(R.drawable.meika_cover,"Meika",""))
-        recommendedList.add(Comic(R.drawable.doll_cover,"Sono bisque",""))
-        recommendedList.add(Comic(R.drawable.mokanojo_cover,"Kanojo mo Kanojo",""))
-        recommendedList.add(Comic(R.drawable.tonikaku_cover,"Tonakaku Cawaii",""))
-        recommendedList.add(Comic(R.drawable.yofukashi_cover,"Yofukashi no uta",""))
+        val recommendedList=ArrayList<Book>()
+        recommendedList.add(Book(R.drawable.amagami_cover,"Amagami"))
+        recommendedList.add(Book(R.drawable.fechippuru_cover,"Fechippuuru"))
+        recommendedList.add(Book(R.drawable.kanojo_cover,"Kanojo Okarimasu"))
+        recommendedList.add(Book(R.drawable.komi_cover,"Komi-san",""))
+        recommendedList.add(Book(R.drawable.meika_cover,"Meika",""))
+        recommendedList.add(Book(R.drawable.doll_cover,"Sono bisque",""))
+        recommendedList.add(Book(R.drawable.mokanojo_cover,"Kanojo mo Kanojo",""))
+        recommendedList.add(Book(R.drawable.tonikaku_cover,"Tonakaku Cawaii",""))
+        recommendedList.add(Book(R.drawable.yofukashi_cover,"Yofukashi no uta",""))
 
         val listComment=ArrayList<Comment>()
         listComment.add(Comment("1234","1234","Hello","28/02/2001"))
@@ -55,7 +55,7 @@ class BookDetailActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-            val fragment: Fragment = BookFragment.newInstance(comic,recommendedList,listComment,false)
+            val fragment: Fragment = BookFragment.newInstance(book=comic,recommendList=recommendedList, listComment = listComment, editable = false)
             ft.replace(R.id.fragment_book, fragment)
             ft.commit()
         }

@@ -6,11 +6,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.androidrealm.bookhub.Models.Comic
+import com.androidrealm.bookhub.Models.Book
 import com.androidrealm.bookhub.R
 import java.io.Serializable
 
-class ComicAdapterLinear (private var listOfComic : List<Comic>
+class ComicAdapterLinear (private var listOfBook : List<Book>
 ):
     RecyclerView.Adapter<ComicAdapterLinear.ViewHolder>(), Serializable {
 
@@ -30,16 +30,16 @@ class ComicAdapterLinear (private var listOfComic : List<Comic>
         return ViewHolder(contactView)
     }
     override fun getItemCount(): Int {
-        return listOfComic.size
+        return listOfBook.size
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 // Get the data model based on position
-        val comic: Comic = listOfComic.get(position)
+        val book: Book = listOfBook.get(position)
 // Set item views based on your views and data model
         val comicNameTV = holder.comicNameTVlinear
-        comicNameTV.setText(comic.name)
+        comicNameTV.setText(book.name)
         val comicIV = holder.comicIVlinear
-        comicIV.setImageResource(comic.imagePath!!)
+        comicIV.setImageResource(book.imagePath!!)
     }
 
 }
