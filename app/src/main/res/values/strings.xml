@@ -7,6 +7,7 @@
     <string name="favorite">Favorite</string>
     <string name="manage_book">Manage book</string>\
     <string name="request">Request</string>
+    <string name="bookmark">Bookmark</string>
     <string name="day_night">Day/Night</string>
     <string name="create">Create</string>
     <string name="comicCoverPath"></string>
@@ -14,7 +15,7 @@
     <string name="comment">Comment</string>
     <string name="bookName">Book name</string>
     <string name="markAsFavorite">Mark as favorite</string>
-    <string name="bookSummary" >Book Summary</string>
+    <string name="bookSummary">Book Summary</string>
     <string name="bookAuthor">Book Author</string>
     <string name="bookRating">Book rating</string>
     <string name="recommend">Recommend</string>
@@ -25,10 +26,18 @@
     <string name="delete">Delete</string>
     <string name="upload_chapter">Upload chapter</string>
     <string name="save">Save</string>
+<<<<<<< Updated upstream
     <string name="rememberme">Remember Me</string>
     <string name="login">Login</string>
     <string name="forgotpass">FORGOT PASSWORD?</string>
     <string name="register">Register</string>
     <string name="confirm">Confirm</string>
+=======
+    <string name="prize">Prize</string>
+
+    <string name="accounts">Accounts</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+>>>>>>> Stashed changes
 
 </resources>

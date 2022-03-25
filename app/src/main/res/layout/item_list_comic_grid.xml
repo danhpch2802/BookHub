@@ -14,13 +14,14 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <ImageView
-            android:id="@+id/comicIV"
-            android:scaleType="fitXY"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/comicNameTV"
-            android:layout_centerHorizontal="true"/>
+
+            <ImageView
+                android:id="@+id/comicIV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/comicNameTV"
+                android:layout_centerHorizontal="true"
+                android:scaleType="fitXY" />
 
         <TextView
             android:id="@+id/comicNameTV"

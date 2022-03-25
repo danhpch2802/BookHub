@@ -23,3 +23,18 @@ class Comment(
     var Content:String?=null,
     var CreatedAt:String?=null
     )
+
+class Request(
+    var AccId:String?=null,
+    var requestName:String?=null,
+    var checked:Int? = 1
+)
+
+class Account(
+    var accountName:String?=null
+)
+
+class Prize(
+    var prizeName:String?=null,
+    var owned:Boolean?= false
+)

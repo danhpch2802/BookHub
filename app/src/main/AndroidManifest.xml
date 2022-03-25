@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.androidrealm.bookhub"
-    >
+    package="com.androidrealm.bookhub">
 
     <application
         android:allowBackup="true"
@@ -10,39 +9,49 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BookHub">
+<!--        <activity-->
+<!--            android:name=".PrizeListActivity"-->
+<!--            android:exported="false" />-->
         <activity
-            android:name=".SignupActivity"
-            android:exported="false" >
-
-        </activity>
+            android:name=".UpdateAccActivity"
+            android:exported="false" />
         <activity
-            android:name=".LoginActivity"
-            android:exported="false" >
-
-        </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="false" >
-
-        </activity>
-        <activity
-            android:name=".HistoryActivity"
-            android:exported="false" >
-
-        </activity>
-        <activity
-            android:name=".FavoriteListActivity"
-            android:exported="false">
-
-        </activity>
-        <activity android:name=".BookReadActivity">
-        </activity>
-        <activity android:name=".BookUpdateActivity">
-
-        </activity>
-
+            android:name=".RequestActivity"
+            android:exported="false" />
         <activity
             android:name=".BookCreateActivity"
+            android:exported="true" />
+        <activity
+            android:name=".RequestListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SignupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BookmarkListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FavoriteListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+         <activity
+         android:name=".AccountActivity"
+         android:exported="false" />
+        <activity android:name=".BookReadActivity" />
+        <activity android:name=".BookUpdateActivity" />
+        <activity
+            android:name=".PrizeListActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,12 +59,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ManageBookActivity">
-
-        </activity>
-        <activity android:name=".BookDetailActivity">
-
-        </activity>
+        <activity android:name=".ManageBookActivity" />
+        <activity android:name=".BookDetailActivity" />
     </application>
 
 </manifest>

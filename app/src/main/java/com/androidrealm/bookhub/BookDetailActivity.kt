@@ -22,6 +22,7 @@ class BookDetailActivity : AppCompatActivity() {
         )
         val listCategory=arrayListOf("Romance","Harem","Comedy", "Horror", "Gore", "Drama", "Ecchi",
         "Fantasy", "Sexual")
+
         val listChapters= ArrayList<Chapter>()
 
         listChapters.add(Chapter("Hello","abc"))
