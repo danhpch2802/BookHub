@@ -12,4 +12,7 @@
     <color name="darkred">#B22222</color>
     <color name="gray">#D0D1E3</color>
     <color name="gay">#FF8181</color>
+
+    <color name="app_golden">#FFB000</color>
+    <color name="app_purple">#6360FF</color>
 </resources>

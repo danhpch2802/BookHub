@@ -17,7 +17,6 @@ class PrizeListActivity : AppCompatActivity() {
         lists.add(Prize("Booker"))
         lists.add(Prize("Literaler"))
 
-
         if (savedInstanceState == null) {
             val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
             val fragment: Fragment = PrizeFragment.newInstance(lists)

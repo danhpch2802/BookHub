@@ -69,12 +69,8 @@
                 android:layout_height="20dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="17dp"
-<<<<<<< Updated upstream
                 android:src="@drawable/username_icon" />
 
-=======
-                android:src="@drawable/username_icon"/>
->>>>>>> Stashed changes
         </RelativeLayout>
 
         <RelativeLayout

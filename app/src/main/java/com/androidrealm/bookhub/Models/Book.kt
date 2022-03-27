@@ -31,10 +31,13 @@ class Request(
 )
 
 class Account(
-    var accountName:String?=null
+    var accountName:String?=null,
+    var email:String?=null
 )
 
 class Prize(
     var prizeName:String?=null,
-    var owned:Boolean?= false
+    var prizeDescrypt:String?=null,
+    var owned:Boolean?= false,
+    var huge:Boolean?= false
 )
