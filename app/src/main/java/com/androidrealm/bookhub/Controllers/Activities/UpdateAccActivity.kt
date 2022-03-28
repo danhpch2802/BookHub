@@ -1,7 +1,8 @@
-package com.androidrealm.bookhub
+package com.androidrealm.bookhub.Controllers.Activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.androidrealm.bookhub.R
 
 class UpdateAccActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

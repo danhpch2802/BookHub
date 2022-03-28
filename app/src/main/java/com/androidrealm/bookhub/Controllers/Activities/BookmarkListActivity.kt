@@ -1,16 +1,19 @@
-package com.androidrealm.bookhub
+
+package com.androidrealm.bookhub.Controllers.Activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.androidrealm.bookhub.Adapter.ComicAdapterLinear
 import com.androidrealm.bookhub.Models.Book
-import com.androidrealm.bookhub.fragments.ListComicFragment
+import com.androidrealm.bookhub.R
+import com.androidrealm.bookhub.Controllers.Fragments.ListComicLinearFragment
 
-class FavoriteListActivity : AppCompatActivity() {
+class BookmarkListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_favorite_list)
+        setContentView(R.layout.activity_bookmark_list)
 
         val listOfComic=ArrayList<Book>()
         listOfComic.add(Book(R.drawable.amagami_cover,"Amagami"))
@@ -23,12 +26,12 @@ class FavoriteListActivity : AppCompatActivity() {
         listOfComic.add(Book(R.drawable.tonikaku_cover,"Tonakaku Cawaii"))
         listOfComic.add(Book(R.drawable.yofukashi_cover,"Yofukashi no uta"))
 
-        val adapter = ComicAdapter(listOfComic)
+        val adapter = ComicAdapterLinear(listOfComic)
 
         if (savedInstanceState == null) {
             val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-            val fragment: Fragment = ListComicFragment.newInstance(adapter,3)
-            ft.replace(R.id.fragment_Favorite_List, fragment)
+            val fragment: Fragment = ListComicLinearFragment.newInstance(adapter)
+            ft.replace(R.id.fragment_Bookmark_List, fragment)
             ft.commit()
         }
     }

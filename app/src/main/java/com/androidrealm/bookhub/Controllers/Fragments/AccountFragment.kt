@@ -1,4 +1,4 @@
-package com.androidrealm.bookhub.fragments
+package com.androidrealm.bookhub.Controllers.Fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,9 +9,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.androidrealm.bookhub.Adapter.AccountAdapter
-import com.androidrealm.bookhub.Adapter.RequestAdapter
 import com.androidrealm.bookhub.Models.Account
-import com.androidrealm.bookhub.Models.Request
 import com.androidrealm.bookhub.R
 
 class AccountFragment(listAccount: Any?) : Fragment() {

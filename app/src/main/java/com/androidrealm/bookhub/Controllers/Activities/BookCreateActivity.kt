@@ -1,10 +1,11 @@
-package com.androidrealm.bookhub
+package com.androidrealm.bookhub.Controllers.Activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.androidrealm.bookhub.fragments.BookFragment
+import com.androidrealm.bookhub.R
+import com.androidrealm.bookhub.Controllers.Fragments.BookFragment
 
 class BookCreateActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
-    tools:context=".ManageBookActivity">
+    tools:context=".Controllers.Activities.ManageBookActivity">
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

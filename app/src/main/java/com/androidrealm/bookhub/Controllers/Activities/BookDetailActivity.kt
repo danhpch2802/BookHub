@@ -1,4 +1,4 @@
-package com.androidrealm.bookhub
+package com.androidrealm.bookhub.Controllers.Activities
 
 import android.os.Bundle
 import android.widget.TextView
@@ -8,14 +8,16 @@ import androidx.fragment.app.FragmentTransaction
 import com.androidrealm.bookhub.Models.Chapter
 import com.androidrealm.bookhub.Models.Book
 import com.androidrealm.bookhub.Models.Comment
-import com.androidrealm.bookhub.fragments.BookFragment
+import com.androidrealm.bookhub.R
+import com.androidrealm.bookhub.Controllers.Fragments.BookFragment
 
 class BookDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_detail)
 
-        val comic=Book(R.drawable.amagami_cover,"Amagami-san Chi no Enmusubi",
+        val comic=Book(
+            R.drawable.amagami_cover,"Amagami-san Chi no Enmusubi",
             "Kamihate Uryuu, orphaned since childhood, receives an invitation to stay at the local Shinto shrine. All he wanted was a quiet place to study so that he can fulfill his dream of making it into a top medical school, but after arriving there, he comes across three beautiful shrine maiden sisters... and the head priest requests that he marry one of them and take over the shrine. A tale of love and miracles is about to unfold!",
             "Naito Marcey"
                 ,4.75

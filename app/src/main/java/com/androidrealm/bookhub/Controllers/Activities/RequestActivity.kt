@@ -1,12 +1,9 @@
-package com.androidrealm.bookhub
+package com.androidrealm.bookhub.Controllers.Activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
-import com.androidrealm.bookhub.Models.Book
-import com.androidrealm.bookhub.fragments.ListComicFragment
+import com.androidrealm.bookhub.R
 
 class RequestActivity : AppCompatActivity() {
 

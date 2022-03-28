@@ -1,4 +1,4 @@
-package com.androidrealm.bookhub.fragments
+package com.androidrealm.bookhub.Controllers.Fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,20 +9,18 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.androidrealm.bookhub.Adapter.ChapterAdapter
-import com.androidrealm.bookhub.Adapter.CommentAdapter
 import com.androidrealm.bookhub.Models.Chapter
-import com.androidrealm.bookhub.Models.Comment
 import com.androidrealm.bookhub.R
 
-class CommentFragment() : Fragment() {
-    private lateinit var commentRW:RecyclerView
+class ChapterFragment(listChapter: Any?) : Fragment() {
+    private lateinit var chapterRW:RecyclerView
     companion object {
         fun newInstance
-                    (listComment: ArrayList<Comment>): CommentFragment
+                    (listChapter: ArrayList<Chapter>): ChapterFragment
         {
-            val fragment= CommentFragment()
+            val fragment= ChapterFragment(listChapter)
             val bundle = Bundle()
-            bundle.putSerializable("listComment", listComment)
+            bundle.putSerializable("listChapter", listChapter)
             fragment.setArguments(bundle)
             return fragment
         }
@@ -33,26 +31,26 @@ class CommentFragment() : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
 
-        var view=inflater.inflate(R.layout.fragment_comment, container, false)
-        commentRW=view.findViewById(R.id.commentRW)
+        var view=inflater.inflate(R.layout.fragment_chapter, container, false)
+        chapterRW=view.findViewById(R.id.chapterRW)
 
         // set the custom adapter to the RecyclerView
 
-        var listComment=requireArguments().getSerializable(
-            "listComment"
-        ) as ArrayList<Comment>
+        var listChapter=requireArguments().getSerializable(
+            "listChapter"
+        ) as ArrayList<Chapter>
 
-        commentRW.addItemDecoration(
+        chapterRW.addItemDecoration(
             DividerItemDecoration(
-                commentRW.getContext(),
+                chapterRW.getContext(),
                 DividerItemDecoration.VERTICAL
             )
         )
 
-        var adapter= CommentAdapter(listComment)
-        commentRW.adapter=adapter
+        var adapter=ChapterAdapter(listChapter)
+        chapterRW.adapter=adapter
 
-        commentRW.layoutManager = LinearLayoutManager(activity)
+        chapterRW.layoutManager = LinearLayoutManager(activity)
 
         return view
     }

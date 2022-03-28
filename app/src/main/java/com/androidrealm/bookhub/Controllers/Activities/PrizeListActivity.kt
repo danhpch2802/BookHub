@@ -1,12 +1,11 @@
-package com.androidrealm.bookhub
+package com.androidrealm.bookhub.Controllers.Activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.androidrealm.bookhub.Models.Account
 import com.androidrealm.bookhub.Models.Prize
-import com.androidrealm.bookhub.fragments.AccountFragment
+import com.androidrealm.bookhub.R
 
 class PrizeListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

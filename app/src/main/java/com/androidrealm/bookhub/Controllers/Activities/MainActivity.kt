@@ -1,12 +1,14 @@
-package com.androidrealm.bookhub
+package com.androidrealm.bookhub.Controllers.Activities
 
 import android.os.Bundle
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.androidrealm.bookhub.ComicAdapter
 import com.androidrealm.bookhub.Models.Book
-import com.androidrealm.bookhub.fragments.ListComicFragment
+import com.androidrealm.bookhub.R
+import com.androidrealm.bookhub.Controllers.Fragments.ListComicFragment
 
 
 class MainActivity : AppCompatActivity() {
@@ -26,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         listOfComic.add(Book(R.drawable.mokanojo_cover,"Kanojo mo Kanojo",""))
         listOfComic.add(Book(R.drawable.tonikaku_cover,"Tonakaku Cawaii",""))
         listOfComic.add(Book(R.drawable.yofukashi_cover,"Yofukashi no uta",""))
-        var adapter=ComicAdapter(listOfComic)
+        var adapter= ComicAdapter(listOfComic)
 
         if (savedInstanceState == null) {
             val ft: FragmentTransaction = supportFragmentManager.beginTransaction()

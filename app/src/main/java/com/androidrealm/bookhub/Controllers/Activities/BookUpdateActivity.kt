@@ -1,4 +1,4 @@
-package com.androidrealm.bookhub
+package com.androidrealm.bookhub.Controllers.Activities
 
 import android.os.Bundle
 import android.widget.TextView
@@ -8,7 +8,8 @@ import androidx.fragment.app.FragmentTransaction
 import com.androidrealm.bookhub.Models.Chapter
 import com.androidrealm.bookhub.Models.Book
 import com.androidrealm.bookhub.Models.Comment
-import com.androidrealm.bookhub.fragments.BookFragment
+import com.androidrealm.bookhub.R
+import com.androidrealm.bookhub.Controllers.Fragments.BookFragment
 
 class BookUpdateActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

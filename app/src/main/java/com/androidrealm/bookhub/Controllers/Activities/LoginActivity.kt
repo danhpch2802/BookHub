@@ -1,4 +1,4 @@
-package com.androidrealm.bookhub
+package com.androidrealm.bookhub.Controllers.Activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.androidrealm.bookhub.R
 
 class LoginActivity : AppCompatActivity() {
     var loginBtn: TextView? = null

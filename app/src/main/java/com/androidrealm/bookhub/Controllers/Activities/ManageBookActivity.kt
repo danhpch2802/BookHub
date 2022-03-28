@@ -1,4 +1,4 @@
-package com.androidrealm.bookhub
+package com.androidrealm.bookhub.Controllers.Activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -6,7 +6,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.androidrealm.bookhub.Adapter.ComicAdapterLinear
 import com.androidrealm.bookhub.Models.Book
-import com.androidrealm.bookhub.fragments.ListComicLinearFragment
+import com.androidrealm.bookhub.R
+import com.androidrealm.bookhub.Controllers.Fragments.ListComicLinearFragment
 
 class ManageBookActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {

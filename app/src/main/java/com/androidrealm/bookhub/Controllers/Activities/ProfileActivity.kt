@@ -1,4 +1,4 @@
-package com.androidrealm.bookhub
+package com.androidrealm.bookhub.Controllers.Activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.androidrealm.bookhub.R
 
 class ProfileActivity : AppCompatActivity() {
     var PrizeBtn: ImageButton? = null

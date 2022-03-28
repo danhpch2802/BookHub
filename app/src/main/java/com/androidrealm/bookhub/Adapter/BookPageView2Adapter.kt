@@ -2,12 +2,11 @@ package com.androidrealm.bookhub.Adapter
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.androidrealm.bookhub.Models.Chapter
 import com.androidrealm.bookhub.Models.Comment
-import com.androidrealm.bookhub.fragments.ChapterFragment
-import com.androidrealm.bookhub.fragments.CommentFragment
+import com.androidrealm.bookhub.Controllers.Fragments.ChapterFragment
+import com.androidrealm.bookhub.Controllers.Fragments.CommentFragment
 
 
 class BookPageView2Adapter (activity: AppCompatActivity, val itemsCount: Int,val listChapters:List<Chapter>

@@ -1,10 +1,11 @@
-package com.androidrealm.bookhub
+package com.androidrealm.bookhub.Controllers.Activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.androidrealm.bookhub.R
 
 class AccountDetailActivity : AppCompatActivity() {
     var AvaBtn: ImageView? = null
