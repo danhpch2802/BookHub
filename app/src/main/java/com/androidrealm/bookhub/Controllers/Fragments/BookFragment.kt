@@ -1,13 +1,17 @@
 package com.androidrealm.bookhub.Controllers.Fragments
 
+import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.viewpager2.widget.ViewPager2
@@ -19,6 +23,8 @@ import com.androidrealm.bookhub.R
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**
@@ -31,6 +37,9 @@ class BookFragment : Fragment() {
     private var listComment=ArrayList<Comment>()
     private var recommendList=ArrayList<Book>()
     private var createNew = false
+
+    private var listCategoryChosen = ArrayList<String>()
+
     companion object {
         fun newInstance
                     (createNew:Boolean?=false, book: Book?=null, recommendList:ArrayList<Book>?=null, listComment:ArrayList<Comment>?=null, editable:Boolean?=null): BookFragment
@@ -72,10 +81,67 @@ class BookFragment : Fragment() {
         {
             val singleFrame: View = layoutInflater.inflate(R.layout.item_categories, null)
             val categoryBtn = singleFrame.findViewById<MaterialButton>(R.id.categoryBtn)
+
+            categoryBtn.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(),R.color.app_golden))
+
+
             categoryBtn.setText("Add new category")
             categoryContent.addView(singleFrame)
             categoryView.add(singleFrame)
             view.findViewById<ImageView>(R.id.recommendCoverIV).setVisibility(View.VISIBLE)
+
+            categoryBtn.setOnClickListener {
+
+                val listCategoryToChoose = resources.getStringArray(R.array.category_names)
+
+                val checkedCategory = ArrayList<Int>(listCategoryToChoose.size)
+
+                val mBuilder = AlertDialog.Builder(requireContext())
+
+                mBuilder.setTitle("Select Category to create")
+
+
+                mBuilder.setMultiChoiceItems(listCategoryToChoose, null,
+                    DialogInterface.OnMultiChoiceClickListener { dialogInterface, i, b ->
+                        if (b)
+                        {
+                            checkedCategory.add(i)
+                        }
+                        else if (checkedCategory.contains(i))
+                        {
+                            checkedCategory.remove(i)
+                        }
+                })
+                mBuilder.setPositiveButton("OK",
+                    DialogInterface.OnClickListener { dialogInterface, i ->
+                        var str : String= ""
+                        for (i in checkedCategory)
+                            str+= listCategoryToChoose[i] + ","
+                        str = str.substring(0, str.length - 1)
+
+                        if (categoryContent.childCount > 0)
+                        {
+                            categoryContent.removeViews(1, categoryContent.childCount - 1)
+                        }
+
+
+                        listCategoryChosen.clear()
+                        listCategoryChosen = str.split(",") as ArrayList<String>
+
+
+                        for (category in listCategoryChosen) {
+                            val singleFrame: View =
+                                layoutInflater.inflate(R.layout.item_categories, null)
+                            singleFrame.id = category.indexOf(category)
+                            val categoryBtn =
+                                singleFrame.findViewById<MaterialButton>(R.id.categoryBtn)
+                            categoryBtn.setText(category as CharSequence)
+                            categoryContent.addView(singleFrame)
+                            categoryView.add(singleFrame)
+                        }
+                }).show()
+                }
+
         }
         if(!createNew) {
             val editable = requireArguments().getSerializable(
@@ -87,7 +153,6 @@ class BookFragment : Fragment() {
             ) as Book
 
             for (category in detailComic.listCategory!!) {
-//frame-0, frame-1, frame-2, ... and so on
                 val singleFrame: View = layoutInflater.inflate(R.layout.item_categories, null)
                 singleFrame.id = category.indexOf(category)
                 val categoryBtn = singleFrame.findViewById<MaterialButton>(R.id.categoryBtn)
@@ -155,4 +220,10 @@ class BookFragment : Fragment() {
         }
     }
 
+    fun GetDataFromView()
+    {
+
+    }
+
 }
+

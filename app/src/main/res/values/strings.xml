@@ -42,4 +42,18 @@
     <string name="account">Account</string>
     >>>>>>> Stashed changes
 
+    <string-array name="category_names">
+        <item>Horror</item>
+        <item>Romance</item>
+        <item>Gore</item>
+        <item>Comedy</item>
+        <item>Adventure</item>
+        <item>Fantasy</item>
+        <item>Novel</item>
+        <item>Harem</item>
+        <item>Mystery</item>
+        <item>Drama</item>
+
+    </string-array>
+
 </resources>

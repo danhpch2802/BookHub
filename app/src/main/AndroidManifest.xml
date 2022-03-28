@@ -29,7 +29,13 @@
             android:exported="false" />
         <activity
             android:name=".Controllers.Activities.BookCreateActivity"
-            android:exported="true" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Controllers.Activities.RequestListActivity"
             android:exported="false" />
@@ -61,12 +67,7 @@
         <activity android:name=".Controllers.Activities.BookUpdateActivity" />
         <activity
             android:name=".Controllers.Activities.PrizeActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:exported="false">
         </activity>
         <activity android:name=".Controllers.Activities.ManageBookActivity" />
         <activity android:name=".Controllers.Activities.BookDetailActivity" />

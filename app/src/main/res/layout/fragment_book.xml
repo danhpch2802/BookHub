@@ -36,7 +36,7 @@
 
                 android:layout_marginEnd="20dp"
                 android:background="@android:color/transparent"
-                android:text="@string/bookName"
+                android:hint="@string/bookName"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +50,7 @@
 
                 android:layout_marginBottom="16dp"
                 android:background="@android:color/transparent"
-                android:text="@string/bookRating"
+                android:hint="@string/bookRating"
                 android:textColor="#A8040404"
 
                 android:textSize="18sp"
@@ -70,7 +70,7 @@
 
                 android:layout_marginEnd="20dp"
                 android:background="@android:color/transparent"
-                android:text="@string/bookAuthor"
+                android:hint="@string/bookAuthor"
                 android:textColor="#68040404"
 
                 android:textSize="16sp"
@@ -88,7 +88,7 @@
 
                 android:layout_marginEnd="13dp"
                 android:background="@android:color/transparent"
-                android:text="@string/bookSummary"
+                android:hint="@string/bookSummary"
                 android:textColor="#A8040404"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
