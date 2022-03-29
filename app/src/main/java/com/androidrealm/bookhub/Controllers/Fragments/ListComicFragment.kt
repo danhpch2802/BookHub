@@ -32,7 +32,7 @@ class ListComicFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         var view=inflater.inflate(R.layout.fragment_list_comic, container, false)
-        listComicsRW=view.findViewById(R.id.comicRW)
+        listComicsRW= view.findViewById(R.id.comicRW)
         // set the custom adapter to the RecyclerView
 
         var adapter=requireArguments().getSerializable(

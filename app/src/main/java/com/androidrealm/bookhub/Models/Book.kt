@@ -3,13 +3,19 @@ package com.androidrealm.bookhub.Models
 import java.io.Serializable
 
 class Book(
-    var imagePath:Int?=null,
-    var name:String?=null,
-    var summary:String?=null,
-    var author:String?=null,
-    var score: Double? =null,
-    var listCategory:ArrayList<String>?=null,
-    var listChapter:ArrayList<Chapter>?=null
+    var imagePath:String?= "",
+    var listChapter:ArrayList<Chapter>?= ArrayList<Chapter>(),
+
+    var RatedAccount: ArrayList<String>? = ArrayList<String>(),
+
+    var ViewNumber : Int = 0,
+    var locked : Boolean = false,
+
+    var name:String?="", //
+    var summary:String?="", //
+    var author:String?="", //
+    var score: Double? = 0.0, //
+    var listCategory:ArrayList<String>?= ArrayList<String>()
 ) : Serializable
 
 

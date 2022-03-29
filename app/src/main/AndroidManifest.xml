@@ -70,7 +70,10 @@
             android:exported="false">
         </activity>
         <activity android:name=".Controllers.Activities.ManageBookActivity" />
-        <activity android:name=".Controllers.Activities.BookDetailActivity" />
+        <activity android:name=".Controllers.Activities.BookDetailActivity"
+            android:exported="false">
+
+        </activity>
     </application>
 
 </manifest>

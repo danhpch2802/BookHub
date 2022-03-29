@@ -39,7 +39,7 @@ class ComicAdapter (private var listOfBook : List<Book>
         val comicNameTV = holder.comicNameTV
         comicNameTV.setText(book.name)
         val comicIV = holder.comicIV
-        comicIV.setImageResource(book.imagePath!!)
+//        comicIV.setImageResource(book.imagePath!!)
     }
 
 }
