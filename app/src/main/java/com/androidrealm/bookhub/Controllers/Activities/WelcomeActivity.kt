@@ -19,7 +19,7 @@ class WelcomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_welcome)
 
         Handler().postDelayed({
-            val intent = Intent(this@WelcomeActivity, MainActivity::class.java)
+            val intent = Intent(this@WelcomeActivity, HomePageActivity::class.java)
             startActivity(intent)
             finish()
         }, 3000)

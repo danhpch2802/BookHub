@@ -1,8 +1,8 @@
 package com.androidrealm.bookhub.Models
 
 class Chapter(
-    var chapterName:String?= "",
-    var chapterLink:String?= ""
+    var Name:String?= "",
+    var Links:String?= ""
 )
 
 

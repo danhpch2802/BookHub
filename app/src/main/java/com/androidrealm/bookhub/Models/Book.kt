@@ -8,13 +8,13 @@ class Book(
 
     var RatedAccount: ArrayList<String>? = ArrayList<String>(),
 
-    var ViewNumber : Int = 0,
-    var locked : Boolean = false,
+    var ViewNumber: Int = 0,
+    var locked: Boolean = false,
 
     var name:String?="", //
     var summary:String?="", //
     var author:String?="", //
-    var score: Double? = 0.0, //
+    var score: Int = 0, //
     var listCategory:ArrayList<String>?= ArrayList<String>()
 ) : Serializable
 

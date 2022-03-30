@@ -34,7 +34,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import dmax.dialog.SpotsDialog
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -176,7 +175,7 @@ class BookFragment : Fragment() {
             uploadBtn.setOnClickListener {
                 detailComic.name = comicNameET.text.toString()
                 detailComic.author = comicAuthorET.text.toString()
-                detailComic.score = 0.0
+                detailComic.score = 0
 
                 detailComic.summary = comicSummaryET.text.toString()
 
@@ -256,13 +255,13 @@ class BookFragment : Fragment() {
         val path ="Books/${bookId}/Chapters/"
         for (i in 0..detailComic.listChapter!!.size - 1)
         {
-            val storageRef = FirebaseStorage.getInstance().getReference(path+ detailComic.listChapter!![i].chapterName)
+            val storageRef = FirebaseStorage.getInstance().getReference(path+ detailComic.listChapter!![i].Name)
             storageRef.putFile(pdfList[i])
                 .addOnSuccessListener { taskSnapshot ->
                     var uriTask : Task<Uri> = taskSnapshot.storage.downloadUrl
                     while (!uriTask.isSuccessful); // while này nó chạy để đợi load xong
                     val pdfUrL = "${uriTask.result}"
-                    detailComic.listChapter!![i].chapterLink = pdfUrL
+                    detailComic.listChapter!![i].Links = pdfUrL
                     UpdateInfoList(detailComic.listChapter!!)
                     if (i === detailComic.listChapter!!.size - 1)
                     {

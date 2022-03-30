@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.androidrealm.bookhub.Models.Book
+import com.squareup.picasso.Picasso
 import java.io.Serializable
 
 
@@ -18,7 +19,8 @@ class ComicAdapter (private var listOfBook : List<Book>
         val comicNameTV = listItemView.findViewById(R.id.comicNameTV) as TextView
         val comicIV = listItemView.findViewById(R.id.comicIV) as ImageView
 
-        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
 
             ComicAdapter.ViewHolder {
@@ -29,9 +31,11 @@ class ComicAdapter (private var listOfBook : List<Book>
 // Return a new holder instance
         return ViewHolder(contactView)
     }
+
     override fun getItemCount(): Int {
         return listOfBook.size
     }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 // Get the data model based on position
         val book: Book = listOfBook.get(position)
@@ -39,7 +43,8 @@ class ComicAdapter (private var listOfBook : List<Book>
         val comicNameTV = holder.comicNameTV
         comicNameTV.setText(book.name)
         val comicIV = holder.comicIV
-//        comicIV.setImageResource(book.imagePath!!)
-    }
+        Picasso.get().load(book.imagePath).into(comicIV);
 
+
+    }
 }

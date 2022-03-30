@@ -35,7 +35,7 @@ class ChapterAdapter (private var listChapters : List<Chapter>
         val chapter: Chapter = listChapters.get(position)
 // Set item views based on your views and data model
         val chapterNameTW = holder.chapterNameTV
-        chapterNameTW.setText(chapter.chapterName)
+        chapterNameTW.setText(chapter.Name)
 
     }
 

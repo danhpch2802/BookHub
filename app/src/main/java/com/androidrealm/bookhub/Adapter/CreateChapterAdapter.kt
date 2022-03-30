@@ -36,7 +36,7 @@ class CreateChapterAdapter(private var RowsList: List<Chapter>,
                 }
 
                 override fun afterTextChanged(p0: Editable?) {
-                    RowsList[adapterPosition].chapterName = p0.toString()
+                    RowsList[adapterPosition].Name = p0.toString()
                 }
 
             })
@@ -66,7 +66,7 @@ class CreateChapterAdapter(private var RowsList: List<Chapter>,
 
         val nameEditText = holder.nameChap
 
-        nameEditText.text = Editable.Factory.getInstance().newEditable(chapter.chapterName)
+        nameEditText.text = Editable.Factory.getInstance().newEditable(chapter.Name)
 
         val pdfChapEdit = holder.pdfChap
         pdfChapEdit.text = currentPDF.toString()
