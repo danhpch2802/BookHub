@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import at.favre.lib.crypto.bcrypt.BCrypt
 import com.androidrealm.bookhub.R
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -39,6 +40,7 @@ class SignupActivity : AppCompatActivity() {
             val pass = passwordEt!!.text.toString()
             val email = emailEt!!.text.toString()
             val cpass = cpasswordEt!!.text.toString()
+            val passHash = BCrypt.withDefaults().hashToString(12, pass.toCharArray())
 
             //Validate
             if (name.isEmpty()){
@@ -55,13 +57,7 @@ class SignupActivity : AppCompatActivity() {
             }
             else{
                 //Save to Firestore
-                saveFirestore(name, pass, email)
-                Handler().postDelayed({
-                    val intent = Intent(this@SignupActivity, LoginActivity::class.java)
-                    startActivity(intent)
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-                    finish()
-                }, 1000)
+                saveFirestore(name, passHash, email)
             }
         }
     }
@@ -84,6 +80,12 @@ class SignupActivity : AppCompatActivity() {
             .addOnSuccessListener {
                 //Output Result
                 Toast.makeText(this@SignupActivity, "Register Successfully!", Toast.LENGTH_SHORT).show()
+                Handler().postDelayed({
+                    val intent = Intent(this@SignupActivity, LoginActivity::class.java)
+                    startActivity(intent)
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                    finish()
+                }, 1000)
             }
             .addOnFailureListener{ e ->
                 //Output Result
