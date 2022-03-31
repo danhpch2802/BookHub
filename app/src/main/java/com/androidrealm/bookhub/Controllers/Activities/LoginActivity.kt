@@ -2,6 +2,7 @@ package com.androidrealm.bookhub.Controllers.Activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.Window
 import android.view.WindowManager
 import android.widget.EditText
@@ -23,17 +24,26 @@ class LoginActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         setContentView(R.layout.activity_login)
-        loginBtn = findViewById(R.id.registerBtn1)
+        loginBtn = findViewById(R.id.loginBtn)
+        registerBtn = findViewById(R.id.registerBtn1)
         usernameEt = findViewById(R.id.usernameETLogin)
         passwordEt = findViewById(R.id.passwordETLogin)
 
         loginBtn!!.setOnClickListener{
             Toast.makeText(this@LoginActivity, "Login Successfully!", Toast.LENGTH_SHORT).show()
+            Handler().postDelayed({
+                val intent = Intent(this@LoginActivity, HomePageActivity::class.java)
+                startActivity(intent)
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                finish()
+            }, 1000)
         }
 
         registerBtn!!.setOnClickListener{
             val intent = Intent(this@LoginActivity, SignupActivity::class.java)
             startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+            finish()
         }
     }
 }

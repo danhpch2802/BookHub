@@ -19,8 +19,10 @@ class WelcomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_welcome)
 
         Handler().postDelayed({
-            val intent = Intent(this@WelcomeActivity, HomePageActivity::class.java)
+            //val intent = Intent(this@WelcomeActivity, HomePageActivity::class.java)
+            val intent = Intent(this@WelcomeActivity, LoginActivity::class.java)
             startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             finish()
         }, 3000)
     }
