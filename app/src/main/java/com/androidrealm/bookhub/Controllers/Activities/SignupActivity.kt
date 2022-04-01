@@ -36,10 +36,10 @@ class SignupActivity : AppCompatActivity() {
 
         signupBtn!!.setOnClickListener{
             //Get input
-            val name = usernameEt!!.text.toString()
-            val pass = passwordEt!!.text.toString()
-            val email = emailEt!!.text.toString()
-            val cpass = cpasswordEt!!.text.toString()
+            val name = usernameEt!!.text.toString().trim()
+            val pass = passwordEt!!.text.toString().trim()
+            val email = emailEt!!.text.toString().trim()
+            val cpass = cpasswordEt!!.text.toString().trim()
             val passHash = BCrypt.withDefaults().hashToString(12, pass.toCharArray())
 
             //Validate
@@ -57,12 +57,12 @@ class SignupActivity : AppCompatActivity() {
             }
             else{
                 //Save to Firestore
-                saveFirestore(name, passHash, email)
+                saveToFirestore(name, passHash, email)
             }
         }
     }
 
-    private fun saveFirestore(name: String, pass: String, email: String) {
+    private fun saveToFirestore(name: String, pass: String, email: String) {
         val db = FirebaseFirestore.getInstance()
         val account: MutableMap<String, Any> = HashMap()
         account["Avatar"] = ""
