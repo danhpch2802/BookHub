@@ -11,8 +11,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_homepage.*
 
 class UpdateAccActivity : AppCompatActivity() {
-    //    val uid:String = intent.getStringExtra("uid").toString()
-    val uid:String = "ERQnHq5YlmL78h2wDBQX"
+
+    var uid:String = ""
     var TotalBadge:Int? = 0
     var Point:Number? = 0
     var Name:String? = ""
@@ -32,6 +32,9 @@ class UpdateAccActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_update_acc)
+
+        uid = intent.getStringExtra("uid").toString()
+
         AvaBtn = findViewById(R.id.updateAccAvatar)
         saveBtn = findViewById(R.id.updateButton)
         username = findViewById(R.id.updateAccUsername)

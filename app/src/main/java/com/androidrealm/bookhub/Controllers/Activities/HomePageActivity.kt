@@ -27,11 +27,18 @@ class HomePageActivity : AppCompatActivity(),Serializable {
 
     lateinit var listComicFrame:FrameLayout
 
-//    val uid:String = intent.getStringExtra("uid").toString()
+    // Uncomment the line below if starting the proj from login
+    //var uid:String = ""
+
+    // Comment this if  starting the proj from login
 val uid:String = "ERQnHq5YlmL78h2wDBQX"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_homepage)
+
+        // Uncomment the line below if start from login
+        //uid = intent.getStringExtra("uid").toString()
 
         findViewById<BottomNavigationView>(R.id.bottom_navigation).setOnNavigationItemSelectedListener { menuItem ->
             when {

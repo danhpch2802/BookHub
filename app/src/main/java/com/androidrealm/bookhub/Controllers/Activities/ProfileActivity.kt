@@ -21,7 +21,8 @@ class ProfileActivity : AppCompatActivity() {
     var AvaBtn: ImageView? = null
     var ReBtn: ImageView? = null
 
-    val uid:String = "ERQnHq5YlmL78h2wDBQX"
+
+    var uid:String = ""
     var TotalBadge:Int? = 0
     var Point:Number? = 0
     var Name:String? = ""
@@ -34,6 +35,8 @@ class ProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
+
+        uid = intent.getStringExtra("uid").toString()
 
         PrizeBtn = findViewById(R.id.prize_btn_pf)
         HistoryBtn = findViewById(R.id.history_btn_pf)
