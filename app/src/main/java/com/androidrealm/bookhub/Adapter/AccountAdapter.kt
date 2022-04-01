@@ -33,6 +33,6 @@ class AccountAdapter (private var listAccounts : List<Account>
         val account: Account = listAccounts.get(position)
 // Set item views based on your views and data model
         val accountNameTW = holder.accountNameTV
-        accountNameTW.setText(account.accountName)
+        accountNameTW.setText(account.username)
     }
 }

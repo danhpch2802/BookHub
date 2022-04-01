@@ -1,12 +1,16 @@
 package com.androidrealm.bookhub.Controllers.Activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.androidrealm.bookhub.R
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.activity_homepage.*
 
 class ProfileActivity : AppCompatActivity() {
     var PrizeBtn: ImageButton? = null
@@ -15,11 +19,14 @@ class ProfileActivity : AppCompatActivity() {
     var ProfileBtn: ImageButton? = null
     var BookmarkBtn: ImageButton? = null
     var AvaBtn: ImageView? = null
+    var ReBtn: ImageView? = null
 
-    var x:Int? = 10
-    var x2:Int? = 1000
-    var y:String? = "Danh"
-    var y2:String? = "The Bookaholic"
+    val uid:String = "ERQnHq5YlmL78h2wDBQX"
+    var TotalBadge:Int? = 0
+    var Point:Number? = 0
+    var Name:String? = ""
+    var Badge:String? = ""
+
     var username: TextView? = null
     var badge: TextView? = null
     var badgeTV: TextView? = null
@@ -39,12 +46,10 @@ class ProfileActivity : AppCompatActivity() {
         badgeTV = findViewById(R.id.pf_prize)
         AvaBtn = findViewById(R.id.avatarpf_img)
 
-        username!!.setText(y)
-        badge!!.setText(x.toString())
-        point!!.setText(x2.toString())
-        badgeTV!!.setText(y2)
+        ReBtn = findViewById(R.id.returnHomepage)
 
-        AvaBtn!!.setImageResource(R.drawable.meika_cover)
+        getAcc()
+        AvaBtn!!.setImageResource(R.drawable.amagami_cover)
         PrizeBtn!!.setOnClickListener{
             Toast.makeText(this@ProfileActivity, "Submit Successfully!", Toast.LENGTH_SHORT).show()
         }
@@ -58,7 +63,71 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         ProfileBtn!!.setOnClickListener{
-            Toast.makeText(this@ProfileActivity, "Submit Successfully!", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this,  UpdateAccActivity::class.java)
+            intent.putExtra("uid", uid)
+            startActivity(intent)
+        }
+
+        ReBtn!!.setOnClickListener{
+            val intent = Intent(this,  HomePageActivity::class.java)
+            intent.putExtra("uid", uid)
+            startActivity(intent)
+        }
+
+        bottom_navigation.menu.findItem(R.id.profile_item).isChecked = true
+
+        bottom_navigation.setOnNavigationItemSelectedListener { menuItem ->
+            when {
+                menuItem.itemId == R.id.home_item -> {
+                    val intent = Intent(this,  HomePageActivity::class.java)
+                    intent.putExtra("uid", uid)
+                    startActivity(intent)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                menuItem.itemId == R.id.manage_book_item -> {
+                    val intent = Intent(this,  RequestActivity::class.java)
+                    intent.putExtra("uid", uid)
+                    startActivity(intent)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                menuItem.itemId == R.id.profile_item -> {
+                    return@setOnNavigationItemSelectedListener true
+                }
+                else -> false
+            }
+        }
+    }
+    fun getAcc () {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("accounts").document(uid)
+            .get().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // Document found in the offline cache
+                    Name = task.result["username"] as String?
+                    var cnt = 0
+                    for (document in task.result["Badge"] as ArrayList<*>) {
+                        cnt++
+                    }
+                    for (document in task.result["Badge"] as ArrayList<*>) {
+                        Badge = document as String
+                        break
+                    }
+                    TotalBadge = cnt
+                    Point =  task.result["Point"] as Number?
+
+                }
+                else {onError(task.exception)}
+                username!!.setText(Name)
+                badge!!.setText(TotalBadge.toString())
+                point!!.setText(Point.toString())
+                badgeTV!!.setText(Badge)
+            }
+    }
+
+
+    fun onError(e: Exception?) {
+        if (e != null) {
+            Log.d("RewardError", "onError: " + e.message)
         }
     }
 

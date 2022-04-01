@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#45CFCFE3"
     tools:context=".Controllers.Activities.AccountDetailActivity">
 
     <com.google.android.material.appbar.AppBarLayout

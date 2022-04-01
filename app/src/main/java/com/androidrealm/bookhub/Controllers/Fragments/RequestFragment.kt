@@ -1,5 +1,6 @@
 package com.androidrealm.bookhub.Controllers.Fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,17 +10,34 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.androidrealm.bookhub.Adapter.RequestAdapter
+import com.androidrealm.bookhub.Controllers.Activities.ProfileActivity
+import com.androidrealm.bookhub.Controllers.Activities.RequestActivity
 import com.androidrealm.bookhub.Models.Request
 import com.androidrealm.bookhub.R
 
+class RequestFragment : Fragment() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val intent = Intent (this@RequestFragment.context, RequestActivity::class.java)
+        startActivity(intent)
+    }
 
-class RequestFragment(listRequest: Any?) : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.activity_request, container, false)
+    }
+}
+
+class RequestFragment2 (listRequest: Any?) : Fragment() {
     private lateinit var requestRW:RecyclerView
     companion object {
         fun newInstance
-                    (listRequest: ArrayList<Request>): RequestFragment
+                    (listRequest: ArrayList<Request>): RequestFragment2
         {
-            val fragment= RequestFragment(listRequest)
+            val fragment= RequestFragment2(listRequest)
             val bundle = Bundle()
             bundle.putSerializable("listRequest", listRequest)
             fragment.setArguments(bundle)

@@ -66,7 +66,7 @@ class SignupActivity : AppCompatActivity() {
         val db = FirebaseFirestore.getInstance()
         val account: MutableMap<String, Any> = HashMap()
         account["Avatar"] = ""
-        account["Badge"] = arrayListOf("")
+        account["Badge"] = arrayListOf("Beginner")
         account["Email"] = email
         account["FavoriteList"] = arrayListOf("")
         account["History"] = arrayListOf("")

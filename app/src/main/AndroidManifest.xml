@@ -12,12 +12,12 @@
         <activity
             android:name=".Controllers.Activities.PrizeDetailActivity"
             android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".PrizeActivity"-->
-<!--            android:exported="false" />-->
-         <activity
-         android:name=".Controllers.Activities.AccountDetailActivity"
-         android:exported="false" />
+        <!--        <activity-->
+        <!--            android:name=".PrizeActivity"-->
+        <!--            android:exported="false" />-->
+        <activity
+            android:name=".Controllers.Activities.AccountDetailActivity"
+            android:exported="false" />
         <activity
             android:name=".Controllers.Activities.PrizeListActivity"
             android:exported="false" />

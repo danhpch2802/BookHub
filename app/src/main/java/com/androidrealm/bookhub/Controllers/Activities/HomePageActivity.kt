@@ -1,6 +1,8 @@
 package com.androidrealm.bookhub.Controllers.Activities
 
+import PrizeFragment
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.FrameLayout
@@ -11,21 +13,43 @@ import com.androidrealm.bookhub.ComicAdapter
 import com.androidrealm.bookhub.Models.Book
 import com.androidrealm.bookhub.R
 import com.androidrealm.bookhub.Controllers.Fragments.ListComicFragment
+import com.androidrealm.bookhub.Controllers.Fragments.ProfileFragment
+import com.androidrealm.bookhub.Controllers.Fragments.RequestFragment
 import com.androidrealm.bookhub.Models.Chapter
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.activity_homepage.*
 
 
 class HomePageActivity : AppCompatActivity() {
 
     lateinit var listComicFrame:FrameLayout
+
+//    val uid:String = intent.getStringExtra("uid").toString()
+val uid:String = "ERQnHq5YlmL78h2wDBQX"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_homepage)
 
+        bottom_navigation.setOnNavigationItemSelectedListener { menuItem ->
+            when {
+                menuItem.itemId == R.id.profile_item -> {
+                    val intent = Intent(this,  ProfileActivity::class.java)
+                    intent.putExtra("uid", uid)
+                    startActivity(intent)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                menuItem.itemId == R.id.manage_book_item -> {
+                    val intent = Intent(this,  RequestActivity::class.java)
+                    intent.putExtra("uid", uid)
+                    startActivity(intent)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                else -> false
+            }
+        }
         var fireStore = FirebaseFirestore.getInstance()
 
         val listOfComic=ArrayList<Book>();
-
         val docRef = fireStore.collection("comics")
         docRef.get()
             .addOnSuccessListener { result ->
