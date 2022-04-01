@@ -57,7 +57,7 @@
             android:layout_gravity="center"
             app:cardCornerRadius="250dp">
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/updateAccAvatar"
                 android:layout_width="135dp"
                 android:layout_height="135dp"
