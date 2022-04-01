@@ -1,6 +1,7 @@
 package com.androidrealm.bookhub.Controllers.Activities
 
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.FrameLayout
@@ -13,9 +14,11 @@ import com.androidrealm.bookhub.R
 import com.androidrealm.bookhub.Controllers.Fragments.ListComicFragment
 import com.androidrealm.bookhub.Models.Chapter
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
+import java.io.Serializable
 
 
-class HomePageActivity : AppCompatActivity() {
+class HomePageActivity : AppCompatActivity(),Serializable {
 
     lateinit var listComicFrame:FrameLayout
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,23 +33,17 @@ class HomePageActivity : AppCompatActivity() {
         docRef.get()
             .addOnSuccessListener { result ->
                 for (document in result) {
-                    var chapter=document.get("listChapter") as ArrayList<Chapter>
-
-                    var book= Book(name= document.get("name") as String,
-                    author=document.get("author") as String?,
-                    summary = document.get("summary") as String,
-                    viewNumber = (document.get("viewNumber") as Long).toInt(),
-                    locked=document.get("locked") as Boolean,
-                    ratedAccount = document.get("ratedAccount") as ArrayList<String>,
-                    imagePath = document.get("imagePath") as String,
-                    listChapter = chapter,
-                    listCategory = document.get("listCategory") as ArrayList<String>,
-                    score =  document.get("score") as ArrayList<Int>)
-                    listOfComic.add(book)
+                    val comicGet = document.toObject<Book>()
+                    comicGet.id = document.id
+                    listOfComic.add(comicGet)
                 }
 
                 var adapter= ComicAdapter(listOfComic)
-
+                adapter.onItemClick = { book ->
+                    val intent = Intent(this, BookDetailActivity::class.java)
+                    intent.putExtra("id",book.id)
+                    startActivity(intent)
+                }
                 if (savedInstanceState == null) {
                     val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
                     val fragment: Fragment = ListComicFragment.newInstance(adapter,3)

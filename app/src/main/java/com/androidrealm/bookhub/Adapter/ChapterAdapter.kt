@@ -9,7 +9,7 @@ import com.androidrealm.bookhub.Models.Chapter
 import com.androidrealm.bookhub.R
 import java.io.Serializable
 
-class ChapterAdapter (private var listChapters : List<Chapter>
+class ChapterAdapter (private var listChapters : ArrayList<Chapter>
 ):
     RecyclerView.Adapter<ChapterAdapter.ViewHolder>(), Serializable {
 
@@ -35,7 +35,7 @@ class ChapterAdapter (private var listChapters : List<Chapter>
         val chapter: Chapter = listChapters.get(position)
 // Set item views based on your views and data model
         val chapterNameTW = holder.chapterNameTV
-        chapterNameTW.setText(chapter.Name)
+        chapterNameTW.setText(chapter.name)
 
     }
 

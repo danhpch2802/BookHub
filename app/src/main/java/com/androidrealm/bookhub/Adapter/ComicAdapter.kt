@@ -12,13 +12,21 @@ import java.io.Serializable
 
 
 class ComicAdapter (private var listOfBook : List<Book>
-                      ):
+                     ):
     RecyclerView.Adapter<ComicAdapter.ViewHolder>(), Serializable {
+    var onItemClick: ((Book) -> Unit)? = null
 
     inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
         val comicNameTV = listItemView.findViewById(R.id.comicNameTV) as TextView
         val comicIV = listItemView.findViewById(R.id.comicIV) as ImageView
+        init {
+            listItemView.setOnClickListener {
+                onItemClick?.invoke(
+                    listOfBook[adapterPosition]
+                )
 
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):

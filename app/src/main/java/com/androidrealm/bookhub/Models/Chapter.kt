@@ -1,9 +1,11 @@
 package com.androidrealm.bookhub.Models
 
+import java.io.Serializable
+
 class Chapter(
-    var Name:String?= "",
-    var Links:String?= ""
-)
+    var name:String?= "",
+    var links:String?= ""
+)  : Serializable
 
 
 

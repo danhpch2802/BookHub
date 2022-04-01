@@ -3,6 +3,7 @@ package com.androidrealm.bookhub.Models
 import java.io.Serializable
 
 class Book(
+    var id:String?="",
     var imagePath:String?= "",
     var listChapter:ArrayList<Chapter>?= ArrayList<Chapter>(),
 
