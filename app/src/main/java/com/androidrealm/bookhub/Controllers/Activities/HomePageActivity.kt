@@ -16,11 +16,14 @@ import com.androidrealm.bookhub.Controllers.Fragments.ListComicFragment
 import com.androidrealm.bookhub.Controllers.Fragments.ProfileFragment
 import com.androidrealm.bookhub.Controllers.Fragments.RequestFragment
 import com.androidrealm.bookhub.Models.Chapter
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
 import kotlinx.android.synthetic.main.activity_homepage.*
+import java.io.Serializable
 
 
-class HomePageActivity : AppCompatActivity() {
+class HomePageActivity : AppCompatActivity(),Serializable {
 
     lateinit var listComicFrame:FrameLayout
 
@@ -30,7 +33,7 @@ val uid:String = "ERQnHq5YlmL78h2wDBQX"
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_homepage)
 
-        bottom_navigation.setOnNavigationItemSelectedListener { menuItem ->
+        findViewById<BottomNavigationView>(R.id.bottom_navigation).setOnNavigationItemSelectedListener { menuItem ->
             when {
                 menuItem.itemId == R.id.profile_item -> {
                     val intent = Intent(this,  ProfileActivity::class.java)
@@ -54,22 +57,17 @@ val uid:String = "ERQnHq5YlmL78h2wDBQX"
         docRef.get()
             .addOnSuccessListener { result ->
                 for (document in result) {
-                    var chapter=document.get("listChapter") as ArrayList<Chapter>
-
-                    var book= Book(name= document.get("name") as String,
-                    author=document.get("author") as String?,
-                    summary = document.get("summary") as String,
-                    viewNumber = (document.get("viewNumber") as Long).toInt(),
-                    locked=document.get("locked") as Boolean,
-                    ratedAccount = document.get("ratedAccount") as ArrayList<String>,
-                    imagePath = document.get("imagePath") as String,
-                    listChapter = chapter,
-                    listCategory = document.get("listCategory") as ArrayList<String>,
-                    score =  document.get("score") as ArrayList<Int>)
-                    listOfComic.add(book)
+                    val comicGet = document.toObject<Book>()
+                    comicGet.id = document.id
+                    listOfComic.add(comicGet)
                 }
 
                 var adapter= ComicAdapter(listOfComic)
+                adapter.onItemClick = { book ->
+                    val intent = Intent(this, BookDetailActivity::class.java)
+                    intent.putExtra("id",book.id)
+                    startActivity(intent)
+                }
 
                 if (savedInstanceState == null) {
                     val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
