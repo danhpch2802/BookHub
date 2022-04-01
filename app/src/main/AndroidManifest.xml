@@ -29,7 +29,7 @@
             android:exported="false" />
         <activity
             android:name=".Controllers.Activities.BookCreateActivity"
-            android:exported="true">
+            android:exported="false">
 
         </activity>
         <activity
@@ -43,16 +43,17 @@
             android:exported="false" />
         <activity
             android:name=".Controllers.Activities.WelcomeActivity"
-            android:exported="true" >
+            android:exported="false" >
+        </activity>
+        <activity
+            android:name=".Controllers.Activities.HomePageActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Controllers.Activities.HomePageActivity"
-            android:exported="false" />
         <activity
             android:name=".Controllers.Activities.BookmarkListActivity"
             android:exported="false" />

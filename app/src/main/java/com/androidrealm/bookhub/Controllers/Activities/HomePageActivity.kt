@@ -30,21 +30,18 @@ class HomePageActivity : AppCompatActivity() {
         docRef.get()
             .addOnSuccessListener { result ->
                 for (document in result) {
-                    var chapter=document.get("Chapters") as ArrayList<Chapter>
+                    var chapter=document.get("listChapter") as ArrayList<Chapter>
 
-                    var listScore = document.get("Scores") as ArrayList<Int>
-
-                    var book= Book(name= document.get("Name") as String,
-                    author=document.get("Author") as String?,
-                    summary = document.get("Summary") as String,
-                    ViewNumber = (document.get("ViewNumber") as Long).toInt(),
+                    var book= Book(name= document.get("name") as String,
+                    author=document.get("author") as String?,
+                    summary = document.get("summary") as String,
+                    viewNumber = (document.get("viewNumber") as Long).toInt(),
                     locked=document.get("locked") as Boolean,
-                    RatedAccount = document.get("RatedAccount") as ArrayList<String>,
-                    imagePath = document.get("Cover") as String,
+                    ratedAccount = document.get("ratedAccount") as ArrayList<String>,
+                    imagePath = document.get("imagePath") as String,
                     listChapter = chapter,
-                    listCategory = document.get("Category") as ArrayList<String>,
-                    score = listScore.sum()/5)
-
+                    listCategory = document.get("listCategory") as ArrayList<String>,
+                    score =  document.get("score") as ArrayList<Int>)
                     listOfComic.add(book)
                 }
 

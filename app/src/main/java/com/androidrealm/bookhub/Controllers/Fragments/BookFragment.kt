@@ -175,7 +175,6 @@ class BookFragment : Fragment() {
             uploadBtn.setOnClickListener {
                 detailComic.name = comicNameET.text.toString()
                 detailComic.author = comicAuthorET.text.toString()
-                detailComic.score = 0
 
                 detailComic.summary = comicSummaryET.text.toString()
 
