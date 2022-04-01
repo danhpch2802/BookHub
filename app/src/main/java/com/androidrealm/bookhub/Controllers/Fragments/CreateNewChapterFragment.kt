@@ -59,8 +59,8 @@ class CreateNewChapterFragment : Fragment() {
         val addMoreChapter = requireView().findViewById<Button>(R.id.AddMoreChapterBtn)
         addMoreChapter.setOnClickListener {
             var newChap = Chapter()
-            newChap.Name = ""
-            newChap.Links = ""
+            newChap.name = ""
+            newChap.links = ""
             listChapterToAdd.add(newChap)
             var uri: Uri = Uri.EMPTY
             pdfList.add(uri)

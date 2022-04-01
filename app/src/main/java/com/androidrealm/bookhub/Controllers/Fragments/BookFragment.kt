@@ -17,10 +17,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.viewpager2.widget.ViewPager2
 import com.androidrealm.bookhub.Adapter.BookPageView2Adapter
-import com.androidrealm.bookhub.ComicAdapter
 import com.androidrealm.bookhub.Controllers.Fragments.CreateNewChapterFragment.Companion.listChapterToAdd
 import com.androidrealm.bookhub.Controllers.Fragments.CreateNewChapterFragment.Companion.pdfList
 import com.androidrealm.bookhub.Models.Book
@@ -33,6 +31,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
 import dmax.dialog.SpotsDialog
 import kotlin.collections.ArrayList
 
@@ -44,8 +43,8 @@ import kotlin.collections.ArrayList
  */
 class BookFragment : Fragment() {
     private var detailComic=Book()
-    private var listComment=ArrayList<Comment>()
-    private var recommendList=ArrayList<Book>()
+    private var listComment : ArrayList<Comment>? =ArrayList<Comment>()
+    private var recommendList : ArrayList<Book>? =ArrayList<Book>()
     private var createNew = false
     private var comicCoverIV : ImageView? = null
 
@@ -196,7 +195,7 @@ class BookFragment : Fragment() {
 
 
         }
-        if(!createNew) {
+       else  {
             val editable = requireArguments().getSerializable(
                 "editable"
             ) as Boolean
@@ -222,30 +221,29 @@ class BookFragment : Fragment() {
                 categoryView.add(singleFrame)
                 view.findViewById<ImageView>(R.id.recommendCoverIV).setVisibility(View.VISIBLE)
             }
-            recommendList = requireArguments().getSerializable(
-                "recommendedList"
-            ) as ArrayList<Book>
-
-            listComment = requireArguments().getSerializable(
-                "listComment"
-            ) as ArrayList<Comment>
-
-            comicNameET.setText(detailComic.name)
-            comicAuthorET.setText(detailComic.author)
-            comicRatingTV.setText("${detailComic.score}/5")
-            comicSummaryET.setText(detailComic.summary)
-//            comicCoverIV!!.setImageResource(detailComic.imagePath!!)
-
-
-            if (!editable) {
+            else {
                 comicNameET.setFocusable(false)
                 comicAuthorET.setFocusable(false)
                 comicRatingTV.setFocusable(false)
                 comicSummaryET.setFocusable(false)
             }
 
+//            recommendList = requireArguments().getSerializable(
+//                "recommendedList"
+//            ) as ArrayList<Book>
+//
+//            listComment = requireArguments().getSerializable(
+//                "listComment"
+//            ) as ArrayList<Comment>
 
-        }
+            comicNameET.setText(detailComic.name)
+            comicAuthorET.setText(detailComic.author)
+
+            val calScore=detailComic.score.sum()/5
+            comicRatingTV.setText("${calScore}/5")
+            comicSummaryET.setText(detailComic.summary)
+            Picasso.get().load(detailComic.imagePath).into(comicCoverIV);
+                    }
         return view
     }
 
@@ -254,13 +252,13 @@ class BookFragment : Fragment() {
         val path ="Books/${bookId}/Chapters/"
         for (i in 0..detailComic.listChapter!!.size - 1)
         {
-            val storageRef = FirebaseStorage.getInstance().getReference(path+ detailComic.listChapter!![i].Name)
+            val storageRef = FirebaseStorage.getInstance().getReference(path+ detailComic.listChapter!![i].name)
             storageRef.putFile(pdfList[i])
                 .addOnSuccessListener { taskSnapshot ->
                     var uriTask : Task<Uri> = taskSnapshot.storage.downloadUrl
                     while (!uriTask.isSuccessful); // while này nó chạy để đợi load xong
                     val pdfUrL = "${uriTask.result}"
-                    detailComic.listChapter!![i].Links = pdfUrL
+                    detailComic.listChapter!![i].links = pdfUrL
                     UpdateInfoList(detailComic.listChapter!!)
                     if (i === detailComic.listChapter!!.size - 1)
                     {
@@ -295,18 +293,18 @@ class BookFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if(!createNew) {
-            var recommendAdapter = ComicAdapter(recommendList)
-            val ft: FragmentTransaction = activity?.supportFragmentManager!!.beginTransaction()
-            val fragment: Fragment = ListComicFragment.newInstance(recommendAdapter, -1)
-            ft.replace(R.id.recommendFragmentContainer, fragment)
-            ft.commit()
+//            var recommendAdapter = ComicAdapter(recommendList!!)
+//            val ft: FragmentTransaction = activity?.supportFragmentManager!!.beginTransaction()
+//            val fragment: Fragment = ListComicFragment.newInstance(recommendAdapter, -1)
+//            ft.replace(R.id.recommendFragmentContainer, fragment)
+//            ft.commit()
 
             val bookViewPage2 = view.findViewById<ViewPager2>(R.id.bookViewPage2)
             var bookVPAdapter = BookPageView2Adapter(
                 activity as AppCompatActivity, 2,
-                detailComic.listChapter!!, listComment, createNew
+                detailComic.listChapter!!, listComment!!, createNew
             )
-
+            Log.d("chapter",detailComic.listChapter.toString())
             bookViewPage2.adapter = bookVPAdapter
             var tabIcon = arrayListOf(R.drawable.book_icon, R.drawable.profile_icon)
             val tabLayout: TabLayout = view.findViewById<TabLayout>(R.id.bookTab)
@@ -321,7 +319,7 @@ class BookFragment : Fragment() {
             val bookViewPage2 = view.findViewById<ViewPager2>(R.id.bookViewPage2)
             var bookVPAdapter = BookPageView2Adapter(
                 activity as AppCompatActivity, 2,
-                emptyList(), listComment, createNew
+                emptyList(), listComment!!, createNew
             )
 
             bookViewPage2.adapter = bookVPAdapter

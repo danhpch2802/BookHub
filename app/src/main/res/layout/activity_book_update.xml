@@ -10,13 +10,28 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
         android:fitsSystemWindows="true"
-        app:liftOnScroll="true">
+        >
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:menu="@menu/top_app_update_book"
-           >
+            app:layout_scrollFlags="scroll|enterAlways|snap">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/detail_book_barTV"
+                android:text="@string/bookName"
+                android:textSize="20dp"
+                android:layout_gravity="center_horizontal"
+                android:textStyle="bold">
+            </TextView>
+            <ImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:id="@+id/backIV"
+            android:src="@drawable/ic_back"
+            android:layout_gravity="left"/>
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 <androidx.core.widget.NestedScrollView
