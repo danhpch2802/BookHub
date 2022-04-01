@@ -15,12 +15,17 @@ class AccountActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account)
 
+        val badge = ArrayList<String>()//Creating an empty arraylist.
+        badge.add("Top5")//Adding object in arraylist.
+        badge.add("Bookaholic")
+
+        val his = ArrayList<String>()//Creating an empty arraylist.
+        his.add("OP")//Adding object in arraylist.
+        his.add("Nar")
+
         val lists = ArrayList<Account>()
-        lists.add(Account("sacd"))
-        lists.add(Account("Long"))
-        lists.add(Account("Khôi"))
-        lists.add(Account("Vu"))
-        lists.add(Account("Trần"))
+        lists.add(Account("sacd","", badge, his))
+        lists.add(Account("Long","", badge, his))
 
         if (savedInstanceState == null) {
             val ft: FragmentTransaction = supportFragmentManager.beginTransaction()

@@ -8,7 +8,6 @@
     tools:context=".Controllers.Activities.PrizeDetailActivity">
 
 
-
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appPrizeDetailBarLayout"
         android:layout_width="match_parent"

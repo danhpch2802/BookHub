@@ -6,18 +6,22 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.androidrealm.bookhub.R
+import com.google.firebase.firestore.FirebaseFirestore
 
 class AccountDetailActivity : AppCompatActivity() {
     var AvaBtn: ImageView? = null
-    var x:Int? = 10
-    var x2:Int? = 1000
-    var y:String? = "Danh"
-    var y2:String? = "The Bookaholic"
     var username: TextView? = null
     var badge: TextView? = null
     var badgeTV: TextView? = null
     var point: TextView? = null
     var email: TextView? = null
+
+
+    var x:Int? = 10
+    var x2:Int? = 1000
+    var y:String? = "Danh"
+    var y2:String? = "The Bookaholic"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_detail)
@@ -39,5 +43,10 @@ class AccountDetailActivity : AppCompatActivity() {
         AvaBtn!!.setOnClickListener{
             Toast.makeText(this@AccountDetailActivity, "Submit Successfully!", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    fun readAcc () {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("accounts")
     }
 }

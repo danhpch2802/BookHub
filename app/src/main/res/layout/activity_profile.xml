@@ -209,14 +209,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
+        android:layout_marginStart="50dp"
         android:background="@color/white"
         android:src="@drawable/view_profile_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/prize_btn_pf"
         tools:ignore="SpeakableTextPresentCheck" />
 
+
+    <ImageButton
+        android:id="@+id/signout_btn_pf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="50dp"
+        android:background="@color/white"
+        android:src="@drawable/sign_out_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/prize_btn_pf"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <ImageView
         android:id="@+id/imageViewSeperator"
@@ -290,6 +301,18 @@
         app:layout_constraintEnd_toEndOf="@+id/account_btn_pf"
         app:layout_constraintStart_toStartOf="@+id/account_btn_pf"
         app:layout_constraintTop_toBottomOf="@+id/account_btn_pf" />
+
+    <TextView
+        android:id="@+id/signout_btn_tv_pf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/prize"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/signout_btn_pf"
+        app:layout_constraintStart_toStartOf="@+id/signout_btn_pf"
+        app:layout_constraintTop_toBottomOf="@+id/signout_btn_pf" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

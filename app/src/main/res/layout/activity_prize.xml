@@ -136,7 +136,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginStart="45dp"
-        android:text="enPoints"
+        android:text="Points"
         app:layout_constraintStart_toStartOf="@+id/pointReward"
         app:layout_constraintTop_toTopOf="@id/pointReward" />
 
