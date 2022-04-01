@@ -72,6 +72,12 @@ class SignupActivity : AppCompatActivity() {
         account["History"] = arrayListOf("")
         account["Point"] = 0
         account["Role"] = 1
+        account["bookmark"] = hashMapOf(
+            "Chapter" to 0,
+            "Idbook" to "",
+            "Notes" to "",
+            "PageNumber" to 0
+        )
         account["password"] = pass
         account["username"] = name
 
