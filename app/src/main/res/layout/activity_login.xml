@@ -49,12 +49,12 @@
 
             <!--INPUT-->
             <EditText
-                android:id="@+id/usernameETLogin"
+                android:id="@+id/emailETLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/username_icon"
                 android:background="@android:color/transparent"
-                android:hint="Username"
+                android:hint="Email"
                 android:maxLines="1"
                 android:paddingLeft="13dp"
                 android:paddingTop="15dp"
@@ -69,7 +69,7 @@
                 android:layout_height="20dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="17dp"
-                android:src="@drawable/username_icon" />
+                android:src="@drawable/email" />
 
         </RelativeLayout>
 

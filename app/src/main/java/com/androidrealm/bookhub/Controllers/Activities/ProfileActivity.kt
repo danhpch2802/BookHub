@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.androidrealm.bookhub.R
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_homepage.*
 
@@ -20,6 +21,7 @@ class ProfileActivity : AppCompatActivity() {
     var BookmarkBtn: ImageButton? = null
     var AvaBtn: ImageView? = null
     var ReBtn: ImageView? = null
+    var SignoutBtn: ImageButton? = null
 
 
     var uid:String = ""
@@ -48,6 +50,7 @@ class ProfileActivity : AppCompatActivity() {
         point = findViewById(R.id.point_prize_pf)
         badgeTV = findViewById(R.id.pf_prize)
         AvaBtn = findViewById(R.id.avatarpf_img)
+        SignoutBtn = findViewById(R.id.signout_btn_pf)
 
         ReBtn = findViewById(R.id.returnHomepage)
 
@@ -69,6 +72,13 @@ class ProfileActivity : AppCompatActivity() {
             val intent = Intent(this,  UpdateAccActivity::class.java)
             intent.putExtra("uid", uid)
             startActivity(intent)
+        }
+
+        SignoutBtn!!.setOnClickListener{
+            //Log out
+            FirebaseAuth.getInstance().signOut()
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
         }
 
         ReBtn!!.setOnClickListener{

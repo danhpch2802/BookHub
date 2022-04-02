@@ -11,6 +11,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import at.favre.lib.crypto.bcrypt.BCrypt
 import com.androidrealm.bookhub.R
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 
 class SignupActivity : AppCompatActivity() {
@@ -56,6 +60,34 @@ class SignupActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please enter an email", Toast.LENGTH_SHORT).show()
             }
             else{
+                // Create instance and register a user with email and password
+                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, pass)
+                    .addOnCompleteListener(
+                        OnCompleteListener<AuthResult> { task ->
+                            // If register successful
+                            if (task.isSuccessful) {
+                                // Firebase Register
+                                val firebaseUser: FirebaseUser = task.result!!.user!!
+                                Toast.makeText(this, "Register Successful!", Toast.LENGTH_SHORT).show()
+
+                                // Send user to Homepage Activity
+                                val intentToHomePageActivity = Intent(this, HomePageActivity::class.java)
+                                intentToHomePageActivity.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                intentToHomePageActivity.putExtra("uid", firebaseUser.uid)
+                                intentToHomePageActivity.putExtra("u_email", email)
+                                Handler().postDelayed({
+                                    val intentToLoginActivity = Intent(this@SignupActivity, LoginActivity::class.java)
+                                    startActivity(intentToLoginActivity)
+                                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                                    finish()
+                                }, 1000)
+                            }
+                            else {
+                                // If register failed
+                                Toast.makeText(this, task.exception!!.message.toString(), Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    )
                 //Save to Firestore
                 saveToFirestore(name, passHash, email)
             }
@@ -83,16 +115,6 @@ class SignupActivity : AppCompatActivity() {
 
         db.collection("accounts")
             .add(account)
-            .addOnSuccessListener {
-                //Output Result
-                Toast.makeText(this@SignupActivity, "Register Successfully!", Toast.LENGTH_SHORT).show()
-                Handler().postDelayed({
-                    val intent = Intent(this@SignupActivity, LoginActivity::class.java)
-                    startActivity(intent)
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-                    finish()
-                }, 1000)
-            }
             .addOnFailureListener{ e ->
                 //Output Result
                 Toast.makeText(this@SignupActivity, "Register Failed due to ${e.message}!", Toast.LENGTH_SHORT).show()
