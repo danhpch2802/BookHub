@@ -38,7 +38,7 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-        uid = intent.getStringExtra("uid").toString()
+        uid = FirebaseAuth.getInstance().currentUser!!.uid
 
         PrizeBtn = findViewById(R.id.prize_btn_pf)
         HistoryBtn = findViewById(R.id.history_btn_pf)

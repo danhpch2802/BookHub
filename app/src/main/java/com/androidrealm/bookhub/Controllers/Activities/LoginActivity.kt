@@ -1,6 +1,7 @@
 package com.androidrealm.bookhub.Controllers.Activities
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.view.Window
@@ -18,6 +19,9 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 
 class LoginActivity : AppCompatActivity() {
+    lateinit var sharedPreferences: SharedPreferences
+    var isRemembered = false
+
     var loginBtn: TextView? = null
     var registerBtn: TextView? = null
     var emailEt: EditText? = null
@@ -40,9 +44,11 @@ class LoginActivity : AppCompatActivity() {
             val email = emailEt!!.text.toString().trim()
             val pass = passwordEt!!.text.toString().trim()
 
+            val passHash = BCrypt.withDefaults().hashToString(12, pass.toCharArray())
+
             //Validate
             if (email.isEmpty()){
-                Toast.makeText(this, "Please enter a username", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please enter an email", Toast.LENGTH_SHORT).show()
             }
             else if(pass.isEmpty()){
                 Toast.makeText(this, "Please enter a password", Toast.LENGTH_SHORT).show()
@@ -61,7 +67,7 @@ class LoginActivity : AppCompatActivity() {
                                 val intentToHomePageActivity = Intent(this, HomePageActivity::class.java)
                                 intentToHomePageActivity.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                 intentToHomePageActivity.putExtra("uid", FirebaseAuth.getInstance().currentUser!!.uid)
-                                intentToHomePageActivity.putExtra("u_email", email)
+
                                 Handler().postDelayed({
                                     startActivity(intentToHomePageActivity)
                                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
@@ -84,4 +90,7 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
     }
+    
+    // disable back button pressed
+    override fun onBackPressed() { }
 }

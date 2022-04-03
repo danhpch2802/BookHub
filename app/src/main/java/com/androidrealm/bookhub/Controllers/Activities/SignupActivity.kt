@@ -9,7 +9,6 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import at.favre.lib.crypto.bcrypt.BCrypt
 import com.androidrealm.bookhub.R
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
@@ -44,7 +43,6 @@ class SignupActivity : AppCompatActivity() {
             val pass = passwordEt!!.text.toString().trim()
             val email = emailEt!!.text.toString().trim()
             val cpass = cpasswordEt!!.text.toString().trim()
-            val passHash = BCrypt.withDefaults().hashToString(12, pass.toCharArray())
 
             //Validate
             if (name.isEmpty()){
@@ -62,62 +60,60 @@ class SignupActivity : AppCompatActivity() {
             else{
                 // Create instance and register a user with email and password
                 FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, pass)
-                    .addOnCompleteListener(
-                        OnCompleteListener<AuthResult> { task ->
-                            // If register successful
-                            if (task.isSuccessful) {
-                                // Firebase Register
-                                val firebaseUser: FirebaseUser = task.result!!.user!!
-                                Toast.makeText(this, "Register Successful!", Toast.LENGTH_SHORT).show()
+                    .addOnCompleteListener { task ->
+                        // If register successful
+                        if (task.isSuccessful) {
+                            // Firebase Register
+                            val firebaseUser: FirebaseUser = task.result!!.user!!
+                            Toast.makeText(this, "Register Successful!", Toast.LENGTH_SHORT).show()
 
-                                // Send user to Homepage Activity
-                                val intentToHomePageActivity = Intent(this, HomePageActivity::class.java)
-                                intentToHomePageActivity.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                intentToHomePageActivity.putExtra("uid", firebaseUser.uid)
-                                intentToHomePageActivity.putExtra("u_email", email)
-                                Handler().postDelayed({
-                                    val intentToLoginActivity = Intent(this@SignupActivity, LoginActivity::class.java)
-                                    startActivity(intentToLoginActivity)
-                                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-                                    finish()
-                                }, 1000)
-                            }
-                            else {
-                                // If register failed
-                                Toast.makeText(this, task.exception!!.message.toString(), Toast.LENGTH_SHORT).show()
-                            }
+                            // Save to Firestore
+                            val currentUserId = FirebaseAuth.getInstance().currentUser!!.uid
+                            val documentRef = FirebaseFirestore.getInstance().collection("accounts")
+                                .document(currentUserId)
+                            val account: MutableMap<String, Any> = HashMap()
+                            account["Avatar"] = ""
+                            account["Badge"] = arrayListOf("Beginner")
+                            account["Email"] = email
+                            account["FavoriteList"] = arrayListOf("")
+                            account["History"] = arrayListOf("")
+                            account["Point"] = 0
+                            account["Role"] = 1
+                            account["bookmark"] = hashMapOf(
+                                "Chapter" to 0,
+                                "Idbook" to "",
+                                "Notes" to "",
+                                "PageNumber" to 0
+                            )
+                            account["password"] = pass
+                            account["username"] = name
+
+                            documentRef.set(account)
+
+                            // Return to Login Page
+                            Handler().postDelayed({
+                                val intentToLoginActivity =
+                                    Intent(this@SignupActivity, LoginActivity::class.java)
+                                intentToLoginActivity.flags =
+                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                intentToLoginActivity.putExtra("username", name)
+                                startActivity(intentToLoginActivity)
+                                overridePendingTransition(
+                                    R.anim.slide_in_right,
+                                    R.anim.slide_out_left
+                                )
+                                finish()
+                            }, 1000)
+                        } else {
+                            // If register failed
+                            Toast.makeText(
+                                this,
+                                task.exception!!.message.toString(),
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
-                    )
-                //Save to Firestore
-                saveToFirestore(name, passHash, email)
+                    }
             }
         }
-    }
-
-    private fun saveToFirestore(name: String, pass: String, email: String) {
-        val db = FirebaseFirestore.getInstance()
-        val account: MutableMap<String, Any> = HashMap()
-        account["Avatar"] = ""
-        account["Badge"] = arrayListOf("Beginner")
-        account["Email"] = email
-        account["FavoriteList"] = arrayListOf("")
-        account["History"] = arrayListOf("")
-        account["Point"] = 0
-        account["Role"] = 1
-        account["bookmark"] = hashMapOf(
-            "Chapter" to 0,
-            "Idbook" to "",
-            "Notes" to "",
-            "PageNumber" to 0
-        )
-        account["password"] = pass
-        account["username"] = name
-
-        db.collection("accounts")
-            .add(account)
-            .addOnFailureListener{ e ->
-                //Output Result
-                Toast.makeText(this@SignupActivity, "Register Failed due to ${e.message}!", Toast.LENGTH_SHORT).show()
-            }
     }
 }
