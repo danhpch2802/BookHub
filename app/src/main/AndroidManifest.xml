@@ -3,6 +3,7 @@
     package="com.androidrealm.bookhub">
 
     <application
+        android:hardwareAccelerated="false"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -30,7 +31,6 @@
         <activity
             android:name=".Controllers.Activities.BookCreateActivity"
             android:exported="false">
-
         </activity>
         <activity
             android:name=".Controllers.Activities.RequestListActivity"
@@ -43,16 +43,16 @@
             android:exported="false" />
         <activity
             android:name=".Controllers.Activities.HomePageActivity"
-            android:exported="false" >
-        </activity>
-        <activity
-            android:name=".Controllers.Activities.WelcomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".Controllers.Activities.WelcomeActivity"
+            android:exported="true">
         </activity>
         <activity
             android:name=".Controllers.Activities.BookmarkListActivity"

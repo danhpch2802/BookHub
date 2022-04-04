@@ -33,6 +33,7 @@ class BookUpdateActivity : AppCompatActivity() {
             .addOnSuccessListener { document ->
                 if (document != null) {
                     val comicGet = document.toObject<Book>()
+                    comicGet!!.id = id
                     findViewById<TextView>(R.id.detail_book_barTV).setText(comicGet!!.name)
                     if (savedInstanceState == null) {
                         val ft: FragmentTransaction = supportFragmentManager.beginTransaction()

@@ -8,10 +8,11 @@ import com.androidrealm.bookhub.Models.Comment
 import com.androidrealm.bookhub.Controllers.Fragments.ChapterFragment
 import com.androidrealm.bookhub.Controllers.Fragments.CommentFragment
 import com.androidrealm.bookhub.Controllers.Fragments.CreateNewChapterFragment
+import com.androidrealm.bookhub.Controllers.Fragments.UpdateChapterFragment
 
 
 class BookPageView2Adapter (activity: AppCompatActivity, val itemsCount: Int, val listChapters:List<Chapter>
-                            ,val listComments:List<Comment>, val createNew : Boolean) :
+                            ,val listComments:List<Comment>, val createNew : Boolean, val editable : Boolean) :
     FragmentStateAdapter(activity) {
 
 
@@ -21,16 +22,20 @@ class BookPageView2Adapter (activity: AppCompatActivity, val itemsCount: Int, va
 
 
     override fun createFragment(position: Int): Fragment {
-        if (!createNew)
+        if (!createNew && !editable)
         {
             when(position) {
                 0 -> return ChapterFragment.newInstance(listChapters as ArrayList<Chapter>)
                 else->return CommentFragment.newInstance(listComments as ArrayList<Comment>)
             }
         }
-        else
+        else if (createNew && !editable)
         {
             return CreateNewChapterFragment()
+        }
+        else
+        {
+            return UpdateChapterFragment.newInstance(listChapters  as ArrayList<Chapter>)
         }
     }
 

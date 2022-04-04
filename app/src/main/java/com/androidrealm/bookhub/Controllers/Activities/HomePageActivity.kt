@@ -39,7 +39,10 @@ val uid:String = "ERQnHq5YlmL78h2wDBQX"
 
         // Uncomment the line below if start from login
         //uid = intent.getStringExtra("uid").toString()
+    }
 
+    override fun onResume() {
+        super.onResume()
         findViewById<BottomNavigationView>(R.id.bottom_navigation).setOnNavigationItemSelectedListener { menuItem ->
             when {
                 menuItem.itemId == R.id.profile_item -> {
@@ -75,18 +78,13 @@ val uid:String = "ERQnHq5YlmL78h2wDBQX"
                     intent.putExtra("id",book.id)
                     startActivity(intent)
                 }
-
-                if (savedInstanceState == null) {
-                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                    val fragment: Fragment = ListComicFragment.newInstance(adapter,3)
-                    ft.replace(R.id.fragment_container_view, fragment)
-                    ft.commit()
-                }
+                val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                val fragment: Fragment = ListComicFragment.newInstance(adapter,3)
+                ft.replace(R.id.fragment_container_view, fragment)
+                ft.commit()
             }
             .addOnFailureListener { exception ->
                 Log.d(TAG, "Error getting documents: ", exception)
             }
-
-
     }
 }

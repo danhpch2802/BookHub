@@ -18,11 +18,13 @@ import com.androidrealm.bookhub.Models.Chapter
 import com.androidrealm.bookhub.R
 
 class CreateNewChapterFragment : Fragment() {
+
+    var currentContext : Context? = null
+    var currentRow : Int = -1
+
     companion object {
-        var pdfList  = ArrayList<Uri>()
-        var listChapterToAdd = ArrayList<Chapter>()
-        var currentContext : Context? = null
-        var currentRow : Int = -1
+        var pdfListURIToCreate  = ArrayList<Uri>()
+        var listChapterToCreate = ArrayList<Chapter>()
         fun newInstance(): CreateNewChapterFragment
         {
             return CreateNewChapterFragment()
@@ -48,7 +50,7 @@ class CreateNewChapterFragment : Fragment() {
         super.onResume()
         val chapterRV = view?.findViewById<RecyclerView>(R.id.UploadPDFRV)
 
-        var adapter = CreateChapterAdapter(listChapterToAdd, pdfList)
+        var adapter = CreateChapterAdapter(listChapterToCreate, pdfListURIToCreate)
         chapterRV!!.addItemDecoration(
             DividerItemDecoration(currentContext,
                 DividerItemDecoration.VERTICAL)
@@ -61,24 +63,24 @@ class CreateNewChapterFragment : Fragment() {
             var newChap = Chapter()
             newChap.name = ""
             newChap.links = ""
-            listChapterToAdd.add(newChap)
+            listChapterToCreate.add(newChap)
             var uri: Uri = Uri.EMPTY
-            pdfList.add(uri)
-            adapter.notifyItemChanged(listChapterToAdd.size)
+            pdfListURIToCreate.add(uri)
+            adapter.notifyItemChanged(listChapterToCreate.size)
         }
 
         adapter.onChoosePDFClick = {rowsNum->
             val intent = Intent()
             currentRow = rowsNum
             intent.setType("application/pdf")
-            intent.action = Intent.ACTION_GET_CONTENT
+            intent.action = Intent.ACTION_OPEN_DOCUMENT
             startActivityForResult(Intent.createChooser(intent, "Select PDF"),1234)
             adapter.notifyItemChanged(currentRow)
         }
 
         adapter.onDeleteClick = {rowsNum ->
-            pdfList.removeAt(rowsNum)
-            listChapterToAdd.removeAt(rowsNum)
+            pdfListURIToCreate.removeAt(rowsNum)
+            listChapterToCreate.removeAt(rowsNum)
             adapter.notifyItemRemoved(rowsNum)
         }
     }
@@ -87,7 +89,7 @@ class CreateNewChapterFragment : Fragment() {
         if (requestCode == 1234 && resultCode == AppCompatActivity.RESULT_OK && data != null && data.data != null)
         {
             val tempUriPdf = data.data
-            pdfList.set(currentRow, tempUriPdf!!)
+            pdfListURIToCreate.set(currentRow, tempUriPdf!!)
         }
         else
         {

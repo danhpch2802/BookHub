@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingTop="?attr/actionBarSize"
     tools:context=".Controllers.Fragments.BookFragment"
     >
 
@@ -20,11 +21,12 @@
 
             <ImageView
                 android:id="@+id/comicCoverIV"
-                android:layout_width="123dp"
-                android:layout_height="323dp"
+                android:layout_width="130dp"
+                android:layout_height="250dp"
                 android:layout_marginStart="13dp"
+
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/button2"
                 android:src="@drawable/ic_launcher_foreground"
                 />
 

@@ -23,7 +23,10 @@ class BookDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_detail)
+    }
 
+    override fun onResume() {
+        super.onResume()
         val intent = intent
         val id = intent.getStringExtra("id")
 
@@ -35,12 +38,10 @@ class BookDetailActivity : AppCompatActivity() {
                 if (document != null) {
                     val comicGet = document.toObject<Book>()
                     findViewById<TextView>(R.id.detail_book_barTV).setText(comicGet!!.name)
-                    if (savedInstanceState == null) {
-                        val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                        val fragment: Fragment = BookFragment.newInstance(book=comicGet,recommendList=null, listComment = null, editable = false)
-                        ft.replace(R.id.fragment_book, fragment)
-                        ft.commit()
-                    }
+                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                    val fragment: Fragment = BookFragment.newInstance(book=comicGet,recommendList=null, listComment = null, editable = false)
+                    ft.replace(R.id.fragment_book, fragment)
+                    ft.commit()
                 } else {
                     Log.d(TAG, "No such document")
                 }

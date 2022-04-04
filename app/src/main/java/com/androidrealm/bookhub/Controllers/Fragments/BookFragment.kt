@@ -19,13 +19,16 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.androidrealm.bookhub.Adapter.BookPageView2Adapter
-import com.androidrealm.bookhub.Controllers.Fragments.CreateNewChapterFragment.Companion.listChapterToAdd
-import com.androidrealm.bookhub.Controllers.Fragments.CreateNewChapterFragment.Companion.pdfList
+import com.androidrealm.bookhub.Controllers.Fragments.CreateNewChapterFragment.Companion.listChapterToCreate
+import com.androidrealm.bookhub.Controllers.Fragments.CreateNewChapterFragment.Companion.pdfListURIToCreate
+import com.androidrealm.bookhub.Controllers.Fragments.UpdateChapterFragment.Companion.listChapterToEdit
+import com.androidrealm.bookhub.Controllers.Fragments.UpdateChapterFragment.Companion.pdfListUriToEdit
 import com.androidrealm.bookhub.Models.Book
 import com.androidrealm.bookhub.Models.Chapter
 import com.androidrealm.bookhub.Models.Comment
 import com.androidrealm.bookhub.R
 import com.google.android.gms.tasks.Task
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -33,6 +36,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import dmax.dialog.SpotsDialog
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.tasks.await
 import kotlin.collections.ArrayList
 
 
@@ -104,7 +110,7 @@ class BookFragment : Fragment() {
             "createNew"
         ) as Boolean
 
-        if(createNew)
+        if(createNew) // create new here
         {
             val singleFrame: View = layoutInflater.inflate(R.layout.item_categories, null)
             val categoryBtn = singleFrame.findViewById<MaterialButton>(R.id.categoryBtn)
@@ -114,7 +120,7 @@ class BookFragment : Fragment() {
             uploadBtn.visibility = View.VISIBLE
 
             comicCoverIV!!.setOnClickListener {
-                val intentPickIMG = Intent(Intent.ACTION_PICK)
+                val intentPickIMG = Intent(Intent.ACTION_OPEN_DOCUMENT)
                 intentPickIMG.type = "image/*"
                 startActivityForResult(intentPickIMG, 1000)
             }
@@ -147,15 +153,14 @@ class BookFragment : Fragment() {
                 })
                 mBuilder.setPositiveButton("OK",
                     DialogInterface.OnClickListener { dialogInterface, i ->
-                        var str : String= ""
-                        for (i in checkedCategory)
-                            str+= listCategoryToChoose[i] + ","
-                        str = str.substring(0, str.length - 1)
-
-                        categoryContent.removeViews(1, categoryContent.childCount - 1)
-
                         listCategoryChosen.clear()
-                        listCategoryChosen = str.split(",") as ArrayList<String>
+
+                        for (i in checkedCategory)
+                            listCategoryChosen.add(listCategoryToChoose[i])
+                        if (categoryContent.childCount > 0)
+                        {
+                            categoryContent.removeViews(1, categoryContent.childCount - 1)
+                        }
 
 
                         for (category in listCategoryChosen) {
@@ -179,22 +184,32 @@ class BookFragment : Fragment() {
 
                 detailComic.listCategory = listCategoryChosen
 
-                detailComic.listChapter = listChapterToAdd
+                detailComic.listChapter = listChapterToCreate
 
                 alertDialog.show()
                 //create Book in firestore to get ID
+
                 fireStore!!.collection("comics")
                     .add(detailComic)
                     .addOnSuccessListener { docRef ->
                         bookId = docRef.id
-                        startUploadingImage()
-                        startUploadingPDF()
+                        GlobalScope.launch {
+                            try {
+                                startUploadingImage()
+                                startUploadingPDF()
+                            }
+                            catch (e : Throwable)
+                            {
+
+                            }
+                        }
                     }
 
             }
 
 
         }
+        // Edit here
        else  {
             val editable = requireArguments().getSerializable(
                 "editable"
@@ -204,6 +219,123 @@ class BookFragment : Fragment() {
                 "comic"
             ) as Book
 
+            if(editable){
+                val singleFrame: View = layoutInflater.inflate(R.layout.item_categories, null)
+                val categoryBtn = singleFrame.findViewById<MaterialButton>(R.id.categoryBtn)
+                categoryBtn.setText("Add new category")
+                categoryContent.addView(singleFrame)
+                categoryView.add(singleFrame)
+                categoryBtn.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(),R.color.app_golden))
+                view.findViewById<ImageView>(R.id.recommendCoverIV).setVisibility(View.VISIBLE)
+
+                categoryBtn.setOnClickListener {
+
+                    val listCategoryToChoose = resources.getStringArray(R.array.category_names)
+
+                    val checkedCategory = ArrayList<Int>(listCategoryToChoose.size)
+
+                    val mBuilder = AlertDialog.Builder(requireContext())
+
+                    mBuilder.setTitle("Select Category to create")
+
+
+                    mBuilder.setMultiChoiceItems(listCategoryToChoose, null,
+                        DialogInterface.OnMultiChoiceClickListener { dialogInterface, i, b ->
+                            if (b)
+                            {
+                                checkedCategory.add(i)
+                            }
+                            else if (checkedCategory.contains(i))
+                            {
+                                checkedCategory.remove(i)
+                            }
+                        })
+                    mBuilder.setPositiveButton("OK",
+                        DialogInterface.OnClickListener { dialogInterface, i ->
+                            listCategoryChosen.clear()
+                            detailComic.listCategory?.clear()
+
+                            for (i in checkedCategory)
+                                listCategoryChosen.add(listCategoryToChoose[i])
+
+                            if (categoryContent.childCount > 0)
+                            {
+                                categoryContent.removeViews(1, categoryContent.childCount - 1)
+                            }
+
+                            detailComic.listCategory = listCategoryChosen
+
+
+                            for (category in listCategoryChosen) {
+                                val singleFrame: View =
+                                    layoutInflater.inflate(R.layout.item_categories, null)
+                                singleFrame.id = category.indexOf(category)
+                                val categoryBtn =
+                                    singleFrame.findViewById<MaterialButton>(R.id.categoryBtn)
+                                categoryBtn.setText(category as CharSequence)
+                                categoryContent.addView(singleFrame)
+                                categoryView.add(singleFrame)
+                            }
+                        }).show()
+                }
+
+                comicCoverIV!!.setOnClickListener {
+                    val intentPickIMG = Intent(Intent.ACTION_OPEN_DOCUMENT)
+                    intentPickIMG.type = "image/*"
+                    startActivityForResult(intentPickIMG, 1000)
+                }
+
+                val topAppbar= requireActivity().findViewById<MaterialToolbar>(R.id.topAppbar)
+
+                topAppbar.setOnMenuItemClickListener { menuItem ->
+                    when (menuItem.itemId) {
+                        R.id.saveInfoBook -> {
+
+                            detailComic.name = comicNameET.text.toString()
+                            detailComic.author = comicAuthorET.text.toString()
+
+                            detailComic.summary = comicSummaryET.text.toString()
+                            bookId = detailComic.id
+                            Log.i("id", bookId.toString())
+                            //change Cover
+                            alertDialog.show()
+                            GlobalScope.launch {
+                            if (imageUri != null)
+                            {
+
+                                    try {
+                                        deleteCover()
+                                        startUploadingImage()
+                                    }
+                                    catch (e : Throwable)
+                                    {
+
+                                    }
+                            }
+                                detailComic.listChapter = listChapterToEdit
+                                try {
+                                    startUploadingPDF()
+                                } catch (e: Throwable) {
+
+                                }
+                            }
+                            true
+                        }
+                        R.id.deleteBook -> {
+
+                            true
+                        }
+                        else -> false
+                    }
+                }
+            }
+            else {
+                comicNameET.setFocusable(false)
+                comicAuthorET.setFocusable(false)
+                comicRatingTV.setFocusable(false)
+                comicSummaryET.setFocusable(false)
+            }
+
             for (category in detailComic.listCategory!!) {
                 val singleFrame: View = layoutInflater.inflate(R.layout.item_categories, null)
                 singleFrame.id = category.indexOf(category)
@@ -211,21 +343,6 @@ class BookFragment : Fragment() {
                 categoryBtn.setText(category as CharSequence)
                 categoryContent.addView(singleFrame)
                 categoryView.add(singleFrame)
-            }
-
-            if(editable){
-                val singleFrame: View = layoutInflater.inflate(R.layout.item_categories, null)
-                val categoryBtn = singleFrame.findViewById<MaterialButton>(R.id.categoryBtn)
-                categoryBtn.setText("Add new category")
-                categoryContent.addView(singleFrame)
-                categoryView.add(singleFrame)
-                view.findViewById<ImageView>(R.id.recommendCoverIV).setVisibility(View.VISIBLE)
-            }
-            else {
-                comicNameET.setFocusable(false)
-                comicAuthorET.setFocusable(false)
-                comicRatingTV.setFocusable(false)
-                comicSummaryET.setFocusable(false)
             }
 
 //            recommendList = requireArguments().getSerializable(
@@ -239,60 +356,23 @@ class BookFragment : Fragment() {
             comicNameET.setText(detailComic.name)
             comicAuthorET.setText(detailComic.author)
 
-            val calScore=detailComic.score.sum()/5
+            val calScore= detailComic.score.sum()/5
             comicRatingTV.setText("${calScore}/5")
             comicSummaryET.setText(detailComic.summary)
-            Picasso.get().load(detailComic.imagePath).into(comicCoverIV);
-                    }
+            Picasso.get()
+                .load(detailComic.imagePath)
+                .into(comicCoverIV);
+       }
         return view
     }
 
-    private fun startUploadingPDF() {
-
-        val path ="Books/${bookId}/Chapters/"
-        for (i in 0..detailComic.listChapter!!.size - 1)
-        {
-            val storageRef = FirebaseStorage.getInstance().getReference(path+ detailComic.listChapter!![i].name)
-            storageRef.putFile(pdfList[i])
-                .addOnSuccessListener { taskSnapshot ->
-                    var uriTask : Task<Uri> = taskSnapshot.storage.downloadUrl
-                    while (!uriTask.isSuccessful); // while này nó chạy để đợi load xong
-                    val pdfUrL = "${uriTask.result}"
-                    detailComic.listChapter!![i].links = pdfUrL
-                    UpdateInfoList(detailComic.listChapter!!)
-                    if (i === detailComic.listChapter!!.size - 1)
-                    {
-                        Log.i("error", "lastone")
-                        alertDialog.dismiss()
-                        requireActivity().finish()
-                    }
-                }
-                .addOnFailureListener{e->
-                    Log.i("error", e.message.toString())
-                }
-        }
-    }
-
-    private fun UpdateInfoList(listChapter: ArrayList<Chapter>) {
-        fireStore?.collection("comics")!!.document(bookId!!)
-            .update("listChapter",listChapter)
-    }
-
-    private fun startUploadingImage() {
-        val path = "Books/${bookId}/"
-        val storageRef = FirebaseStorage.getInstance().getReference(path + "banner")
-        storageRef.putFile(imageUri!!)
-            .addOnSuccessListener { taskSnapshot ->
-                var UriImageTask : Task<Uri> = taskSnapshot.storage.downloadUrl
-                while (!UriImageTask.isSuccessful);
-                val tempStringUri : String = "${UriImageTask.result}"
-                fireStore?.collection("comics")!!.document(bookId!!)
-                    .update("imagePath", tempStringUri)
-            }
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        if(!createNew) {
+        val editable = requireArguments().getSerializable(
+            "editable"
+        ) as Boolean
+        //no create && no edit
+        if(!createNew && !editable) {
 //            var recommendAdapter = ComicAdapter(recommendList!!)
 //            val ft: FragmentTransaction = activity?.supportFragmentManager!!.beginTransaction()
 //            val fragment: Fragment = ListComicFragment.newInstance(recommendAdapter, -1)
@@ -302,7 +382,7 @@ class BookFragment : Fragment() {
             val bookViewPage2 = view.findViewById<ViewPager2>(R.id.bookViewPage2)
             var bookVPAdapter = BookPageView2Adapter(
                 activity as AppCompatActivity, 2,
-                detailComic.listChapter!!, listComment!!, createNew
+                detailComic.listChapter!!, listComment!!, createNew, editable
             )
             Log.d("chapter",detailComic.listChapter.toString())
             bookViewPage2.adapter = bookVPAdapter
@@ -314,16 +394,24 @@ class BookFragment : Fragment() {
                 bookViewPage2.setCurrentItem(tab.position, true)
             }.attach()
         }
-        else{
-
+        //create && no edit
+        else if (createNew && !editable){
             val bookViewPage2 = view.findViewById<ViewPager2>(R.id.bookViewPage2)
             var bookVPAdapter = BookPageView2Adapter(
                 activity as AppCompatActivity, 2,
-                emptyList(), listComment!!, createNew
+                emptyList(), emptyList(), createNew, editable
             )
-
             bookViewPage2.adapter = bookVPAdapter
-
+        }
+        //no create && edit
+        else
+        {
+            val bookViewPage2 = view.findViewById<ViewPager2>(R.id.bookViewPage2)
+            var bookVPAdapter = BookPageView2Adapter(
+                activity as AppCompatActivity, 2,
+                detailComic.listChapter!!, emptyList()!!, createNew, editable
+            )
+            bookViewPage2.adapter = bookVPAdapter
         }
     }
 
@@ -335,6 +423,123 @@ class BookFragment : Fragment() {
             imageUri = data?.data
         }
 
+    }
+
+    private suspend fun startUploadingPDF(){
+
+        val path ="Books/${bookId}/Chapters/"
+        if(createNew)
+        {
+                for (i in 0..detailComic.listChapter!!.size - 1) {
+
+                    UploadingFile(path, i, pdfListURIToCreate)
+                    if (i === detailComic.listChapter!!.size - 1) {
+                        Log.i("Upload success", "lastone")
+                        UpdateInfoList()
+                        alertDialog.dismiss()
+                        requireActivity().finish()
+
+                    }
+                }
+        }
+        else{
+            for (i in 0..detailComic.listChapter!!.size - 1) {
+                if (!pdfListUriToEdit[i].toString()
+                        .equals("Currently Have PDF file")
+                ) // change PDF chapter
+                {
+                    if (!detailComic.listChapter!![i].links!!.equals("")) {
+                        deletePdf(detailComic.listChapter!![i].links!!)
+                    }
+
+                    UploadingFile(path, i, pdfListUriToEdit)
+
+                    if (i === detailComic.listChapter!!.size - 1) {
+                        Log.i("error1", "lastone")
+                        UpdateInfoList()
+                        alertDialog.dismiss()
+                        requireActivity().finish()
+                    }
+                } else {
+                    if (i === detailComic.listChapter!!.size - 1) {
+                        Log.i("error2", "lastone")
+                        UpdateInfoList()
+                        alertDialog.dismiss()
+                        requireActivity().finish()
+                    }
+                }
+            }
+        }
+    }
+
+    private suspend fun deleteCover(){
+        val delRef = FirebaseStorage.getInstance().getReferenceFromUrl(detailComic.imagePath!!)
+        try {
+            delRef.delete()
+                .await()
+        }
+        catch (e: Throwable)
+        {
+            Log.e("error delete image", e.message.toString())
+        }
+    }
+
+    private suspend fun deletePdf(UrlPDF: String){
+        val delRef = FirebaseStorage.getInstance().getReferenceFromUrl(UrlPDF!!)
+        try {
+            delRef.delete()
+                .await()
+        }
+        catch (e: Throwable)
+        {
+            Log.e("error delete file", e.message.toString())
+        }
+    }
+
+    private suspend fun UploadingFile(path : String,position: Int, listURI : ArrayList<Uri>){
+        val storageRef = FirebaseStorage.getInstance().getReference(path+ detailComic.listChapter!![position].name)
+        try {
+            val temp = storageRef.putFile(listURI[position])
+                .await()
+                .storage
+                .downloadUrl
+                .await()
+            detailComic.listChapter!![position].links = temp.toString()
+            Log.i("Upload file", "")
+        }
+        catch (e: Throwable)
+        {
+            Log.e("error up file", e.message.toString())
+        }
+    }
+    private suspend fun UpdateInfoList() {
+        detailComic.id = null
+        try {
+            fireStore?.collection("comics")!!.document(bookId!!)
+                .set(detailComic).await()
+        }
+        catch (e: Throwable)
+        {
+            Log.e("error up Info", e.message.toString())
+        }
+    }
+
+    private suspend fun startUploadingImage() {
+        val path = "Books/${bookId}/"
+        val storageRef = FirebaseStorage.getInstance().getReference(path + "banner")
+        try {
+            val temp = storageRef.putFile(imageUri!!)
+                .await()
+                .storage
+                .downloadUrl
+                .await()
+            detailComic.imagePath = temp.toString()
+            Log.i("Upload image", "")
+        }
+        catch (e: Throwable)
+        {
+            Log.e("error up image", e.message.toString())
+        }
     }
 
 }
