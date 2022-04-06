@@ -332,6 +332,9 @@ class BookFragment : Fragment() {
                             }
                             deleteCommentInFireStore(bookId)
                             deleteInAccountFavorite(bookId)
+                            listChapterToEdit.clear()
+                            pdfListUriToEdit.clear()
+                            pdfListUrlToDel.clear()
                             true
                         }
                         else -> false
