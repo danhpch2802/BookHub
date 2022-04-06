@@ -14,6 +14,9 @@ import com.androidrealm.bookhub.Models.Book
 import com.androidrealm.bookhub.Models.Comment
 import com.androidrealm.bookhub.R
 import com.androidrealm.bookhub.Controllers.Fragments.BookFragment
+import com.androidrealm.bookhub.Controllers.Fragments.UpdateChapterFragment.Companion.listChapterToEdit
+import com.androidrealm.bookhub.Controllers.Fragments.UpdateChapterFragment.Companion.pdfListUriToEdit
+import com.androidrealm.bookhub.Controllers.Fragments.UpdateChapterFragment.Companion.pdfListUrlToDel
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
@@ -50,6 +53,10 @@ class BookUpdateActivity : AppCompatActivity() {
             }
 
         findViewById<ImageView>(R.id.backIV).setOnClickListener {
+            listChapterToEdit.clear()
+            pdfListUriToEdit.clear()
+            pdfListUrlToDel.clear()
+            finish()
             onBackPressed()
         }
     }

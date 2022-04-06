@@ -43,7 +43,7 @@ class BookDetailActivity : AppCompatActivity() {
                     ft.replace(R.id.fragment_book, fragment)
                     ft.commit()
                 } else {
-                    Log.d(TAG, "No such document")
+                    finish()
                 }
             }
             .addOnFailureListener { exception ->

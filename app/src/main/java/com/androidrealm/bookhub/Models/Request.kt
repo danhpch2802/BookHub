@@ -4,7 +4,7 @@ import com.google.firebase.firestore.DocumentId
 
 class Request(
     @DocumentId
-    var AccId:String?=null,
+    var AccountId:String?=null,
     var requestName:String?=null,
-    var checked:Int? = 1
+    var Checked:Int? = 1
 )

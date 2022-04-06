@@ -23,21 +23,20 @@ import com.androidrealm.bookhub.Controllers.Fragments.CreateNewChapterFragment.C
 import com.androidrealm.bookhub.Controllers.Fragments.CreateNewChapterFragment.Companion.pdfListURIToCreate
 import com.androidrealm.bookhub.Controllers.Fragments.UpdateChapterFragment.Companion.listChapterToEdit
 import com.androidrealm.bookhub.Controllers.Fragments.UpdateChapterFragment.Companion.pdfListUriToEdit
+import com.androidrealm.bookhub.Controllers.Fragments.UpdateChapterFragment.Companion.pdfListUrlToDel
 import com.androidrealm.bookhub.Models.Book
-import com.androidrealm.bookhub.Models.Chapter
 import com.androidrealm.bookhub.Models.Comment
 import com.androidrealm.bookhub.R
-import com.google.android.gms.tasks.Task
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import dmax.dialog.SpotsDialog
 import kotlinx.coroutines.*
-import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.tasks.await
 import kotlin.collections.ArrayList
 
@@ -312,6 +311,10 @@ class BookFragment : Fragment() {
 
                                     }
                             }
+                                if(!pdfListUrlToDel.size.equals(0))
+                                {
+                                    startDelPDFList(pdfListUrlToDel)
+                                }
                                 detailComic.listChapter = listChapterToEdit
                                 try {
                                     startUploadingPDF()
@@ -322,7 +325,13 @@ class BookFragment : Fragment() {
                             true
                         }
                         R.id.deleteBook -> {
-
+                            bookId = detailComic.id
+                            alertDialog.show()
+                            GlobalScope.launch {
+                                deleteDocumentInFireStore(bookId)
+                            }
+                            deleteCommentInFireStore(bookId)
+                            deleteInAccountFavorite(bookId)
                             true
                         }
                         else -> false
@@ -425,6 +434,56 @@ class BookFragment : Fragment() {
 
     }
 
+
+    private fun deleteInAccountFavorite(bookId: String?) {
+        fireStore!!.collection("accounts")
+            .whereArrayContains("FavoriteList", bookId.toString())
+            .get()
+            .addOnSuccessListener { querySnapshot->
+                for (document in querySnapshot)
+                {
+                    document.reference.update("FavoriteList", FieldValue.arrayRemove(bookId))
+                }
+            }
+    }
+
+    private fun deleteCommentInFireStore(bookId: String?) {
+        fireStore!!.collection("comments")
+            .whereEqualTo("BookID", bookId.toString())
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                for (document in querySnapshot)
+                {
+                    fireStore!!.collection("comments").document(document.id)
+                        .delete()
+                }
+            }
+    }
+
+    private suspend fun deleteDocumentInFireStore(bookId: String?) {
+        fireStore!!.collection("comics")!!.document(bookId!!)
+            .delete()
+            .await()
+        alertDialog.dismiss()
+        requireActivity().finish()
+    }
+
+    private suspend fun startDelPDFList(pdfListUrlToDel: ArrayList<String>)
+    {
+        for (i in pdfListUrlToDel)
+        {
+            val delRef = FirebaseStorage.getInstance().getReferenceFromUrl(i)
+            try {
+                delRef.delete()
+                    .await()
+            }
+            catch (e: Throwable)
+            {
+                Log.e("error delete pdf list", e.message.toString())
+            }
+        }
+    }
+
     private suspend fun startUploadingPDF(){
 
         val path ="Books/${bookId}/Chapters/"
@@ -513,7 +572,6 @@ class BookFragment : Fragment() {
         }
     }
     private suspend fun UpdateInfoList() {
-        detailComic.id = null
         try {
             fireStore?.collection("comics")!!.document(bookId!!)
                 .set(detailComic).await()

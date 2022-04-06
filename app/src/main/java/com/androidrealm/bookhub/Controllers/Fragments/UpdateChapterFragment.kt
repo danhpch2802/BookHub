@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +26,7 @@ class UpdateChapterFragment(listChapter: Any?) : Fragment() {
 
         var listChapterToEdit = ArrayList<Chapter>()
         var pdfListUriToEdit  = ArrayList<Uri>()
+        var pdfListUrlToDel  = ArrayList<String>()
         fun newInstance
                     (listChapter: ArrayList<Chapter>): UpdateChapterFragment
         {
@@ -50,18 +50,21 @@ class UpdateChapterFragment(listChapter: Any?) : Fragment() {
 
         currentContext = this.context
 
+        if (pdfListUriToEdit.size.equals(0))
+        {
+            listChapterToEdit = requireArguments().getSerializable(
+                "listChapter"
+            ) as ArrayList<Chapter>
+            for (i in 0..listChapterToEdit.size - 1)
+                pdfListUriToEdit.add(Uri.parse("Currently Have PDF file"))
+        }
+
+
         return view
     }
 
     override fun onResume() {
         super.onResume()
-
-        listChapterToEdit = requireArguments().getSerializable(
-            "listChapter"
-        ) as ArrayList<Chapter>
-
-        for (i in 0..listChapterToEdit.size - 1)
-            pdfListUriToEdit.add(Uri.parse("Currently Have PDF file"))
 
         val chapterRVedt = requireView().findViewById<RecyclerView>(R.id.UploadPDFRVEdtFragment)
 
@@ -94,13 +97,14 @@ class UpdateChapterFragment(listChapter: Any?) : Fragment() {
             // delete pdf if already in storage
             if (!listChapterToEdit[rowsNum].links.equals(""))
             {
-                delPdfInEdit(listChapterToEdit[rowsNum].links)
+                addTodeleteList(listChapterToEdit[rowsNum].links)
             }
             pdfListUriToEdit.removeAt(rowsNum)
             listChapterToEdit.removeAt(rowsNum)
             chapterAdapter.notifyItemRemoved(rowsNum)
         }
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -115,10 +119,9 @@ class UpdateChapterFragment(listChapter: Any?) : Fragment() {
         }
     }
 
-    private fun delPdfInEdit(UrlPdf : String?)
+    private fun addTodeleteList(UrlPdf : String?)
     {
-        val delRef = FirebaseStorage.getInstance().getReferenceFromUrl(UrlPdf!!)
-        delRef.delete()
+        pdfListUrlToDel.add(UrlPdf!!)
     }
 
 }
