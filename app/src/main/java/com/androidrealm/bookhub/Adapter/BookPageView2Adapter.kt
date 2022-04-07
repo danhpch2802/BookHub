@@ -37,6 +37,7 @@ class BookPageView2Adapter (activity: AppCompatActivity, val itemsCount: Int, va
         {
             return UpdateChapterFragment.newInstance(listChapters  as ArrayList<Chapter>)
         }
+
     }
 
     fun getPageTitle(position: Int): CharSequence? {

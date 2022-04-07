@@ -55,4 +55,8 @@ class ChapterFragment(listChapter: Any?) : Fragment() {
         return view
     }
 
+    override fun onResume() {
+        super.onResume()
+        requireView().requestLayout()
+    }
 }

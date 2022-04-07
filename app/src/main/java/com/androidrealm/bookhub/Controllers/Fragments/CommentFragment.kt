@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.androidrealm.bookhub.Adapter.CommentAdapter
 import com.androidrealm.bookhub.Models.Comment
 import com.androidrealm.bookhub.R
+import com.google.firebase.auth.FirebaseAuth
 import java.io.Serializable
 
 class CommentFragment() : Fragment(), Serializable {
@@ -54,6 +55,11 @@ class CommentFragment() : Fragment(), Serializable {
         commentRW.layoutManager = LinearLayoutManager(activity)
 
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireView().requestLayout()
     }
 
 }

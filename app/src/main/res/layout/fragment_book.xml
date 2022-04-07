@@ -214,7 +214,6 @@
                     app:tabMode="fixed" />
 
             </com.google.android.material.tabs.TabLayout>
-
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/bookViewPage2"
                 android:layout_width="match_parent"
