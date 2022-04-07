@@ -11,8 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.androidrealm.bookhub.Adapter.CommentAdapter
 import com.androidrealm.bookhub.Models.Comment
 import com.androidrealm.bookhub.R
+import java.io.Serializable
 
-class CommentFragment() : Fragment() {
+class CommentFragment() : Fragment(), Serializable {
     private lateinit var commentRW:RecyclerView
     companion object {
         fun newInstance

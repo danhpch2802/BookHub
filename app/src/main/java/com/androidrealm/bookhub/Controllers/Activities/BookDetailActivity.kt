@@ -13,10 +13,17 @@ import androidx.fragment.app.FragmentTransaction
 import com.androidrealm.bookhub.Controllers.Fragments.BookFragment
 import com.androidrealm.bookhub.Models.Book
 import com.androidrealm.bookhub.Models.Chapter
+import com.androidrealm.bookhub.Models.Comment
 import com.androidrealm.bookhub.R
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class BookDetailActivity : AppCompatActivity() {
@@ -38,10 +45,18 @@ class BookDetailActivity : AppCompatActivity() {
                 if (document != null) {
                     val comicGet = document.toObject<Book>()
                     findViewById<TextView>(R.id.detail_book_barTV).setText(comicGet!!.name)
-                    val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                    val fragment: Fragment = BookFragment.newInstance(book=comicGet,recommendList=null, listComment = null, editable = false)
-                    ft.replace(R.id.fragment_book, fragment)
-                    ft.commit()
+                    GlobalScope.launch {
+                        val listcommentGet: ArrayList<Comment> = findListComment(id)
+                        val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                        val fragment: Fragment = BookFragment.newInstance(
+                            book = comicGet,
+                            recommendList = null,
+                            listComment = listcommentGet,
+                            editable = false
+                        )
+                        ft.replace(R.id.fragment_book, fragment)
+                        ft.commit()
+                    }
                 } else {
                     finish()
                 }
@@ -67,4 +82,36 @@ class BookDetailActivity : AppCompatActivity() {
             onBackPressed()
         }
     }
+
+    private suspend fun findListComment(idBook: String?): ArrayList<Comment> {
+        var tempListComment = ArrayList<Comment>()
+        try {
+            Log.i("te", idBook.toString())
+            FirebaseFirestore.getInstance().collection("comments")
+                .whereEqualTo("BookID", idBook.toString())
+                .get()
+                .await()
+                .documents
+                .forEach {
+                    val tempTimestamp = it.data!!["CreateAt"] as Timestamp
+                    val tempDate = tempTimestamp.toDate()
+                    tempListComment.add(
+                    Comment(
+                        it.data!!["AccountID"] as String,
+                        it.data!!["BookID"] as String,
+                        it.data!!["Content"] as String,
+                        tempDate
+                    ))
+                }
+        }
+        catch (e: Throwable)
+        {
+            Log.i("Error", e.message.toString())
+        }
+        if (!tempListComment.isEmpty())
+            tempListComment.sortByDescending { it.CreatedAt }
+        return tempListComment
+    }
+
+
 }

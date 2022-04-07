@@ -361,10 +361,6 @@ class BookFragment : Fragment() {
 //                "recommendedList"
 //            ) as ArrayList<Book>
 //
-//            listComment = requireArguments().getSerializable(
-//                "listComment"
-//            ) as ArrayList<Comment>
-
             comicNameET.setText(detailComic.name)
             comicAuthorET.setText(detailComic.author)
 
@@ -390,7 +386,9 @@ class BookFragment : Fragment() {
 //            val fragment: Fragment = ListComicFragment.newInstance(recommendAdapter, -1)
 //            ft.replace(R.id.recommendFragmentContainer, fragment)
 //            ft.commit()
-
+            listComment = requireArguments().getSerializable(
+                "listComment"
+            ) as ArrayList<Comment>
             val bookViewPage2 = view.findViewById<ViewPager2>(R.id.bookViewPage2)
             var bookVPAdapter = BookPageView2Adapter(
                 activity as AppCompatActivity, 2,
@@ -498,6 +496,8 @@ class BookFragment : Fragment() {
                     if (i === detailComic.listChapter!!.size - 1) {
                         Log.i("Upload success", "lastone")
                         UpdateInfoList()
+                        pdfListURIToCreate.clear()
+                        listChapterToCreate.clear()
                         alertDialog.dismiss()
                         requireActivity().finish()
 
@@ -519,6 +519,9 @@ class BookFragment : Fragment() {
                     if (i === detailComic.listChapter!!.size - 1) {
                         Log.i("error1", "lastone")
                         UpdateInfoList()
+                        listChapterToEdit.clear()
+                        pdfListUriToEdit.clear()
+                        pdfListUrlToDel.clear()
                         alertDialog.dismiss()
                         requireActivity().finish()
                     }
@@ -526,6 +529,9 @@ class BookFragment : Fragment() {
                     if (i === detailComic.listChapter!!.size - 1) {
                         Log.i("error2", "lastone")
                         UpdateInfoList()
+                        listChapterToEdit.clear()
+                        pdfListUriToEdit.clear()
+                        pdfListUrlToDel.clear()
                         alertDialog.dismiss()
                         requireActivity().finish()
                     }

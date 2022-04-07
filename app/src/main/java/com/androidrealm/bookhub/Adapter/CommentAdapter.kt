@@ -40,7 +40,7 @@ class CommentAdapter (private var listComments : List<Comment>
         val commentorTV = holder.commentorTV
         commentorTV.setText(comment.AccountID)
         val dateCommentTV = holder.dateCommentTV
-        dateCommentTV.setText(comment.CreatedAt)
+        dateCommentTV.setText(comment.CreatedAt.toString())
         val contentTV = holder.contentTV
         contentTV.setText(comment.Content)
 
