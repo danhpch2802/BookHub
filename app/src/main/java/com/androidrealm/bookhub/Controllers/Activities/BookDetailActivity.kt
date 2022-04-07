@@ -98,6 +98,7 @@ class BookDetailActivity : AppCompatActivity() {
                     tempListComment.add(
                     Comment(
                         it.data!!["AccountID"] as String,
+                        it.data!!["AccountName"] as String,
                         it.data!!["BookID"] as String,
                         it.data!!["Content"] as String,
                         tempDate

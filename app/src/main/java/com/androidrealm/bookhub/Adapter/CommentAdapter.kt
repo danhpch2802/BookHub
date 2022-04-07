@@ -38,7 +38,7 @@ class CommentAdapter (private var listComments : List<Comment>
         val comment: Comment = listComments.get(position)
 // Set item views based on your views and data model
         val commentorTV = holder.commentorTV
-        commentorTV.setText(comment.AccountID)
+        commentorTV.setText(comment.AccountName)
         val dateCommentTV = holder.dateCommentTV
         dateCommentTV.setText(comment.CreatedAt.toString())
         val contentTV = holder.contentTV
