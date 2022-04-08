@@ -25,6 +25,7 @@ class ProfileActivity : AppCompatActivity() {
 
 
     var uid:String = ""
+
     var TotalBadge:Int? = 0
     var Point:Number? = 0
     var Name:String? = ""
@@ -34,9 +35,11 @@ class ProfileActivity : AppCompatActivity() {
     var badge: TextView? = null
     var badgeTV: TextView? = null
     var point: TextView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
+
 
         uid = FirebaseAuth.getInstance().currentUser!!.uid
 
@@ -95,12 +98,14 @@ class ProfileActivity : AppCompatActivity() {
                     val intent = Intent(this,  HomePageActivity::class.java)
                     intent.putExtra("uid", uid)
                     startActivity(intent)
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
                     return@setOnNavigationItemSelectedListener true
                 }
                 menuItem.itemId == R.id.manage_book_item -> {
                     val intent = Intent(this,  RequestActivity::class.java)
                     intent.putExtra("uid", uid)
                     startActivity(intent)
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     return@setOnNavigationItemSelectedListener true
                 }
                 menuItem.itemId == R.id.profile_item -> {

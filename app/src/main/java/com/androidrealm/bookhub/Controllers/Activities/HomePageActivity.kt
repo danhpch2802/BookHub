@@ -17,6 +17,7 @@ import com.androidrealm.bookhub.Controllers.Fragments.ProfileFragment
 import com.androidrealm.bookhub.Controllers.Fragments.RequestFragment
 import com.androidrealm.bookhub.Models.Chapter
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.android.synthetic.main.activity_homepage.*
@@ -31,12 +32,12 @@ class HomePageActivity : AppCompatActivity(),Serializable {
     //var uid:String = ""
 
     // Comment this if  starting the proj from login
-val uid:String = "ERQnHq5YlmL78h2wDBQX"
+var uid:String = "ERQnHq5YlmL78h2wDBQX"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_homepage)
-
+        uid = FirebaseAuth.getInstance().currentUser!!.uid
         // Uncomment the line below if start from login
         //uid = intent.getStringExtra("uid").toString()
     }
@@ -49,12 +50,14 @@ val uid:String = "ERQnHq5YlmL78h2wDBQX"
                     val intent = Intent(this,  ProfileActivity::class.java)
                     intent.putExtra("uid", uid)
                     startActivity(intent)
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     return@setOnNavigationItemSelectedListener true
                 }
                 menuItem.itemId == R.id.manage_book_item -> {
                     val intent = Intent(this,  RequestActivity::class.java)
                     intent.putExtra("uid", uid)
                     startActivity(intent)
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     return@setOnNavigationItemSelectedListener true
                 }
                 else -> false
