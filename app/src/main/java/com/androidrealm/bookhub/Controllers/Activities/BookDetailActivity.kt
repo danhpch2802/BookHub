@@ -6,13 +6,11 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.androidrealm.bookhub.Controllers.Fragments.BookFragment
 import com.androidrealm.bookhub.Models.Book
-import com.androidrealm.bookhub.Models.Chapter
 import com.androidrealm.bookhub.Models.Comment
 import com.androidrealm.bookhub.R
 import com.google.android.material.appbar.MaterialToolbar
@@ -22,7 +20,6 @@ import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -37,6 +34,8 @@ class BookDetailActivity : AppCompatActivity() {
         val intent = intent
         val id = intent.getStringExtra("id")
 
+        Log.i("Id", id.toString())
+
         var fireStore = FirebaseFirestore.getInstance()
 
         val docRef = fireStore.collection("comics").document(id.toString())
@@ -47,6 +46,7 @@ class BookDetailActivity : AppCompatActivity() {
                     findViewById<TextView>(R.id.detail_book_barTV).setText(comicGet!!.name)
                     GlobalScope.launch {
                         val listcommentGet: ArrayList<Comment> = findListComment(id)
+
                         val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
                         val fragment: Fragment = BookFragment.newInstance(
                             book = comicGet,
@@ -83,34 +83,35 @@ class BookDetailActivity : AppCompatActivity() {
         }
     }
 
+
     private suspend fun findListComment(idBook: String?): ArrayList<Comment> {
         var tempListComment = ArrayList<Comment>()
+        Log.i("123", idBook.toString())
         try {
-            Log.i("te", idBook.toString())
             FirebaseFirestore.getInstance().collection("comments")
-                .whereEqualTo("BookID", idBook.toString())
+                .whereEqualTo("bookID", idBook.toString())
                 .get()
                 .await()
                 .documents
                 .forEach {
-                    val tempTimestamp = it.data!!["CreateAt"] as Timestamp
+                    val tempTimestamp = it.data!!["createdAt"] as Timestamp
                     val tempDate = tempTimestamp.toDate()
                     tempListComment.add(
                     Comment(
-                        it.data!!["AccountID"] as String,
-                        it.data!!["AccountName"] as String,
-                        it.data!!["BookID"] as String,
-                        it.data!!["Content"] as String,
+                        it.data!!["accountID"] as String,
+                        it.data!!["accountName"] as String,
+                        it.data!!["bookID"] as String,
+                        it.data!!["content"] as String,
                         tempDate
                     ))
                 }
         }
         catch (e: Throwable)
         {
-            Log.i("Error", e.message.toString())
+            Log.i("Error 1234", e.message.toString())
         }
         if (!tempListComment.isEmpty())
-            tempListComment.sortByDescending { it.CreatedAt }
+            tempListComment.sortByDescending { it.createdAt }
         return tempListComment
     }
 

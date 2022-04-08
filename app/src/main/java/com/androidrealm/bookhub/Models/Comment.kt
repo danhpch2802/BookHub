@@ -4,9 +4,9 @@ import java.io.Serializable
 import java.util.*
 
 class Comment(
-    var AccountID:String?= "",
-    var AccountName:String?= "",
-    var BookID:String?= "",
-    var Content:String?="",
-    var CreatedAt:Date?=null
+    var accountID:String?= "",
+    var accountName:String?= "",
+    var bookID:String?= "",
+    var content:String?="",
+    var createdAt:Date?=null
 ) : Serializable

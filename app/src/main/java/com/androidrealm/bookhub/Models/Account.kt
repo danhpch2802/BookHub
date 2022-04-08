@@ -1,16 +1,17 @@
 package com.androidrealm.bookhub.Models
 
 import com.google.firebase.firestore.DocumentId
+import java.io.Serializable
 
 class Account(
     //@DocumentId
-    var Avatar:String?=null,
-    var Email:String?=null,
-    var Badge:ArrayList<String>,
-    var History:ArrayList<String>,
-    var FavoriteList:ArrayList<String>,
+    var Avatar:String?= "",
+    var Email:String?= "",
+    var Badge:ArrayList<String> = ArrayList<String>(),
+    var History:ArrayList<String> = ArrayList<String>(),
+    var FavoriteList:ArrayList<String> = ArrayList<String>(),
     var Point:Int?=1,
-    var password:String?= null,
-    var username:String?=null,
+    var password:String?=  "",
+    var username:String?= "",
     var bookmark:Map<String, String>?=null
-)
+) : Serializable

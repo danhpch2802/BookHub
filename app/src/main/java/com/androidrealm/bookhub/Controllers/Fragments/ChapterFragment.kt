@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.androidrealm.bookhub.Adapter.ChapterAdapter
+import com.androidrealm.bookhub.Models.Account
 import com.androidrealm.bookhub.Models.Chapter
 import com.androidrealm.bookhub.R
 

@@ -9,10 +9,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:orientation="horizontal"
             android:layout_height="match_parent">
@@ -32,17 +29,15 @@
                 android:textAlignment="viewStart"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textSize="14dp" />
+
 
             <TextView
                 android:id="@+id/dateCommentTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="1dp"
                 android:layout_marginEnd="2dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:ellipsize="end"
@@ -52,17 +47,15 @@
                 android:textAlignment="viewStart"
                 android:textAllCaps="false"
                 android:textColor="#60000000"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/commentorTV" />
+                android:textSize="11dp"
+                android:layout_below="@+id/commentorTV"/>
 
             <TextView
                 android:id="@+id/contentTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginEnd="2dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:ellipsize="end"
@@ -72,11 +65,10 @@
                 android:textAlignment="viewStart"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dateCommentTV" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
+                android:textSize="18dp"
+                android:layout_below="@+id/dateCommentTV"/>
+
+
+        </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

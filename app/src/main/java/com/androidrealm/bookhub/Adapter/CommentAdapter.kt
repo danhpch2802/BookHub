@@ -5,10 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.androidrealm.bookhub.Models.Chapter
 import com.androidrealm.bookhub.Models.Comment
 import com.androidrealm.bookhub.R
 import java.io.Serializable
+import java.text.SimpleDateFormat
 
 class CommentAdapter (private var listComments : List<Comment>
 ):
@@ -38,14 +38,17 @@ class CommentAdapter (private var listComments : List<Comment>
         val comment: Comment = listComments.get(position)
 // Set item views based on your views and data model
         val commentorTV = holder.commentorTV
-        commentorTV.setText(comment.AccountName)
+        commentorTV.setText(comment.accountName)
         val dateCommentTV = holder.dateCommentTV
-        dateCommentTV.setText(comment.CreatedAt.toString())
+
+        val dateFormat = SimpleDateFormat("dd-MM-yyyy")
+
+
+        dateCommentTV.setText(dateFormat.format(comment.createdAt).toString())
         val contentTV = holder.contentTV
-        contentTV.setText(comment.Content)
+        contentTV.setText(comment.content)
 
     }
-
 
 
 }

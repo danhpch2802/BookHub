@@ -24,6 +24,7 @@ import com.androidrealm.bookhub.Controllers.Fragments.CreateNewChapterFragment.C
 import com.androidrealm.bookhub.Controllers.Fragments.UpdateChapterFragment.Companion.listChapterToEdit
 import com.androidrealm.bookhub.Controllers.Fragments.UpdateChapterFragment.Companion.pdfListUriToEdit
 import com.androidrealm.bookhub.Controllers.Fragments.UpdateChapterFragment.Companion.pdfListUrlToDel
+import com.androidrealm.bookhub.Models.Account
 import com.androidrealm.bookhub.Models.Book
 import com.androidrealm.bookhub.Models.Comment
 import com.androidrealm.bookhub.R
@@ -31,8 +32,10 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import dmax.dialog.SpotsDialog
@@ -61,6 +64,9 @@ class BookFragment : Fragment() {
     private var bookId : String? = null
 
     private var fireStore : FirebaseFirestore? = null
+
+    private var userInfo : Account? = Account()
+
 
     companion object {
 
@@ -192,6 +198,7 @@ class BookFragment : Fragment() {
                     .add(detailComic)
                     .addOnSuccessListener { docRef ->
                         bookId = docRef.id
+                        detailComic.id = docRef.id
                         GlobalScope.launch {
                             try {
                                 startUploadingImage()
@@ -379,6 +386,13 @@ class BookFragment : Fragment() {
         val editable = requireArguments().getSerializable(
             "editable"
         ) as Boolean
+
+        detailComic = requireArguments().getSerializable(
+            "comic"
+        ) as Book
+
+        bookId = detailComic.id
+
         //no create && no edit
         if(!createNew && !editable) {
 //            var recommendAdapter = ComicAdapter(recommendList!!)
@@ -389,27 +403,42 @@ class BookFragment : Fragment() {
             listComment = requireArguments().getSerializable(
                 "listComment"
             ) as ArrayList<Comment>
-            val bookViewPage2 = view.findViewById<ViewPager2>(R.id.bookViewPage2)
-            var bookVPAdapter = BookPageView2Adapter(
-                activity as AppCompatActivity, 2,
-                detailComic.listChapter!!, listComment!!, createNew, editable
-            )
-            Log.d("chapter",detailComic.listChapter.toString())
-            bookViewPage2.adapter = bookVPAdapter
-            var tabIcon = arrayListOf(R.drawable.book_icon, R.drawable.profile_icon)
-            val tabLayout: TabLayout = view.findViewById<TabLayout>(R.id.bookTab)
-            TabLayoutMediator(tabLayout, bookViewPage2) { tab, position ->
-                tab.text = bookVPAdapter.getPageTitle(position)
-                tab.icon = resources.getDrawable(tabIcon[position])
-                bookViewPage2.setCurrentItem(tab.position, true)
-            }.attach()
+
+            val currentUserAuth = FirebaseAuth.getInstance().currentUser
+
+            val accountRef =FirebaseFirestore.getInstance().collection("accounts")
+                .document(currentUserAuth!!.uid)
+                .get()
+                .addOnSuccessListener { document ->
+                    userInfo!!.username = document.data!!["username"] as String
+
+
+                    val bookViewPage2 = view.findViewById<ViewPager2>(R.id.bookViewPage2)
+                    var bookVPAdapter = BookPageView2Adapter(
+                        activity as AppCompatActivity, 2,
+                        detailComic.listChapter!!, listComment!!, userInfo!!, bookId, createNew, editable
+                    )
+                    Log.d("chapter",detailComic.listChapter.toString())
+                    bookViewPage2.adapter = bookVPAdapter
+                    var tabIcon = arrayListOf(R.drawable.book_icon, R.drawable.profile_icon)
+                    val tabLayout: TabLayout = view.findViewById<TabLayout>(R.id.bookTab)
+                    TabLayoutMediator(tabLayout, bookViewPage2) { tab, position ->
+                        tab.text = bookVPAdapter.getPageTitle(position)
+                        tab.icon = resources.getDrawable(tabIcon[position])
+                        bookViewPage2.setCurrentItem(tab.position, true)
+                    }.attach()
+
+                }
+                .addOnFailureListener {exception ->
+                    Log.d("Error", "get failed with ", exception)
+                }
         }
         //create && no edit
         else if (createNew && !editable){
             val bookViewPage2 = view.findViewById<ViewPager2>(R.id.bookViewPage2)
             var bookVPAdapter = BookPageView2Adapter(
                 activity as AppCompatActivity, 2,
-                emptyList(), emptyList(), createNew, editable
+                emptyList(), emptyList(), null, bookId, createNew, editable
             )
             bookViewPage2.adapter = bookVPAdapter
         }
@@ -419,7 +448,7 @@ class BookFragment : Fragment() {
             val bookViewPage2 = view.findViewById<ViewPager2>(R.id.bookViewPage2)
             var bookVPAdapter = BookPageView2Adapter(
                 activity as AppCompatActivity, 2,
-                detailComic.listChapter!!, emptyList()!!, createNew, editable
+                detailComic.listChapter!!, emptyList()!!, null, bookId, createNew, editable
             )
             bookViewPage2.adapter = bookVPAdapter
         }
