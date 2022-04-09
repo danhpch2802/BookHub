@@ -1,8 +1,10 @@
 package com.androidrealm.bookhub.Controllers.Activities
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.Window
 import android.view.WindowManager
 import android.widget.EditText
@@ -22,6 +24,7 @@ class SignupActivity : AppCompatActivity() {
     var passwordEt: EditText? = null
     var cpasswordEt: EditText? = null
     var emailEt: EditText? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,7 +76,8 @@ class SignupActivity : AppCompatActivity() {
                                 .document(currentUserId)
                             val account: MutableMap<String, Any> = HashMap()
                             account["Avatar"] = ""
-                            account["Badge"] = arrayListOf("Beginner")
+                            account["Badge"] = arrayListOf("s1")
+                            account["BadgeUnown"] = arrayListOf("s2","s3","s4","b1")
                             account["Email"] = email
                             account["FavoriteList"] = arrayListOf("")
                             account["History"] = arrayListOf("")
@@ -115,5 +119,21 @@ class SignupActivity : AppCompatActivity() {
                     }
             }
         }
+    }
+
+    fun getPrize (badge: ArrayList<String>): ArrayList<String> {
+        var cnt = 0
+        val db = FirebaseFirestore.getInstance()
+        db.collection("prizes").get().addOnSuccessListener { result ->
+            for (document in result) {
+                badge[cnt] = document.id
+                cnt++
+            }
+        }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "Error getting documents: ", exception)
+            }
+        print(badge)
+        return badge
     }
 }

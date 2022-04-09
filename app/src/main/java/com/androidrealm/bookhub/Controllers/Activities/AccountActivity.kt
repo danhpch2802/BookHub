@@ -19,6 +19,11 @@ class AccountActivity : AppCompatActivity() {
         badge.add("Top5")//Adding object in arraylist.
         badge.add("Bookaholic")
 
+
+        val badgeUnown = ArrayList<String>()//Creating an empty arraylist.
+        badge.add("s2")//Adding object in arraylist.
+        badge.add("s3")
+
         val his = ArrayList<String>()//Creating an empty arraylist.
         his.add("OP")//Adding object in arraylist.
         his.add("Nar")
@@ -29,8 +34,8 @@ class AccountActivity : AppCompatActivity() {
         fav.add("Nar")
 
         val lists = ArrayList<Account>()
-        lists.add(Account("sacd","", badge, his,fav,1,"sdf","danh"))
-        lists.add(Account("Long","", badge, his,fav,1,"sdf","danh"))
+        lists.add(Account("sacd","", badge, badgeUnown, his,fav,1,"sdf","danh"))
+        lists.add(Account("Long","", badge, badgeUnown, his,fav,1,"sdf","danh"))
 
         if (savedInstanceState == null) {
             val ft: FragmentTransaction = supportFragmentManager.beginTransaction()

@@ -53,6 +53,5 @@ class ComicAdapter (private var listOfBook : List<Book>
         val comicIV = holder.comicIV
         Picasso.get().load(book.imagePath).into(comicIV);
 
-
     }
 }

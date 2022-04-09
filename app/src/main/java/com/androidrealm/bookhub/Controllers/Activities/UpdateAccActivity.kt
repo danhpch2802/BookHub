@@ -7,6 +7,7 @@ import android.os.Handler
 import android.util.Log
 import android.widget.*
 import com.androidrealm.bookhub.R
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_homepage.*
 
@@ -24,16 +25,16 @@ class UpdateAccActivity : AppCompatActivity() {
     var badge: TextView? = null
     var badgeTV: TextView? = null
     var point: TextView? = null
-    var email: EditText? = null
-    var saveBtn: Button? = null
+    var email: TextView? = null
+    var saveBtn: TextView? = null
     var ReBtn: ImageView? = null
+    var passBtn: TextView? = null
+    lateinit var auth : FirebaseAuth
 
-    var pass: EditText? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_update_acc)
-
-        uid = intent.getStringExtra("uid").toString()
+        uid = FirebaseAuth.getInstance().currentUser!!.uid
 
         AvaBtn = findViewById(R.id.updateAccAvatar)
         saveBtn = findViewById(R.id.updateButton)
@@ -42,12 +43,10 @@ class UpdateAccActivity : AppCompatActivity() {
         point = findViewById(R.id.point_prize)
         badgeTV = findViewById(R.id.badgeChosen)
         email = findViewById(R.id.emailAcc)
-        pass = findViewById(R.id.passAcc)
+        passBtn = findViewById(R.id.changePass)
         getAcc()
         AvaBtn!!.setImageResource(R.drawable.amagami_cover)
-
         ReBtn = findViewById(R.id.returnProfile)
-
 
         AvaBtn!!.setOnClickListener{
             Toast.makeText(this@UpdateAccActivity, "Edit Successfully!", Toast.LENGTH_SHORT).show()
@@ -55,33 +54,31 @@ class UpdateAccActivity : AppCompatActivity() {
 
         ReBtn!!.setOnClickListener{
             val intent = Intent(this,  ProfileActivity::class.java)
-            intent.putExtra("uid", uid)
             startActivity(intent)
         }
-        saveBtn!!.setOnClickListener{
-            Toast.makeText(this@UpdateAccActivity, "Edit Successfully!", Toast.LENGTH_SHORT).show()
-            val name = username!!.text.toString().trim()
-            val pass = pass!!.text.toString().trim()
 
+        passBtn!!.setOnClickListener{
+            val intent = Intent(this,  ForgotPasswordActivity::class.java)
+            startActivity(intent)
+        }
+
+        saveBtn!!.setOnClickListener{
+            val name = username!!.text.toString().trim()
             val email = email!!.text.toString().trim()
 
-            if(pass.isEmpty()){
-                Toast.makeText(this, "Please enter a password", Toast.LENGTH_SHORT).show()
-            }
-            if(email.isEmpty()){
-                Toast.makeText(this, "Please enter an email", Toast.LENGTH_SHORT).show()
-            }
             if(name.isEmpty()){
-                Toast.makeText(this, "Please enter your username", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@UpdateAccActivity, "Please enter your username", Toast.LENGTH_SHORT).show()
             }
             else
             {
+                Toast.makeText(this@UpdateAccActivity, "Edit Successfully!", Toast.LENGTH_SHORT).show()
                 setAcc(name, email)
                 Handler().postDelayed({
                 val intent = Intent(this,  ProfileActivity::class.java)
                 intent.putExtra("uid", uid)
                 startActivity(intent)
                 }, 700)
+
             }
         }
     }
@@ -93,7 +90,6 @@ class UpdateAccActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Document found in the offline cache
                     Name = task.result["username"] as String?
-                    Email = task.result["email"] as String?
                     var cnt = 0
                     for (document in task.result["Badge"] as ArrayList<*>) {
                         cnt++
@@ -107,11 +103,13 @@ class UpdateAccActivity : AppCompatActivity() {
 
                 }
                 else {onError(task.exception)}
+
+                Email = FirebaseAuth.getInstance().currentUser!!.email
                 username!!.setHint(Name)
                 badge!!.setText(TotalBadge.toString())
                 point!!.setText(Point.toString())
                 badgeTV!!.setText(Badge)
-                email!!.setHint(Email)
+                email!!.setText(Email)
 
             }
     }

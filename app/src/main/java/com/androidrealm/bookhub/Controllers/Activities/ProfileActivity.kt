@@ -23,7 +23,6 @@ class ProfileActivity : AppCompatActivity() {
     var ReBtn: ImageView? = null
     var SignoutBtn: ImageButton? = null
 
-
     var uid:String = ""
 
     var TotalBadge:Int? = 0
@@ -55,7 +54,7 @@ class ProfileActivity : AppCompatActivity() {
         AvaBtn = findViewById(R.id.avatarpf_img)
         SignoutBtn = findViewById(R.id.signout_btn_pf)
 
-        ReBtn = findViewById(R.id.returnHomepage)
+        //ReBtn = findViewById(R.id.returnHomepage)
 
         getAcc()
         AvaBtn!!.setImageResource(R.drawable.amagami_cover)
@@ -73,7 +72,6 @@ class ProfileActivity : AppCompatActivity() {
 
         ProfileBtn!!.setOnClickListener{
             val intent = Intent(this,  UpdateAccActivity::class.java)
-            intent.putExtra("uid", uid)
             startActivity(intent)
         }
 
@@ -84,26 +82,17 @@ class ProfileActivity : AppCompatActivity() {
             finish()
         }
 
-        ReBtn!!.setOnClickListener{
-            val intent = Intent(this,  HomePageActivity::class.java)
-            intent.putExtra("uid", uid)
-            startActivity(intent)
-        }
-
         bottom_navigation.menu.findItem(R.id.profile_item).isChecked = true
-
         bottom_navigation.setOnNavigationItemSelectedListener { menuItem ->
             when {
                 menuItem.itemId == R.id.home_item -> {
                     val intent = Intent(this,  HomePageActivity::class.java)
-                    intent.putExtra("uid", uid)
                     startActivity(intent)
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
                     return@setOnNavigationItemSelectedListener true
                 }
                 menuItem.itemId == R.id.manage_book_item -> {
                     val intent = Intent(this,  RequestActivity::class.java)
-                    intent.putExtra("uid", uid)
                     startActivity(intent)
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     return@setOnNavigationItemSelectedListener true
@@ -115,6 +104,7 @@ class ProfileActivity : AppCompatActivity() {
             }
         }
     }
+
     fun getAcc () {
         val db = FirebaseFirestore.getInstance()
         db.collection("accounts").document(uid)
@@ -132,7 +122,6 @@ class ProfileActivity : AppCompatActivity() {
                     }
                     TotalBadge = cnt
                     Point =  task.result["Point"] as Number?
-
                 }
                 else {onError(task.exception)}
                 username!!.setText(Name)
@@ -141,13 +130,9 @@ class ProfileActivity : AppCompatActivity() {
                 badgeTV!!.setText(Badge)
             }
     }
-
-
     fun onError(e: Exception?) {
         if (e != null) {
             Log.d("RewardError", "onError: " + e.message)
         }
     }
-
-
 }

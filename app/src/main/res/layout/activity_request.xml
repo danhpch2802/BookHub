@@ -7,40 +7,35 @@
     >
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
+        android:id="@+id/appBarLayoutRequest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
         android:fitsSystemWindows="true"
+        app:layout_constraintTop_toTopOf="parent"
         app:liftOnScroll="true">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/topAppbar"
+            android:id="@+id/topAppbarRequest"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:menu="@menu/top_app_favorite">
+            app:menu="@menu/top_app_bar">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
                 android:text="@string/request"
-                android:textSize="20dp"
-                android:textStyle="bold"></TextView>
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-            <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_gravity="left"
-                android:src="@drawable/ic_back" />
         </com.google.android.material.appbar.MaterialToolbar>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="10dp"
             android:textSize="20dp"
-            android:textStyle="bold"></TextView>
+            android:textStyle="bold"/>
 
         <EditText
             android:id="@+id/rqbook"

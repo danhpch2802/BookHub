@@ -44,6 +44,8 @@ var uid:String = "ERQnHq5YlmL78h2wDBQX"
 
     override fun onResume() {
         super.onResume()
+
+        //bottom_navigation.menu.findItem(R.id.home_item).isChecked = true
         findViewById<BottomNavigationView>(R.id.bottom_navigation).setOnNavigationItemSelectedListener { menuItem ->
             when {
                 menuItem.itemId == R.id.profile_item -> {

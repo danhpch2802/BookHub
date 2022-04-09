@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BookHub">
         <activity
+            android:name=".Controllers.Activities.ForgotPasswordActivity"
+            android:exported="false" />
+        <activity
             android:name=".Controllers.Activities.AdminProfileActivity"
             android:exported="false" />
         <activity
@@ -32,7 +35,7 @@
             android:exported="false" />
         <activity
             android:name=".Controllers.Activities.BookCreateActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".Controllers.Activities.RequestListActivity"
             android:exported="false" />
@@ -44,8 +47,7 @@
             android:exported="false" />
         <activity
             android:name=".Controllers.Activities.LoginActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".Controllers.Activities.WelcomeActivity"
             android:exported="true">
@@ -54,14 +56,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity> <!-- <activity -->
+        <!-- android:name=".Controllers.Activities.WelcomeActivity" -->
+        <!-- android:exported="true"/> -->
         <activity
-<<<<<<< Updated upstream
-=======
-            android:name=".Controllers.Activities.WelcomeActivity"
-            android:exported="true"></activity>
-        <activity
->>>>>>> Stashed changes
             android:name=".Controllers.Activities.BookmarkListActivity"
             android:exported="false" />
         <activity
@@ -80,11 +78,11 @@
         <activity android:name=".Controllers.Activities.BookUpdateActivity" />
         <activity
             android:name=".Controllers.Activities.PrizeActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity android:name=".Controllers.Activities.ManageBookActivity" />
         <activity
             android:name=".Controllers.Activities.BookDetailActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
     </application>
 
 </manifest>

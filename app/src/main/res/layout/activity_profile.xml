@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
     tools:context=".Controllers.Activities.UpdateAccActivity">
 
@@ -21,22 +22,15 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:menu="@menu/top_app_favorite">
+            app:menu="@menu/top_app_bar">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
                 android:text="@string/profile"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_gravity="left"
-                android:id="@+id/returnHomepage"
-                android:src="@drawable/ic_back" />
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -59,12 +53,12 @@
             app:cardCornerRadius="250dp">
 
             <ImageView
-
                 android:id="@+id/avatarpf_img"
                 android:layout_width="125dp"
                 android:layout_height="125dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/doll_cover" />
+                android:src="@drawable/doll_cover"
+                tools:ignore="ImageContrastCheck" />
         </androidx.cardview.widget.CardView>
     </androidx.cardview.widget.CardView>
 
@@ -75,10 +69,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="Username"
-        android:textStyle="bold"
         android:textAlignment="center"
         android:textColor="@color/darkred"
         android:textSize="35sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/avatarpf"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
@@ -88,11 +82,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
+        android:background="#45CFCFE3"
         android:text="Title"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="21sp"
-        android:background="#45CFCFE3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
