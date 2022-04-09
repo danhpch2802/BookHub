@@ -73,12 +73,7 @@ class UpdateAccActivity : AppCompatActivity() {
             {
                 Toast.makeText(this@UpdateAccActivity, "Edit Successfully!", Toast.LENGTH_SHORT).show()
                 setAcc(name, email)
-                Handler().postDelayed({
-                val intent = Intent(this,  ProfileActivity::class.java)
-                intent.putExtra("uid", uid)
-                startActivity(intent)
-                }, 700)
-
+                finish()
             }
         }
     }

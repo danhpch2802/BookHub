@@ -23,6 +23,8 @@ class LoginActivity : AppCompatActivity() {
     var isRemembered = false
 
     var loginBtn: TextView? = null
+
+    var forPasBtn: TextView? = null
     var registerBtn: TextView? = null
     var emailEt: EditText? = null
     var passwordEt: EditText? = null
@@ -35,6 +37,8 @@ class LoginActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_login)
         loginBtn = findViewById(R.id.loginBtn)
+
+        forPasBtn = findViewById(R.id.forgotPasswordBtn)
         registerBtn = findViewById(R.id.registerBtn1)
         emailEt = findViewById(R.id.emailETLogin)
         passwordEt = findViewById(R.id.passwordETLogin)
@@ -85,6 +89,13 @@ class LoginActivity : AppCompatActivity() {
 
         registerBtn!!.setOnClickListener{
             val intent = Intent(this@LoginActivity, SignupActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+            finish()
+        }
+
+        forPasBtn!!.setOnClickListener{
+            val intent = Intent(this@LoginActivity, ForgotPasswordMainActivity::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             finish()

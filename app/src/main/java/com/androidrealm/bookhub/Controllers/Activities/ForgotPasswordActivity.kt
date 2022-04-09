@@ -54,9 +54,8 @@ class ForgotPasswordActivity : AppCompatActivity() {
                         }
                     }
                 Handler().postDelayed({
-                val intent = Intent(this,  UpdateAccActivity::class.java)
-                startActivity(intent)
-                }, 1000)
+                    finish()
+                }, 700)
             }
         }
     }

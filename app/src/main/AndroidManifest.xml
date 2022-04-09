@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BookHub">
         <activity
+            android:name=".Controllers.Activities.ForgotPasswordMainActivity"
+            android:exported="false" />
+        <activity
             android:name=".Controllers.Activities.ForgotPasswordActivity"
             android:exported="false" />
         <activity
@@ -47,7 +50,7 @@
             android:exported="false" />
         <activity
             android:name=".Controllers.Activities.LoginActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".Controllers.Activities.WelcomeActivity"
             android:exported="true">
