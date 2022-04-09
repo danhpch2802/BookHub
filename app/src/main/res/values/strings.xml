@@ -26,9 +26,10 @@
     <string name="delete">Delete</string>
     <string name="upload_chapter">Upload chapter</string>
     <string name="save">Save</string>
-    <string name="rememberme">Remember Me</string>
+    <string name="remember_me">Remember Me</string>
     <string name="login">Login</string>
-    <string name="forgotpass">FORGOT PASSWORD?</string>
+    <string name="loading">Loading…</string>
+    <string name="forgot_pass">FORGOT PASSWORD?</string>
     <string name="register">Register</string>
     <string name="confirm">Confirm</string>
     <string name="prize">Prize</string>

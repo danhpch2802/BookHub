@@ -1,6 +1,8 @@
 package com.androidrealm.bookhub.Controllers.Activities
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +16,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_homepage.*
 
 class ProfileActivity : AppCompatActivity() {
+    lateinit var preferences: SharedPreferences
     var PrizeBtn: ImageButton? = null
     var HistoryBtn: ImageButton? = null
     var FavBtn: ImageButton? = null
@@ -39,7 +42,7 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-
+        preferences = getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE)
         uid = FirebaseAuth.getInstance().currentUser!!.uid
 
         PrizeBtn = findViewById(R.id.prize_btn_pf)
@@ -75,8 +78,11 @@ class ProfileActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        //Log out
         SignoutBtn!!.setOnClickListener{
-            //Log out
+            val editor: SharedPreferences.Editor = preferences.edit()
+            editor.clear()
+            editor.apply()
             FirebaseAuth.getInstance().signOut()
             startActivity(Intent(this, LoginActivity::class.java))
             finish()

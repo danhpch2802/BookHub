@@ -1,6 +1,8 @@
 package com.androidrealm.bookhub.Controllers.Activities
 
 import android.content.ContentValues.TAG
+import android.app.ProgressDialog
+
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -11,6 +13,8 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.HandlerCompat.postDelayed
+import at.favre.lib.crypto.bcrypt.BCrypt
 import com.androidrealm.bookhub.R
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
@@ -24,6 +28,7 @@ class SignupActivity : AppCompatActivity() {
     var passwordEt: EditText? = null
     var cpasswordEt: EditText? = null
     var emailEt: EditText? = null
+    var progressDialog: ProgressDialog? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +52,8 @@ class SignupActivity : AppCompatActivity() {
             val email = emailEt!!.text.toString().trim()
             val cpass = cpasswordEt!!.text.toString().trim()
 
+            val passHash = BCrypt.withDefaults().hashToString(12, pass.toCharArray())
+
             //Validate
             if (name.isEmpty()){
                 Toast.makeText(this, "Please enter a username", Toast.LENGTH_SHORT).show()
@@ -61,6 +68,13 @@ class SignupActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please enter an email", Toast.LENGTH_SHORT).show()
             }
             else{
+                // Initialize Progress Dialog
+                progressDialog = ProgressDialog(this)
+                progressDialog!!.show()
+                progressDialog!!.setContentView(R.layout.progress_dialog)
+                progressDialog!!.window!!.setBackgroundDrawableResource(
+                    android.R.color.transparent
+                )
                 // Create instance and register a user with email and password
                 FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, pass)
                     .addOnCompleteListener { task ->
@@ -89,13 +103,12 @@ class SignupActivity : AppCompatActivity() {
                                 "Notes" to "",
                                 "PageNumber" to 0
                             )
-                            account["password"] = pass
+                            account["password"] = passHash
                             account["username"] = name
 
                             documentRef.set(account)
 
                             // Return to Login Page
-                            Handler().postDelayed({
                                 val intentToLoginActivity =
                                     Intent(this@SignupActivity, LoginActivity::class.java)
                                 intentToLoginActivity.flags =
@@ -103,13 +116,15 @@ class SignupActivity : AppCompatActivity() {
                                 intentToLoginActivity.putExtra("username", name)
                                 startActivity(intentToLoginActivity)
                                 overridePendingTransition(
-                                    R.anim.slide_in_right,
-                                    R.anim.slide_out_left
+                                    R.anim.slide_in_left,
+                                    R.anim.slide_out_right
                                 )
                                 finish()
-                            }, 1000)
+
+
                         } else {
                             // If register failed
+                                progressDialog!!.dismiss()
                             Toast.makeText(
                                 this,
                                 task.exception!!.message.toString(),
@@ -135,5 +150,16 @@ class SignupActivity : AppCompatActivity() {
             }
         print(badge)
         return badge
+    }
+
+    override fun onBackPressed() {
+        val intentToLoginActivity =
+            Intent(this@SignupActivity, LoginActivity::class.java)
+        startActivity(intentToLoginActivity)
+        overridePendingTransition(
+            R.anim.slide_in_left,
+            R.anim.slide_out_right
+        )
+        finish()
     }
 }

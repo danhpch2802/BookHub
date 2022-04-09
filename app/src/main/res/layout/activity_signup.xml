@@ -34,7 +34,7 @@
             android:layout_marginRight="62dp"
             android:text="@string/register"
             android:textStyle="bold"
-            android:textSize="27dp"
+            android:textSize="27sp"
             android:layout_gravity="center_horizontal">
 
         </TextView>
@@ -52,11 +52,11 @@
                 android:id="@+id/usernameETRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/username_icon2"
+                android:layout_toEndOf="@id/username_icon2"
                 android:background="@android:color/transparent"
                 android:hint="Username"
                 android:maxLines="1"
-                android:paddingLeft="13dp"
+                android:paddingStart="13dp"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
                 android:textCursorDrawable="@drawable/cursor_color"
@@ -86,13 +86,13 @@
                 android:id="@+id/passwordETRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/password_icon2"
+                android:layout_toEndOf="@+id/password_icon2"
                 android:background="@android:color/transparent"
                 android:hint="Password"
                 android:inputType="textPassword"
                 android:maxLength="10"
                 android:maxLines="1"
-                android:paddingLeft="17dp"
+                android:paddingStart="17dp"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
                 android:textCursorDrawable="@drawable/cursor_color"
@@ -104,7 +104,7 @@
                 android:layout_width="15dp"
                 android:layout_height="11dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="17dp"
+                android:layout_marginStart="17dp"
                 android:src="@drawable/password" />
         </RelativeLayout>
 
@@ -121,13 +121,13 @@
                 android:id="@+id/confirmPasswordET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/password_icon3"
+                android:layout_toEndOf="@+id/password_icon3"
                 android:background="@android:color/transparent"
                 android:hint="Confirm Password"
                 android:inputType="textPassword"
                 android:maxLength="10"
                 android:maxLines="1"
-                android:paddingLeft="17dp"
+                android:paddingStart="17dp"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
                 android:textCursorDrawable="@drawable/cursor_color"
@@ -139,7 +139,7 @@
                 android:layout_width="15dp"
                 android:layout_height="11dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="17dp"/>
+                android:layout_marginStart="17dp"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -155,12 +155,12 @@
                 android:id="@+id/emailETRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/email_icon"
+                android:layout_toEndOf="@+id/email_icon"
                 android:background="@android:color/transparent"
                 android:hint="Email"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
-                android:paddingLeft="17dp"
+                android:paddingStart="17dp"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
                 android:textCursorDrawable="@drawable/cursor_color"
@@ -172,7 +172,7 @@
                 android:layout_width="15dp"
                 android:layout_height="11dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="17dp"
+                android:layout_marginStart="17dp"
                 android:src="@drawable/email" />
         </RelativeLayout>
 
@@ -192,7 +192,8 @@
             android:text="@string/confirm"
             android:textColor="@color/black"
             android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:focusable="true" />
 
     </LinearLayout>
 

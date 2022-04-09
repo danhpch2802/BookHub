@@ -135,7 +135,7 @@
             android:layout_marginTop="12dp"
             android:clickable="true"
             android:focusable="true"
-            android:text="@string/forgotpass"
+            android:text="@string/forgot_pass"
             android:textColor="#1566e0"
             android:textSize="11sp" />
 
@@ -146,7 +146,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="25dp"
             android:textColor="#303030"
-            android:text="@string/rememberme"
+            android:text="@string/remember_me"
             android:textSize="13.3sp"/>
 
         <TextView
