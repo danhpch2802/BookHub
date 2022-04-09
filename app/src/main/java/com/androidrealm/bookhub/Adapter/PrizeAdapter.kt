@@ -5,15 +5,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.androidrealm.bookhub.Models.Book
 import com.androidrealm.bookhub.Models.Prize
 import com.androidrealm.bookhub.R
 import java.io.Serializable
 
 class PrizeAdapter (private var listPrizes : List<Prize>
 ): RecyclerView.Adapter<PrizeAdapter.ViewHolder>(), Serializable {
+    var onItemClick: ((Prize) -> Unit)? = null
     inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
         val prizeNameTV = listItemView.findViewById(R.id.prizeNameTV) as TextView
-
+        init {
+            listItemView.setOnClickListener {
+                onItemClick?.invoke(
+                    listPrizes[adapterPosition]
+                )
+            }
+        }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
             PrizeAdapter.ViewHolder {

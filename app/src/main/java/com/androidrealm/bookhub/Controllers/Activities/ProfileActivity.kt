@@ -62,7 +62,8 @@ class ProfileActivity : AppCompatActivity() {
         getAcc()
         AvaBtn!!.setImageResource(R.drawable.amagami_cover)
         PrizeBtn!!.setOnClickListener{
-            Toast.makeText(this@ProfileActivity, "Submit Successfully!", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this,  PrizeActivity::class.java)
+            startActivity(intent)
         }
 
         HistoryBtn!!.setOnClickListener{
@@ -116,7 +117,6 @@ class ProfileActivity : AppCompatActivity() {
         db.collection("accounts").document(uid)
             .get().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    // Document found in the offline cache
                     Name = task.result["username"] as String?
                     var cnt = 0
                     for (document in task.result["Badge"] as ArrayList<*>) {

@@ -57,7 +57,6 @@ var uid:String = "ERQnHq5YlmL78h2wDBQX"
                 }
                 menuItem.itemId == R.id.manage_book_item -> {
                     val intent = Intent(this,  RequestActivity::class.java)
-                    intent.putExtra("uid", uid)
                     startActivity(intent)
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     return@setOnNavigationItemSelectedListener true

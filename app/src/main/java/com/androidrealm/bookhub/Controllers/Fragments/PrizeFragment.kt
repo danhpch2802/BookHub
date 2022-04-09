@@ -28,10 +28,8 @@ class PrizeFragment(listPrize: Any?) : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
         var view=inflater.inflate(R.layout.fragment_prize_list, container, false)
         prizeRW=view.findViewById(R.id.prizeRW)
-
         // set the custom adapter to the RecyclerView
 
         var listPrize=requireArguments().getSerializable(

@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentTransaction
 import com.androidrealm.bookhub.R
 import com.androidrealm.bookhub.Models.Request
 import com.androidrealm.bookhub.Controllers.Fragments.RequestFragment
-import com.androidrealm.bookhub.Controllers.Fragments.RequestFragment2
 
 
 class RequestListActivity : AppCompatActivity() {
@@ -25,7 +24,7 @@ class RequestListActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-            val fragment: Fragment = RequestFragment2.newInstance(lists)
+            val fragment: Fragment = RequestFragment.newInstance(lists)
             ft.replace(R.id.fragment_rqlist_view, fragment)
             ft.commit()
         }

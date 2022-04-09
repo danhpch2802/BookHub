@@ -15,29 +15,13 @@ import com.androidrealm.bookhub.Controllers.Activities.RequestActivity
 import com.androidrealm.bookhub.Models.Request
 import com.androidrealm.bookhub.R
 
-class RequestFragment : Fragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val intent = Intent (this@RequestFragment.context, RequestActivity::class.java)
-        startActivity(intent)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.activity_request, container, false)
-    }
-}
-
-class RequestFragment2 (listRequest: Any?) : Fragment() {
+class RequestFragment (listRequest: Any?) : Fragment() {
     private lateinit var requestRW:RecyclerView
     companion object {
         fun newInstance
-                    (listRequest: ArrayList<Request>): RequestFragment2
+                    (listRequest: ArrayList<Request>): RequestFragment
         {
-            val fragment= RequestFragment2(listRequest)
+            val fragment= RequestFragment(listRequest)
             val bundle = Bundle()
             bundle.putSerializable("listRequest", listRequest)
             fragment.setArguments(bundle)

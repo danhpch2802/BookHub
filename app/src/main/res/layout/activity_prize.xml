@@ -33,6 +33,7 @@
                 android:textStyle="bold" />
 
             <ImageView
+                android:id="@+id/prizeReturn"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_gravity="left"
@@ -66,7 +67,7 @@
     <ImageButton
         android:id="@+id/hugeGBoxButton"
         android:layout_width="331dp"
-        android:layout_height="107dp"
+        android:layout_height="114dp"
         android:src="@drawable/giftcard_orange"
         android:layout_marginTop="200dp"
         app:layout_constraintTop_toTopOf="@+id/rectangle"
@@ -75,21 +76,29 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="SpeakableTextPresentCheck" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/gotoPrizeList"
-        android:layout_width="322dp"
-        android:layout_height="58dp"
-        android:layout_marginBottom="50dp"
+    <TextView
+        android:id="@+id/gettoPrizeList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="36dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="70dp"
+        android:background="@drawable/orange_fill__rounded_color"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
         android:text="My Prize"
-        android:textColor="@color/white"
-        android:background="@color/app_purple"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        />
-    <!--        android:layout_marginStart="35dp"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
+        app:layout_constraintStart_toStartOf="parent" />
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/avatarAccPrize"
@@ -148,7 +157,7 @@
         android:textSize="16sp"
         android:textStyle="bold"
         android:layout_marginStart="45dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="27dp"
         app:layout_constraintStart_toStartOf="@+id/rectangle"
         app:layout_constraintTop_toTopOf="@+id/rectangle"/>
 

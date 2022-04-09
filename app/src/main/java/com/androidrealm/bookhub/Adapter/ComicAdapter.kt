@@ -12,10 +12,8 @@ import java.io.Serializable
 
 
 class ComicAdapter (private var listOfBook : List<Book>
-                     ):
-    RecyclerView.Adapter<ComicAdapter.ViewHolder>(), Serializable {
+): RecyclerView.Adapter<ComicAdapter.ViewHolder>(), Serializable {
     var onItemClick: ((Book) -> Unit)? = null
-
     inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
         val comicNameTV = listItemView.findViewById(R.id.comicNameTV) as TextView
         val comicIV = listItemView.findViewById(R.id.comicIV) as ImageView
@@ -24,13 +22,11 @@ class ComicAdapter (private var listOfBook : List<Book>
                 onItemClick?.invoke(
                     listOfBook[adapterPosition]
                 )
-
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
-
             ComicAdapter.ViewHolder {
         val context = parent.context
         val inflater = LayoutInflater.from(context)

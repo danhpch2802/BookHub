@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.androidrealm.bookhub.ComicAdapter
 import com.androidrealm.bookhub.R
 
-
 class ListComicFragment : Fragment() {
     private lateinit var listComicsRW:RecyclerView
     companion object {
