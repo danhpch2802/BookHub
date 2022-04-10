@@ -1,8 +1,10 @@
 package com.androidrealm.bookhub.Controllers.Activities
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.nfc.Tag
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -28,10 +30,12 @@ class ProfileActivity : AppCompatActivity() {
 
     var uid:String = ""
 
+    var Badge2 = "2"
     var TotalBadge:Int? = 0
     var Point:Number? = 0
     var Name:String? = ""
     var Badge:String? = ""
+
 
     var username: TextView? = null
     var badge: TextView? = null
@@ -60,6 +64,8 @@ class ProfileActivity : AppCompatActivity() {
         //ReBtn = findViewById(R.id.returnHomepage)
 
         getAcc()
+
+        //Log.d(TAG, Badge2)
         AvaBtn!!.setImageResource(R.drawable.amagami_cover)
         PrizeBtn!!.setOnClickListener{
             val intent = Intent(this,  PrizeActivity::class.java)
@@ -119,11 +125,11 @@ class ProfileActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     Name = task.result["username"] as String?
                     var cnt = 0
-                    for (document in task.result["Badge"] as ArrayList<*>) {
+                    for (document in task.result["BadgeOwn"] as ArrayList<*>) {
                         cnt++
                     }
                     for (document in task.result["Badge"] as ArrayList<*>) {
-                        Badge = document as String
+                        Badge2 = document as String
                         break
                     }
                     TotalBadge = cnt
@@ -133,9 +139,20 @@ class ProfileActivity : AppCompatActivity() {
                 username!!.setText(Name)
                 badge!!.setText(TotalBadge.toString())
                 point!!.setText(Point.toString())
-                badgeTV!!.setText(Badge)
+                val db2 = FirebaseFirestore.getInstance()
+                db2.collection("prizes").document(Badge2).get().addOnCompleteListener { task2 ->
+                    if (task2.isSuccessful) {
+                        Badge = task2.result["prizeName"] as String
+                    }
+                    else {
+                        onError(task2.exception)
+                    }
+                    badgeTV!!.setText(Badge)
+                }
             }
+
     }
+
     fun onError(e: Exception?) {
         if (e != null) {
             Log.d("RewardError", "onError: " + e.message)

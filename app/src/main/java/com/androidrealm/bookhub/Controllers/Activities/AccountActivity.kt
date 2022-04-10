@@ -34,8 +34,8 @@ class AccountActivity : AppCompatActivity() {
         fav.add("Nar")
 
         val lists = ArrayList<Account>()
-        lists.add(Account("sacd","", badge, badgeUnown, his,fav,1,"sdf","danh"))
-        lists.add(Account("Long","", badge, badgeUnown, his,fav,1,"sdf","danh"))
+        lists.add(Account("sacd","", badge, badgeUnown,badgeUnown, his,fav,1,"sdf","danh"))
+        lists.add(Account("Long","", badge, badgeUnown,badgeUnown, his,fav,1,"sdf","danh"))
 
         if (savedInstanceState == null) {
             val ft: FragmentTransaction = supportFragmentManager.beginTransaction()

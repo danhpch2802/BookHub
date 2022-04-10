@@ -5,7 +5,6 @@ import android.app.ProgressDialog
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.Window
 import android.view.WindowManager
@@ -13,11 +12,8 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.HandlerCompat.postDelayed
 import at.favre.lib.crypto.bcrypt.BCrypt
 import com.androidrealm.bookhub.R
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
@@ -29,7 +25,6 @@ class SignupActivity : AppCompatActivity() {
     var cpasswordEt: EditText? = null
     var emailEt: EditText? = null
     var progressDialog: ProgressDialog? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +47,18 @@ class SignupActivity : AppCompatActivity() {
             val email = emailEt!!.text.toString().trim()
             val cpass = cpasswordEt!!.text.toString().trim()
 
+            val badgee = arrayListOf<String>()
+            val db = FirebaseFirestore.getInstance()
+            db.collection("prizes").get().addOnSuccessListener { result ->
+                for (document in result) {
+                    badgee.add(document.id)
+                    if (badgee.last() == "s1")
+                        badgee.removeLast()
+                }
+            }
+                .addOnFailureListener { exception ->
+                    Log.d(TAG, "Error getting documents: ", exception)
+                }
             val passHash = BCrypt.withDefaults().hashToString(12, pass.toCharArray())
 
             //Validate
@@ -91,7 +98,8 @@ class SignupActivity : AppCompatActivity() {
                             val account: MutableMap<String, Any> = HashMap()
                             account["Avatar"] = ""
                             account["Badge"] = arrayListOf("s1")
-                            account["BadgeUnown"] = arrayListOf("s2","s3","s4","b1")
+                            account["BadgeUnown"] = badgee
+                            account["BadgeOwn"] = arrayListOf("s1")
                             account["Email"] = email
                             account["FavoriteList"] = arrayListOf("")
                             account["History"] = arrayListOf("")
@@ -136,21 +144,8 @@ class SignupActivity : AppCompatActivity() {
         }
     }
 
-    fun getPrize (badge: ArrayList<String>): ArrayList<String> {
-        var cnt = 0
-        val db = FirebaseFirestore.getInstance()
-        db.collection("prizes").get().addOnSuccessListener { result ->
-            for (document in result) {
-                badge[cnt] = document.id
-                cnt++
-            }
-        }
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "Error getting documents: ", exception)
-            }
-        print(badge)
-        return badge
-    }
+
+
 
     override fun onBackPressed() {
         val intentToLoginActivity =

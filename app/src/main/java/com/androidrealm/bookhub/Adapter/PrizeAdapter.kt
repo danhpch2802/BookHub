@@ -13,7 +13,8 @@ import java.io.Serializable
 class PrizeAdapter (private var listPrizes : List<Prize>
 ): RecyclerView.Adapter<PrizeAdapter.ViewHolder>(), Serializable {
     var onItemClick: ((Prize) -> Unit)? = null
-    inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
+
+    inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView), Serializable {
         val prizeNameTV = listItemView.findViewById(R.id.prizeNameTV) as TextView
         init {
             listItemView.setOnClickListener {

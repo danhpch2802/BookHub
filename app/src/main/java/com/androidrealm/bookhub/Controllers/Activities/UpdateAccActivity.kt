@@ -20,6 +20,7 @@ class UpdateAccActivity : AppCompatActivity() {
     var Badge:String? = ""
     var Email:String? = ""
 
+    var Badge2 = "2"
     var AvaBtn: ImageView? = null
     var username: EditText? = null
     var badge: TextView? = null
@@ -90,7 +91,7 @@ class UpdateAccActivity : AppCompatActivity() {
                         cnt++
                     }
                     for (document in task.result["Badge"] as ArrayList<*>) {
-                        Badge = document as String
+                        Badge2 = document as String
                         break
                     }
                     TotalBadge = cnt
@@ -105,6 +106,16 @@ class UpdateAccActivity : AppCompatActivity() {
                 point!!.setText(Point.toString())
                 badgeTV!!.setText(Badge)
                 email!!.setText(Email)
+                val db2 = FirebaseFirestore.getInstance()
+                db2.collection("prizes").document(Badge2).get().addOnCompleteListener { task2 ->
+                    if (task2.isSuccessful) {
+                        Badge = task2.result["prizeName"] as String
+                    }
+                    else {
+                        onError(task2.exception)
+                    }
+                    badgeTV!!.setText(Badge)
+                }
 
             }
     }

@@ -9,6 +9,7 @@ class Account(
     var Email:String?= "",
     var Badge:ArrayList<String> = ArrayList<String>(),
     var BadgeUnown:ArrayList<String> = ArrayList<String>(),
+    var BadgeOwn:ArrayList<String> = ArrayList<String>(),
     var History:ArrayList<String> = ArrayList<String>(),
     var FavoriteList:ArrayList<String> = ArrayList<String>(),
     var Point:Int?=1,
