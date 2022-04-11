@@ -1,6 +1,7 @@
 package com.androidrealm.bookhub.Controllers.Fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +15,6 @@ import com.androidrealm.bookhub.Models.Chapter
 import com.androidrealm.bookhub.R
 
 class ChapterFragment(listChapter: Any?) : Fragment() {
-    private lateinit var chapterRW:RecyclerView
     companion object {
         fun newInstance
                     (listChapter: ArrayList<Chapter>): ChapterFragment
@@ -33,7 +33,15 @@ class ChapterFragment(listChapter: Any?) : Fragment() {
         // Inflate the layout for this fragment
 
         var view=inflater.inflate(R.layout.fragment_chapter, container, false)
-        chapterRW=view.findViewById(R.id.chapterRW)
+
+        return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireView().requestLayout()
+
+        val chapterRW = requireView().findViewById<RecyclerView>(R.id.chapterRW)
 
         // set the custom adapter to the RecyclerView
 
@@ -52,12 +60,9 @@ class ChapterFragment(listChapter: Any?) : Fragment() {
         chapterRW.adapter=adapter
 
         chapterRW.layoutManager = LinearLayoutManager(activity)
+        adapter.onRowsChapterClick = { chapterClick ->
+            Log.i("Testing", chapterClick.links.toString())
+        }
 
-        return view
-    }
-
-    override fun onResume() {
-        super.onResume()
-        requireView().requestLayout()
     }
 }

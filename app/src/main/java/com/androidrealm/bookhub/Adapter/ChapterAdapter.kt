@@ -10,12 +10,17 @@ import com.androidrealm.bookhub.R
 import java.io.Serializable
 
 class ChapterAdapter (private var listChapters : ArrayList<Chapter>
-):
-    RecyclerView.Adapter<ChapterAdapter.ViewHolder>(), Serializable {
+): RecyclerView.Adapter<ChapterAdapter.ViewHolder>() {
 
+    var onRowsChapterClick : ((Chapter) -> Unit)? = null
     inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
         val chapterNameTV = listItemView.findViewById(R.id.chapterNameTV) as TextView
 
+        init {
+            chapterNameTV.setOnClickListener {
+                onRowsChapterClick?.invoke(listChapters[adapterPosition])
+            }
+        }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
 
