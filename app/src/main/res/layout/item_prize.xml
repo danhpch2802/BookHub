@@ -17,13 +17,15 @@
             <TextView
                 android:id="@+id/prizeNameTV"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:background="?android:attr/selectableItemBackground"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+
+                android:layout_marginRight="10dp"
+                android:background="@color/gray"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textAlignment="viewStart"
+                android:gravity="center"
                 android:textAllCaps="false"
                 android:textColor="#60000000"
                 android:textSize="20sp" />
