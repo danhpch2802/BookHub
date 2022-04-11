@@ -49,73 +49,145 @@
 
             </TextView>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="62dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginRight="62dp"
-                android:background="@drawable/black_border_rounded_cornwe">
-
-                <!--INPUT-->
+                android:orientation="vertical"
+                android:layout_marginTop="40dp">
                 <TextView
-                    android:id="@+id/userID_tv"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/username_icon"
-                    android:background="@android:color/transparent"
-                    android:maxLines="1"
-                    android:paddingStart="10dp"
-                    android:paddingTop="15dp"
-                    android:paddingEnd="5dp"
-                    android:paddingBottom="15dp"
-                    android:textCursorDrawable="@drawable/cursor_color"
-                    android:textSize="12sp" />
+                    android:text="@string/user_id"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="65dp"
+                    android:layout_marginBottom="10dp"/>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="62dp"
+                    android:layout_marginRight="62dp"
+                    android:background="@drawable/black_border_rounded_cornwe">
 
-                <!--ICON-->
-                <ImageView
-                    android:id="@+id/username_icon"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="17dp"
-                    android:src="@drawable/username_icon" />
+                    <!--INPUT-->
+                    <TextView
+                        android:id="@+id/userID_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/username_icon"
+                        android:background="@android:color/transparent"
+                        android:maxLines="1"
+                        android:paddingStart="10dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="5dp"
+                        android:paddingBottom="15dp"
+                        android:textCursorDrawable="@drawable/cursor_color"
+                        android:textSize="12sp" />
 
-            </RelativeLayout>
+                    <!--ICON-->
+                    <ImageView
+                        android:id="@+id/username_icon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="17dp"
+                        android:src="@drawable/username_icon" />
 
-            <RelativeLayout
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="62dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginRight="62dp"
-                android:background="@drawable/black_border_rounded_cornwe">
-
-                <!--INPUT-->
+                android:orientation="vertical"
+                android:layout_marginTop="25dp">
                 <TextView
-                    android:id="@+id/requestTitle_tv"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/title_icon"
-                    android:background="@android:color/transparent"
-                    android:maxLines="1"
-                    android:paddingStart="10dp"
-                    android:paddingTop="15dp"
-                    android:paddingEnd="5dp"
-                    android:paddingBottom="15dp"
-                    android:textCursorDrawable="@drawable/cursor_color"
-                    android:textSize="12sp" />
+                    android:text="@string/request_title"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="65dp"
+                    android:layout_marginBottom="10dp"/>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="62dp"
+                    android:layout_marginRight="62dp"
+                    android:background="@drawable/black_border_rounded_cornwe">
 
-                <!--ICON-->
-                <ImageView
-                    android:id="@+id/title_icon"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="17dp"
-                    android:src="@drawable/title" />
+                    <!--INPUT-->
+                    <TextView
+                        android:id="@+id/requestTitle_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/title_icon"
+                        android:background="@android:color/transparent"
+                        android:maxLines="1"
+                        android:paddingStart="10dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="5dp"
+                        android:paddingBottom="15dp"
+                        android:textCursorDrawable="@drawable/cursor_color"
+                        android:textSize="12sp" />
 
-            </RelativeLayout>
+                    <!--ICON-->
+                    <ImageView
+                        android:id="@+id/title_icon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="17dp"
+                        android:src="@drawable/title" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="25dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/request_description"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="65dp"
+                    android:layout_marginBottom="10dp"/>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="62dp"
+                    android:layout_marginRight="62dp"
+                    android:background="@drawable/black_border_rounded_cornwe">
+
+                    <!--INPUT-->
+                    <TextView
+                        android:id="@+id/requestDetail_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_toEndOf="@+id/detail_icon"
+                        android:background="@android:color/transparent"
+                        android:maxLines="5"
+                        android:paddingStart="12dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="5dp"
+                        android:paddingBottom="15dp"
+                        android:textCursorDrawable="@drawable/cursor_color"
+                        android:textSize="12sp" />
+
+                    <!--ICON-->
+                    <ImageView
+                        android:id="@+id/detail_icon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="17dp"
+                        android:src="@drawable/interview" />
+                </RelativeLayout>
+            </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -125,38 +197,7 @@
                 android:layout_marginRight="62dp"
                 android:background="@drawable/black_border_rounded_cornwe"/>
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="62dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="62dp"
-                android:background="@drawable/black_border_rounded_cornwe">
 
-                <!--INPUT-->
-                <TextView
-                    android:id="@+id/requestDetail_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_toEndOf="@+id/detail_icon"
-                    android:background="@android:color/transparent"
-                    android:maxLines="5"
-                    android:paddingStart="12dp"
-                    android:paddingTop="15dp"
-                    android:paddingEnd="5dp"
-                    android:paddingBottom="15dp"
-                    android:textCursorDrawable="@drawable/cursor_color"
-                    android:textSize="12sp" />
-
-                <!--ICON-->
-                <ImageView
-                    android:id="@+id/detail_icon"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="17dp"
-                    android:src="@drawable/interview" />
-            </RelativeLayout>
 
             <CheckBox
                 android:id="@+id/checkbox_request"
@@ -173,7 +214,7 @@
                 android:layout_marginLeft="62dp"
                 android:layout_marginTop="19dp"
                 android:layout_marginRight="62dp"
-                android:background="@drawable/black_fill__rounded_color"
+                android:background="@drawable/orange_fill__rounded_color"
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center"
@@ -181,7 +222,7 @@
                 android:paddingTop="14dp"
                 android:paddingBottom="14dp"
                 android:text="@string/done"
-                android:textColor="#ffffff"
+                android:textColor="@color/black"
                 android:textSize="12sp"
                 android:textStyle="bold" />
         </LinearLayout>
