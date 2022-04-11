@@ -10,11 +10,12 @@ import com.androidrealm.bookhub.Controllers.Fragments.CommentFragment
 import com.androidrealm.bookhub.Controllers.Fragments.CreateNewChapterFragment
 import com.androidrealm.bookhub.Controllers.Fragments.UpdateChapterFragment
 import com.androidrealm.bookhub.Models.Account
+import com.androidrealm.bookhub.Models.Book
 
 
 class BookPageView2Adapter (activity: AppCompatActivity, val itemsCount: Int, val listChapters:List<Chapter>
-                            ,val listComments:List<Comment>, val userInfo : Account?, val bookId: String?
-                            , val createNew : Boolean, val editable : Boolean) :
+                            , val listComments:List<Comment>, val userInfo : Account?, val bookId: String?
+                            , val createNew : Boolean, val editable : Boolean, val detailComic: Book?=null) :
     FragmentStateAdapter(activity) {
 
 
@@ -27,7 +28,7 @@ class BookPageView2Adapter (activity: AppCompatActivity, val itemsCount: Int, va
         if (!createNew && !editable)
         {
             when(position) {
-                0 -> return ChapterFragment.newInstance(listChapters as ArrayList<Chapter>)
+                0 -> return ChapterFragment.newInstance(listChapters as ArrayList<Chapter>,detailComic as Book)
                 else->return CommentFragment.newInstance(listComments as ArrayList<Comment>, userInfo as Account, bookId as String)
             }
         }

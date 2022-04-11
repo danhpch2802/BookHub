@@ -1,5 +1,6 @@
 package com.androidrealm.bookhub.Adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,17 +8,18 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.androidrealm.bookhub.Models.Chapter
 import com.androidrealm.bookhub.R
-import java.io.Serializable
 
 class ChapterAdapter (private var listChapters : ArrayList<Chapter>
 ): RecyclerView.Adapter<ChapterAdapter.ViewHolder>() {
 
+    var pos:Int?=null
     var onRowsChapterClick : ((Chapter) -> Unit)? = null
     inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
         val chapterNameTV = listItemView.findViewById(R.id.chapterNameTV) as TextView
 
         init {
             chapterNameTV.setOnClickListener {
+                pos=adapterPosition
                 onRowsChapterClick?.invoke(listChapters[adapterPosition])
             }
         }

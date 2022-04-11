@@ -1,5 +1,6 @@
 package com.androidrealm.bookhub.Controllers.Fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,17 +11,19 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.androidrealm.bookhub.Adapter.ChapterAdapter
-import com.androidrealm.bookhub.Models.Account
+import com.androidrealm.bookhub.Controllers.Activities.BookReadActivity
+import com.androidrealm.bookhub.Models.Book
 import com.androidrealm.bookhub.Models.Chapter
 import com.androidrealm.bookhub.R
 
-class ChapterFragment(listChapter: Any?) : Fragment() {
+class ChapterFragment(listChapter: Any?, detailBook: Book) : Fragment() {
     companion object {
         fun newInstance
-                    (listChapter: ArrayList<Chapter>): ChapterFragment
+                    (listChapter: ArrayList<Chapter>,detailBook: Book): ChapterFragment
         {
-            val fragment= ChapterFragment(listChapter)
+            val fragment= ChapterFragment(listChapter,detailBook)
             val bundle = Bundle()
+            bundle.putSerializable("detailBook", detailBook)
             bundle.putSerializable("listChapter", listChapter)
             fragment.setArguments(bundle)
             return fragment
@@ -49,6 +52,9 @@ class ChapterFragment(listChapter: Any?) : Fragment() {
             "listChapter"
         ) as ArrayList<Chapter>
 
+        var detailBook=requireArguments().getSerializable(
+            "detailBook"
+        ) as Book
         chapterRW.addItemDecoration(
             DividerItemDecoration(
                 chapterRW.getContext(),
@@ -61,7 +67,11 @@ class ChapterFragment(listChapter: Any?) : Fragment() {
 
         chapterRW.layoutManager = LinearLayoutManager(activity)
         adapter.onRowsChapterClick = { chapterClick ->
-            Log.i("Testing", chapterClick.links.toString())
+
+            val intent= Intent(requireActivity(), BookReadActivity::class.java)
+            intent.putExtra("ChapterPos",adapter.pos)
+            intent.putExtra("id",detailBook.id)
+            startActivity(intent)
         }
 
     }

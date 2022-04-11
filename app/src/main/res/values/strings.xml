@@ -50,6 +50,10 @@
     <string name="my_prize">My Prize</string>
     <string name="change_password">Change Password</string>
     <string name="request_form">Request Form</string>
+    <string name="chapterName">Chapter name</string>
+    <string name="pagenumber">"Page "</string>
+    <string name="PageNumber">Page</string>
+    <string name="next_chapter">Next Chapter</string>
     >>>>>>> Stashed changes
 
     <string-array name="category_names">

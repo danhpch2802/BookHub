@@ -416,7 +416,7 @@ class BookFragment : Fragment() {
                     val bookViewPage2 = view.findViewById<ViewPager2>(R.id.bookViewPage2)
                     var bookVPAdapter = BookPageView2Adapter(
                         activity as AppCompatActivity, 2,
-                        detailComic.listChapter!!, listComment!!, userInfo!!, bookId, createNew, editable
+                        detailComic.listChapter!!, listComment!!, userInfo!!, bookId, createNew, editable,detailComic
                     )
                     Log.d("chapter",detailComic.listChapter.toString())
                     bookViewPage2.adapter = bookVPAdapter
@@ -438,7 +438,7 @@ class BookFragment : Fragment() {
             val bookViewPage2 = view.findViewById<ViewPager2>(R.id.bookViewPage2)
             var bookVPAdapter = BookPageView2Adapter(
                 activity as AppCompatActivity, 2,
-                emptyList(), emptyList(), null, bookId, createNew, editable
+                emptyList(), emptyList(), null, bookId, createNew, editable,null
             )
             bookViewPage2.adapter = bookVPAdapter
         }
@@ -448,7 +448,7 @@ class BookFragment : Fragment() {
             val bookViewPage2 = view.findViewById<ViewPager2>(R.id.bookViewPage2)
             var bookVPAdapter = BookPageView2Adapter(
                 activity as AppCompatActivity, 2,
-                detailComic.listChapter!!, emptyList()!!, null, bookId, createNew, editable
+                detailComic.listChapter!!,emptyList()!!, null, bookId, createNew, editable,null
             )
             bookViewPage2.adapter = bookVPAdapter
         }
