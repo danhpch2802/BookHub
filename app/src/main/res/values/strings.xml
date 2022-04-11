@@ -49,6 +49,7 @@
     <string name="enter_your_account_email_for_verification">Enter your account email for verification</string>
     <string name="my_prize">My Prize</string>
     <string name="change_password">Change Password</string>
+    <string name="request_form">Request Form</string>
     >>>>>>> Stashed changes
 
     <string-array name="category_names">

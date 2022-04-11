@@ -88,7 +88,6 @@ class SignupActivity : AppCompatActivity() {
                         // If register successful
                         if (task.isSuccessful) {
                             // Firebase Register
-                            val firebaseUser: FirebaseUser = task.result!!.user!!
                             Toast.makeText(this, "Register Successful!", Toast.LENGTH_SHORT).show()
 
                             // Save to Firestore
@@ -156,5 +155,15 @@ class SignupActivity : AppCompatActivity() {
             R.anim.slide_out_right
         )
         finish()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        progressDialog!!.dismiss()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        progressDialog!!.dismiss()
     }
 }

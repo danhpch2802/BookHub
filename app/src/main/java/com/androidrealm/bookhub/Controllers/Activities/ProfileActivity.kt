@@ -34,7 +34,7 @@ class ProfileActivity : AppCompatActivity() {
     var TotalBadge:Int? = 0
     var Point:Number? = 0
     var Name:String? = ""
-    var Badge:String? = ""
+    var Badge:String ?= ""
 
 
     var username: TextView? = null
@@ -142,7 +142,7 @@ class ProfileActivity : AppCompatActivity() {
                 val db2 = FirebaseFirestore.getInstance()
                 db2.collection("prizes").document(Badge2).get().addOnCompleteListener { task2 ->
                     if (task2.isSuccessful) {
-                        Badge = task2.result["prizeName"] as String
+                        Badge = task2.result["prizeName"] as? String
                     }
                     else {
                         onError(task2.exception)

@@ -29,19 +29,19 @@
             android:exported="false" />
         <activity
             android:name=".Controllers.Activities.PrizeListActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".Controllers.Activities.UpdateAccActivity"
             android:exported="false" />
         <activity
             android:name=".Controllers.Activities.RequestActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".Controllers.Activities.BookCreateActivity"
             android:exported="false" />
         <activity
             android:name=".Controllers.Activities.RequestListActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".Controllers.Activities.SignupActivity"
             android:exported="false" />

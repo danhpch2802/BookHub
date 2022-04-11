@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.androidrealm.bookhub.Adapter.PrizeAdapter
 import com.androidrealm.bookhub.ComicAdapter
 import com.androidrealm.bookhub.Controllers.Fragments.ListComicFragment
+import com.androidrealm.bookhub.Controllers.Fragments.PrizeFragment
 import com.androidrealm.bookhub.Models.Book
 import com.androidrealm.bookhub.Models.Prize
 import com.androidrealm.bookhub.R

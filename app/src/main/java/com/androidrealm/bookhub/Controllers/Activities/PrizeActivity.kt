@@ -135,7 +135,7 @@ class PrizeActivity : AppCompatActivity() {
                 val db2 = FirebaseFirestore.getInstance()
                 db2.collection("prizes").document(Badge2).get().addOnCompleteListener { task2 ->
                     if (task2.isSuccessful) {
-                        badge = task2.result["prizeName"] as String
+                        badge = task2.result["prizeName"] as? String
                     }
                     else {
                         onError(task2.exception)
