@@ -5,7 +5,7 @@ import com.google.firebase.firestore.DocumentId
 class Request(
     @DocumentId
     var AccountId:String?=null,
-    var requestName:String?=null,
-    var requestDetail:String?=null,
-    var Checked:Int? = 1
+    var bookDetail:String?=null,
+    var bookName:String?=null,
+    var Checked:Boolean? = false
 )

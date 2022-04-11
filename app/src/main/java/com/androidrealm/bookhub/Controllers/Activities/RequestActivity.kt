@@ -12,7 +12,7 @@ class RequestActivity : AppCompatActivity() {
     var submitBtn: TextView? = null
     var request_name: EditText? = null
     var request_detail: EditText? = null
-    lateinit var listComicFrame: FrameLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_request)
@@ -27,16 +27,16 @@ class RequestActivity : AppCompatActivity() {
             val rq_detail = request_detail!!.text.toString().trim()
 
             // Save to Firestore
+            val db = FirebaseFirestore.getInstance()
             val currentUserId = FirebaseAuth.getInstance().currentUser!!.uid
-            val documentRef = FirebaseFirestore.getInstance().collection("requests")
-                .document(currentUserId)
             val request: MutableMap<String, Any> = HashMap()
             request["accountID"] = currentUserId
             request["bookDetail"] = rq_detail
             request["bookName"] = rq_name
             request["checked"] = false
+            db.collection("requests")
+                .add(request)
 
-            documentRef.set(request)
 
             Toast.makeText(this@RequestActivity, "Submit Successfully!", Toast.LENGTH_SHORT).show()
         }
