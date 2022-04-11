@@ -5,6 +5,6 @@ import java.io.Serializable
 
 class Prize(
     var id:String? = null,
-    var prizeName:String?=null,
-    var prizeDescrypt:String?=null
+    var prizeDescrypt:String?=null,
+    var prizeName:String?=null
 ) : Serializable

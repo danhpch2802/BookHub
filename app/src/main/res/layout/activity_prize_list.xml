@@ -37,25 +37,12 @@
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/prize_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-        <!-- Your scrolling content -->
-        <!--gridSpanNum=3-->
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragment_prize_list_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </androidx.core.widget.NestedScrollView>
-
-<!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
-<!--        android:id="@+id/bottom_navigation"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:menu="@menu/bottom_navigation_menu"-->
-<!--        android:layout_gravity="bottom"-->
-<!--        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"/>-->
+    </androidx.recyclerview.widget.RecyclerView>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

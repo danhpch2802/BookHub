@@ -69,12 +69,8 @@ class RequestListActivity : AppCompatActivity() {
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                 finish()
             }
-
         })
-
         getDB()
-
-
     }
 
     private fun getDB() {
@@ -93,7 +89,6 @@ class RequestListActivity : AppCompatActivity() {
                             requestList!!.add(dc.document.toObject(Request::class.java))
                         }
                     }
-
                     myAdapter!!.notifyDataSetChanged()
                 }
 

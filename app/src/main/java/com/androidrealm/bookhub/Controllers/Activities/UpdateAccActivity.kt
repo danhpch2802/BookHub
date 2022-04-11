@@ -1,5 +1,6 @@
 package com.androidrealm.bookhub.Controllers.Activities
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -95,7 +96,7 @@ class UpdateAccActivity : AppCompatActivity() {
                     }
                     TotalBadge = cnt
                     Point =  task.result["Point"] as Number?
-                    Role = task.result["Point"] as Long?
+                    Role = task.result["Role"] as Long?
 
                 }
                 else {onError(task.exception)}
@@ -106,6 +107,7 @@ class UpdateAccActivity : AppCompatActivity() {
                 point!!.setText(Point.toString())
                 badgeTV!!.setText(Badge)
                 email!!.setText(Email)
+                Log.d(TAG, Role.toString())
                 if (Role == 1L) {
                     val db2 = FirebaseFirestore.getInstance()
                     db2.collection("prizes").document(Badge2).get().addOnCompleteListener { task2 ->

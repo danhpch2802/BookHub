@@ -11,7 +11,7 @@ class PrizeDetailActivity : AppCompatActivity() {
     var prizeName:String? = "Unlock the book: The mythology of Bookahholic-chan"
     var prizeDes:String? = "The Bookaholic"
 
-    var id:String? = "b1"
+    var id:String? = "b2"
     var badge: TextView? = null
     var badgeDes: TextView? = null
 
@@ -19,8 +19,8 @@ class PrizeDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_prize_detail)
 
-        //val intent = intent
-        //id = intent.getStringExtra("id")
+        val intent = intent
+        id = intent.getStringExtra("id")
 
         badge = findViewById(R.id.prizeReceived)
         badgeDes = findViewById(R.id.prizeDescryption)
