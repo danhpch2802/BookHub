@@ -52,7 +52,7 @@ class HomePageActivity : AppCompatActivity(),Serializable {
                             role = result.get("Role") as Long
                             //Log.d(TAG,  role.toString())
                             if (role == 1L) {
-                                val intent = Intent(this,  RequestActivity::class.java)
+                                val intent = Intent(this,  ProfileActivity::class.java)
                                 startActivity(intent)
                                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                             }

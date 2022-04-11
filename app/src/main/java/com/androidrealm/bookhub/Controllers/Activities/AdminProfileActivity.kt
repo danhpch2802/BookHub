@@ -57,7 +57,7 @@ class AdminProfileActivity : AppCompatActivity() {
         //Log.d(TAG, Badge2)
         AvaBtn!!.setImageResource(R.drawable.amagami_cover)
         PrizeBtn!!.setOnClickListener{
-            val intent = Intent(this,  PrizeActivity::class.java)
+            val intent = Intent(this,  PrizeListActivity::class.java)
             startActivity(intent)
         }
 
@@ -91,7 +91,7 @@ class AdminProfileActivity : AppCompatActivity() {
                     return@setOnNavigationItemSelectedListener true
                 }
                 menuItem.itemId == R.id.manage_book_item -> {
-                    val intent = Intent(this,  RequestActivity::class.java)
+                    val intent = Intent(this,  RequestListActivity::class.java)
                     startActivity(intent)
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     return@setOnNavigationItemSelectedListener true

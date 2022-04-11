@@ -55,10 +55,7 @@ class UpdateAccActivity : AppCompatActivity() {
             Toast.makeText(this@UpdateAccActivity, "Edit Successfully!", Toast.LENGTH_SHORT).show()
         }
 
-        ReBtn!!.setOnClickListener{
-            val intent = Intent(this,  ProfileActivity::class.java)
-            startActivity(intent)
-        }
+
 
         passBtn!!.setOnClickListener{
             val intent = Intent(this,  ForgotPasswordActivity::class.java)
@@ -118,10 +115,17 @@ class UpdateAccActivity : AppCompatActivity() {
                             onError(task2.exception)
                         }
                         badgeTV!!.setText(Badge)
+                        ReBtn!!.setOnClickListener{
+                            val intent = Intent(this,  ProfileActivity::class.java)
+                            startActivity(intent)
+                        }
                     }
                 }
                 else{
-
+                    ReBtn!!.setOnClickListener{
+                        val intent = Intent(this,  AdminProfileActivity::class.java)
+                        startActivity(intent)
+                    }
                     badgeTV!!.setText("Admin")
                 }
 

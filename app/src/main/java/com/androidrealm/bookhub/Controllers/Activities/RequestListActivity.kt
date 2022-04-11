@@ -2,6 +2,7 @@ package com.androidrealm.bookhub.Controllers.Activities
 
 
 import android.annotation.SuppressLint
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -15,7 +16,10 @@ import com.androidrealm.bookhub.Adapter.RequestAdapter
 import com.androidrealm.bookhub.R
 import com.androidrealm.bookhub.Models.Request
 import com.androidrealm.bookhub.Controllers.Fragments.RequestFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
+import kotlinx.android.synthetic.main.activity_homepage.*
 
 
 class RequestListActivity : AppCompatActivity() {
@@ -34,6 +38,29 @@ class RequestListActivity : AppCompatActivity() {
         requestList = arrayListOf()
         myAdapter = RequestAdapter(requestList!!)
         recyclerView!!.adapter = myAdapter
+
+        bottom_navigation.menu.findItem(R.id.manage_book_item).isChecked = true
+        findViewById<BottomNavigationView>(R.id.bottom_navigation).setOnNavigationItemSelectedListener { menuItem ->
+            when {
+                menuItem.itemId == R.id.home_item -> {
+                    val intent = Intent(this,  HomePageActivity::class.java)
+                    startActivity(intent)
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                menuItem.itemId == R.id.profile_item -> {
+                                val intent = Intent(this,  AdminProfileActivity::class.java)
+                                startActivity(intent)
+                                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                menuItem.itemId == R.id.manage_book_item -> {
+                    return@setOnNavigationItemSelectedListener true
+                }
+                else -> false
+            }
+        }
+
         myAdapter!!.setOnItemClickListener(object : RequestAdapter.onItemClickListener{
             override fun onItemClick(position: Int) {
                 //Toast.makeText(this@RequestListActivity, "You click on item $position", Toast.LENGTH_SHORT).show()
@@ -46,19 +73,6 @@ class RequestListActivity : AppCompatActivity() {
         })
 
         getDB()
-
-//        val lists = ArrayList<Request>()
-//        lists.add(Request("123", "sacd"))
-//        lists.add(Request("123", "sachhaylam"))
-//        lists.add(Request("124", "sachnhul"))
-//        lists.add(Request("125", "sachnhulove"))
-//
-//        if (savedInstanceState == null) {
-//            val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-//            val fragment: Fragment = RequestFragment.newInstance(lists)
-//            ft.replace(R.id.fragment_rqlist_view, fragment)
-//            ft.commit()
-//        }
 
 
     }
