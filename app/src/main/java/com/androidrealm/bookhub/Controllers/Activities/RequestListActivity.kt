@@ -1,6 +1,8 @@
 package com.androidrealm.bookhub.Controllers.Activities
 
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -25,7 +27,6 @@ class RequestListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_request_list)
-
         recyclerView = findViewById(R.id.rq_list)
         recyclerView!!.setHasFixedSize(true)
         recyclerView!!.layoutManager = LinearLayoutManager(this)
@@ -33,6 +34,16 @@ class RequestListActivity : AppCompatActivity() {
         requestList = arrayListOf()
         myAdapter = RequestAdapter(requestList!!)
         recyclerView!!.adapter = myAdapter
+        myAdapter!!.setOnItemClickListener(object : RequestAdapter.onItemClickListener{
+            override fun onItemClick(position: Int) {
+                //Toast.makeText(this@RequestListActivity, "You click on item $position", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this@RequestListActivity, RequestDetailActivity::class.java)
+                startActivity(intent)
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                finish()
+            }
+
+        })
 
         getDB()
 
@@ -56,11 +67,20 @@ class RequestListActivity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
         db!!.collection("requests").orderBy("accountID", Query.Direction.ASCENDING)
             .addSnapshotListener(object : EventListener<QuerySnapshot>{
+                @SuppressLint("NotifyDataSetChanged")
                 override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
                     if (error != null){
+                        Log.e("Firestore Error", error.message.toString())
+                        return
                     }
 
+                    for (dc: DocumentChange in value?.documentChanges!!){
+                        if (dc.type == DocumentChange.Type.ADDED){
+                            requestList!!.add(dc.document.toObject(Request::class.java))
+                        }
+                    }
 
+                    myAdapter!!.notifyDataSetChanged()
                 }
 
             })

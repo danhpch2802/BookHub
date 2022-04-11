@@ -35,7 +35,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import dmax.dialog.SpotsDialog
@@ -334,7 +333,9 @@ class BookFragment : Fragment() {
                         R.id.deleteBook -> {
                             bookId = detailComic.id
                             alertDialog.show()
+                            deleteAllFileInStorage(detailComic)
                             GlobalScope.launch {
+                                deleteCover()
                                 deleteDocumentInFireStore(bookId)
                             }
                             deleteCommentInFireStore(bookId)
@@ -392,6 +393,7 @@ class BookFragment : Fragment() {
         ) as Book
 
         bookId = detailComic.id
+
 
         //no create && no edit
         if(!createNew && !editable) {
@@ -578,6 +580,20 @@ class BookFragment : Fragment() {
         catch (e: Throwable)
         {
             Log.e("error delete image", e.message.toString())
+        }
+    }
+
+    private fun deleteAllFileInStorage(detailComic: Book) {
+        for (i in detailComic.listChapter!!)
+        {
+            val delRef = FirebaseStorage.getInstance().getReferenceFromUrl(i.links!!)
+            try {
+                    delRef.delete()
+            }
+            catch (e: Throwable)
+            {
+                Log.e("error file, chapter", e.message.toString())
+            }
         }
     }
 
