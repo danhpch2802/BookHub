@@ -175,14 +175,15 @@
                 android:layout_marginRight="62dp"
                 android:background="@drawable/black_fill__rounded_color"
                 android:clickable="true"
+                android:focusable="true"
                 android:gravity="center"
+                android:minHeight="48dp"
                 android:paddingTop="14dp"
                 android:paddingBottom="14dp"
                 android:text="@string/done"
                 android:textColor="#ffffff"
                 android:textSize="12sp"
-                android:textStyle="bold"
-                android:focusable="true" />
+                android:textStyle="bold" />
         </LinearLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
