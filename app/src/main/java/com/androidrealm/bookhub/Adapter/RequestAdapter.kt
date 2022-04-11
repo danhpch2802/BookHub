@@ -1,39 +1,59 @@
 package com.androidrealm.bookhub.Adapter
 
+import android.content.Intent
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.androidrealm.bookhub.Controllers.Activities.RequestDetailActivity
 import com.androidrealm.bookhub.Models.Request
 import com.androidrealm.bookhub.R
-import java.io.Serializable
 
-class RequestAdapter (private var listRequests : List<Request>
-): RecyclerView.Adapter<RequestAdapter.ViewHolder>(), Serializable {
-    inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
-        val requestNameTV = listItemView.findViewById(R.id.rq_title_tv) as TextView
-        val requestDetailTV = listItemView.findViewById(R.id.rq_detail_tv) as TextView
+class RequestAdapter(private val listRequest: ArrayList<Request>) : RecyclerView.Adapter<RequestAdapter.MyViewHolder>(){
+    private lateinit var mListener: onItemClickListener
+
+    interface onItemClickListener{
+        fun onItemClick(position: Int)
     }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
-            RequestAdapter.ViewHolder {
-        val context = parent.context
-        val inflater = LayoutInflater.from(context)
-        // Inflate the custom layout
-        val requestView = inflater.inflate(R.layout.item_request, parent, false)
-        // Return a new holder instance
-        return ViewHolder(requestView)
+
+    fun setOnItemClickListener(listener: onItemClickListener){
+        mListener = listener
     }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_request, parent, false)
+        return MyViewHolder(itemView, mListener)
+    }
+
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        val request: Request = listRequest[position]
+        
+        holder.userid.text = request.AccountId
+        holder.requestDetail.text = request.bookDetail
+        holder.requestTitle.text = request.bookName
+        holder.checked.text = request.Checked.toString()
+
+        if(holder.checked.text == "true"){
+            holder.itemView.setBackgroundColor(Color.WHITE)
+        }
+    }
+
     override fun getItemCount(): Int {
-        return listRequests.size
+        return listRequest.size
     }
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        // Get the data model based on position
-        val request: Request = listRequests.get(position)
-        // Set item views based on your views and data model
-        val requestNameTW = holder.requestNameTV
-        val requestDetailTW = holder.requestDetailTV
-        requestNameTW.setText(request.requestName)
-        requestDetailTW.setText(request.requestDetail)
+
+    class MyViewHolder(itemView: View, listener: onItemClickListener) : RecyclerView.ViewHolder(itemView){
+        val userid: TextView = itemView.findViewById(R.id.rq_id_tv)
+        val requestTitle: TextView = itemView.findViewById(R.id.rq_title_tv)
+        val requestDetail: TextView = itemView.findViewById(R.id.rq_detail_tv)
+        val checked: TextView = itemView.findViewById(R.id.rq_checked_tv)
+
+        init{
+            itemView.setOnClickListener { 
+                listener.onItemClick(adapterPosition)
+            }
+        }
     }
 }

@@ -7,40 +7,44 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.androidrealm.bookhub.Models.Book
 import com.androidrealm.bookhub.Models.Prize
+import com.androidrealm.bookhub.Models.Request
 import com.androidrealm.bookhub.R
 import java.io.Serializable
 
-class PrizeAdapter (private var listPrizes : List<Prize>
-): RecyclerView.Adapter<PrizeAdapter.ViewHolder>(), Serializable {
-    var onItemClick: ((Prize) -> Unit)? = null
+class PrizeAdapter(private val listPrize: ArrayList<String>) : RecyclerView.Adapter<PrizeAdapter.MyViewHolder>(){
+    private lateinit var mListener: onItemClickListener
 
-    inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView), Serializable {
-        val prizeNameTV = listItemView.findViewById(R.id.prizeNameTV) as TextView
-        init {
-            listItemView.setOnClickListener {
-                onItemClick?.invoke(
-                    listPrizes[adapterPosition]
-                )
+    interface onItemClickListener{
+        fun onItemClick(position: Int)
+    }
+
+    fun setOnItemClickListener(listener: onItemClickListener){
+        mListener = listener
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_prize, parent, false)
+        return MyViewHolder(itemView, mListener)
+    }
+
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        val prize: String = listPrize[position]
+        //holder.userid.text = prize.AccountId
+        holder.prizeDetail.text = prize
+    }
+
+    override fun getItemCount(): Int {
+        return listPrize.size
+    }
+
+    class MyViewHolder(itemView: View, listener: onItemClickListener) : RecyclerView.ViewHolder(itemView){
+
+        val prizeDetail: TextView = itemView.findViewById(R.id.prizeNameTV)
+
+        init{
+            itemView.setOnClickListener {
+                listener.onItemClick(adapterPosition)
             }
         }
-    }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
-            PrizeAdapter.ViewHolder {
-        val context = parent.context
-        val inflater = LayoutInflater.from(context)
-// Inflate the custom layout
-        val prizeView = inflater.inflate(R.layout.item_prize, parent, false)
-// Return a new holder instance
-        return ViewHolder(prizeView)
-    }
-    override fun getItemCount(): Int {
-        return listPrizes.size
-    }
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-// Get the data model based on position
-        val prize: Prize = listPrizes.get(position)
-// Set item views based on your views and data model
-        val prizeNameTW = holder.prizeNameTV
-        prizeNameTW.setText(prize.prizeName)
     }
 }

@@ -35,7 +35,7 @@ class ProfileActivity : AppCompatActivity() {
     var Point:Number? = 0
     var Name:String? = ""
     var Badge:String ?= ""
-
+    var role:Long = 3
 
     var username: TextView? = null
     var badge: TextView? = null
@@ -83,6 +83,7 @@ class ProfileActivity : AppCompatActivity() {
         ProfileBtn!!.setOnClickListener{
             val intent = Intent(this,  UpdateAccActivity::class.java)
             startActivity(intent)
+
         }
 
         //Log out
@@ -105,9 +106,9 @@ class ProfileActivity : AppCompatActivity() {
                     return@setOnNavigationItemSelectedListener true
                 }
                 menuItem.itemId == R.id.manage_book_item -> {
-                    val intent = Intent(this,  RequestActivity::class.java)
-                    startActivity(intent)
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                            val intent = Intent(this,  RequestActivity::class.java)
+                            startActivity(intent)
+                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     return@setOnNavigationItemSelectedListener true
                 }
                 menuItem.itemId == R.id.profile_item -> {
@@ -116,6 +117,12 @@ class ProfileActivity : AppCompatActivity() {
                 else -> false
             }
         }
+    }
+
+    override  fun onResume ()
+    {
+        super.onResume()
+        getAcc()
     }
 
     fun getAcc () {

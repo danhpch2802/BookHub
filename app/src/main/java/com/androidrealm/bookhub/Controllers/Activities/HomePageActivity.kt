@@ -27,12 +27,9 @@ class HomePageActivity : AppCompatActivity(),Serializable {
 
     lateinit var listComicFrame:FrameLayout
 
-    // Uncomment the line below if starting the proj from login
     //var uid:String = ""
-
-    // Comment this if  starting the proj from login
-var uid:String = "ERQnHq5YlmL78h2wDBQX"
-
+    var uid:String = "ERQnHq5YlmL78h2wDBQX"
+    var role:Long = 3
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_homepage)
@@ -44,26 +41,56 @@ var uid:String = "ERQnHq5YlmL78h2wDBQX"
     override fun onResume() {
         super.onResume()
 
+        uid = FirebaseAuth.getInstance().currentUser!!.uid
+        var fireStore = FirebaseFirestore.getInstance()
         //bottom_navigation.menu.findItem(R.id.home_item).isChecked = true
         findViewById<BottomNavigationView>(R.id.bottom_navigation).setOnNavigationItemSelectedListener { menuItem ->
             when {
                 menuItem.itemId == R.id.profile_item -> {
-                    val intent = Intent(this,  ProfileActivity::class.java)
-                    intent.putExtra("uid", uid)
-                    startActivity(intent)
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                    fireStore.collection("accounts").document(uid)
+                        .get().addOnSuccessListener { result ->
+                            role = result.get("Role") as Long
+                            //Log.d(TAG,  role.toString())
+                            if (role == 1L) {
+                                val intent = Intent(this,  ProfileActivity::class.java)
+                                startActivity(intent)
+                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                            }
+                            else{
+                                val intent = Intent(this,  AdminProfileActivity::class.java)
+                                startActivity(intent)
+                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                            }
+                        }
+                        .addOnFailureListener { exception ->
+                            Log.d(TAG, "Error getting documents: ", exception)
+                        }
                     return@setOnNavigationItemSelectedListener true
                 }
                 menuItem.itemId == R.id.manage_book_item -> {
-                    val intent = Intent(this,  RequestActivity::class.java)
-                    startActivity(intent)
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                        fireStore.collection("accounts").document(uid)
+                            .get().addOnSuccessListener { result ->
+                                    role = result.get("Role") as Long
+                                //Log.d(TAG,  role.toString())
+                                if (role == 1L) {
+                                    val intent = Intent(this,  RequestActivity::class.java)
+                                    startActivity(intent)
+                                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                                }
+                                else{
+                                    val intent = Intent(this,  RequestListActivity::class.java)
+                                    startActivity(intent)
+                                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                                }
+                            }
+                            .addOnFailureListener { exception ->
+                                Log.d(TAG, "Error getting documents: ", exception)
+                            }
                     return@setOnNavigationItemSelectedListener true
                 }
                 else -> false
             }
         }
-        var fireStore = FirebaseFirestore.getInstance()
 
         val listOfComic=ArrayList<Book>();
         val docRef = fireStore.collection("comics")

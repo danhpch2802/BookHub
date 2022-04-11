@@ -54,7 +54,12 @@
     <string name="pagenumber">"Page "</string>
     <string name="PageNumber">Page</string>
     <string name="next_chapter">Next Chapter</string>
-    >>>>>>> Stashed changes
+    <string name="my_account">My Account</string>
+    <string name="request_list">Request List</string>
+    <string name="request_detail">Request Detail</string>
+    <string name="accept_request">Accept Request</string>
+    <string name="submit">Submit</string>
+    <string name="done">Done</string>
 
     <string-array name="category_names">
         <item>Horror</item>

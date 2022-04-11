@@ -52,7 +52,7 @@
                 android:id="@+id/usernameETRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/username_icon2"
+                android:layout_toEndOf="@id/title_icon"
                 android:background="@android:color/transparent"
                 android:hint="Username"
                 android:maxLines="1"
@@ -64,7 +64,7 @@
 
             <!--ICON-->
             <ImageView
-                android:id="@+id/username_icon2"
+                android:id="@+id/title_icon"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_centerVertical="true"
@@ -155,7 +155,7 @@
                 android:id="@+id/emailETRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/email_icon"
+                android:layout_toEndOf="@+id/detail_icon"
                 android:background="@android:color/transparent"
                 android:hint="Email"
                 android:inputType="textEmailAddress"
@@ -168,7 +168,7 @@
 
             <!--ICON-->
             <ImageView
-                android:id="@+id/email_icon"
+                android:id="@+id/detail_icon"
                 android:layout_width="15dp"
                 android:layout_height="11dp"
                 android:layout_centerVertical="true"

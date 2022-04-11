@@ -35,7 +35,7 @@ class PrizeFragment(listPrize: Any?) : Fragment() {
 
         var listPrize=requireArguments().getSerializable(
             "listPrize"
-        ) as ArrayList<Prize>
+        ) as ArrayList<String>
 
         prizeRW.addItemDecoration(
             DividerItemDecoration(
