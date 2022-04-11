@@ -1,10 +1,13 @@
 package com.androidrealm.bookhub.Adapter
 
+import android.content.Intent
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.androidrealm.bookhub.Controllers.Activities.RequestDetailActivity
 import com.androidrealm.bookhub.Models.Request
 import com.androidrealm.bookhub.R
 
@@ -26,10 +29,15 @@ class RequestAdapter(private val listRequest: ArrayList<Request>) : RecyclerView
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val request: Request = listRequest[position]
+        
         holder.userid.text = request.AccountId
         holder.requestDetail.text = request.bookDetail
         holder.requestTitle.text = request.bookName
         holder.checked.text = request.Checked.toString()
+
+        if(holder.checked.text == "true"){
+            holder.itemView.setBackgroundColor(Color.WHITE)
+        }
     }
 
     override fun getItemCount(): Int {

@@ -64,7 +64,13 @@ class RequestListActivity : AppCompatActivity() {
         myAdapter!!.setOnItemClickListener(object : RequestAdapter.onItemClickListener{
             override fun onItemClick(position: Int) {
                 //Toast.makeText(this@RequestListActivity, "You click on item $position", Toast.LENGTH_SHORT).show()
+                val clickedItem = requestList!![position]
                 val intent = Intent(this@RequestListActivity, RequestDetailActivity::class.java)
+                intent.putExtra("documentID", clickedItem.id)
+//                intent.putExtra("accountID", clickedItem.AccountId)
+//                intent.putExtra("bookName", clickedItem.bookName)
+//                intent.putExtra("bookDetail", clickedItem.bookDetail)
+//                intent.putExtra("checked", clickedItem.Checked)
                 startActivity(intent)
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                 finish()
@@ -73,8 +79,6 @@ class RequestListActivity : AppCompatActivity() {
         })
 
         getDB()
-
-
     }
 
     private fun getDB() {

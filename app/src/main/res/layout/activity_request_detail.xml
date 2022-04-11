@@ -42,7 +42,7 @@
                 android:layout_marginLeft="62dp"
                 android:layout_marginTop="25dp"
                 android:layout_marginRight="62dp"
-                android:text="@string/request_form"
+                android:text="@string/request_detail"
                 android:textStyle="bold"
                 android:textSize="27sp"
                 android:layout_gravity="center_horizontal">
@@ -166,7 +166,7 @@
                 android:text="@string/accept_request"/>
 
             <TextView
-                android:id="@+id/rqsubmitBtn"
+                android:id="@+id/doneBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

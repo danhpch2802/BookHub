@@ -70,16 +70,4 @@ class RequestActivity : AppCompatActivity() {
         }
 
     }
-////
-//    val listOfRequest=arrayOf("Ara Ara", "Cll", "Raiden")
-//    val adapter = ArrayAdapter(this, R.layout., listOfRequest)
-//
-//    var adapter=ComicAdapter(listOfComic)
-//
-//    if (savedInstanceState == null) {
-//        val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-//        val fragment: Fragment = ListComicFragment.newInstance(adapter,3)
-//        ft.replace(R.id.fragment_container_view, fragment)
-//        ft.commit()
-//    }
 }
