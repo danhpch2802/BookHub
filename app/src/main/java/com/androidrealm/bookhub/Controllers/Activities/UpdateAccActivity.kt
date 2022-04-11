@@ -21,6 +21,8 @@ class UpdateAccActivity : AppCompatActivity() {
     var Email:String? = ""
 
     var Badge2 = "2"
+
+    var Role:Long? = 3
     var AvaBtn: ImageView? = null
     var username: EditText? = null
     var badge: TextView? = null
@@ -96,25 +98,31 @@ class UpdateAccActivity : AppCompatActivity() {
                     }
                     TotalBadge = cnt
                     Point =  task.result["Point"] as Number?
+                    Role = task.result["Point"] as Long?
 
                 }
                 else {onError(task.exception)}
 
                 Email = FirebaseAuth.getInstance().currentUser!!.email
-                username!!.setHint(Name)
+                username!!.setHint("New Username")
                 badge!!.setText(TotalBadge.toString())
                 point!!.setText(Point.toString())
                 badgeTV!!.setText(Badge)
                 email!!.setText(Email)
-                val db2 = FirebaseFirestore.getInstance()
-                db2.collection("prizes").document(Badge2).get().addOnCompleteListener { task2 ->
-                    if (task2.isSuccessful) {
-                        Badge = task2.result["prizeName"] as String
+                if (Role == 1L) {
+                    val db2 = FirebaseFirestore.getInstance()
+                    db2.collection("prizes").document(Badge2).get().addOnCompleteListener { task2 ->
+                        if (task2.isSuccessful) {
+                            Badge = task2.result["prizeName"] as? String
+                        } else {
+                            onError(task2.exception)
+                        }
+                        badgeTV!!.setText(Badge)
                     }
-                    else {
-                        onError(task2.exception)
-                    }
-                    badgeTV!!.setText(Badge)
+                }
+                else{
+
+                    badgeTV!!.setText("Admin")
                 }
 
             }

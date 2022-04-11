@@ -50,6 +50,7 @@
     <string name="my_prize">My Prize</string>
     <string name="change_password">Change Password</string>
     <string name="request_form">Request Form</string>
+    <string name="my_account">My Account</string>
     >>>>>>> Stashed changes
 
     <string-array name="category_names">

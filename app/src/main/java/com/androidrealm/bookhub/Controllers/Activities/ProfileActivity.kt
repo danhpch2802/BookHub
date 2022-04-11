@@ -83,6 +83,7 @@ class ProfileActivity : AppCompatActivity() {
         ProfileBtn!!.setOnClickListener{
             val intent = Intent(this,  UpdateAccActivity::class.java)
             startActivity(intent)
+
         }
 
         //Log out
@@ -116,6 +117,12 @@ class ProfileActivity : AppCompatActivity() {
                 else -> false
             }
         }
+    }
+
+    override  fun onResume ()
+    {
+        super.onResume()
+        getAcc()
     }
 
     fun getAcc () {

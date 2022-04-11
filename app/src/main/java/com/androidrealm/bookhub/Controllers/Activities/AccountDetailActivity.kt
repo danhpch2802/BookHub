@@ -81,17 +81,5 @@ class AccountDetailActivity : AppCompatActivity() {
             Log.d("RewardError", "onError: " + e.message)
         }
     }
-    
-//    fun getAcc2 () {
-//        val db = FirebaseFirestore.getInstance()
-//        db.collection("accounts").document(id)
-//            .get()
-//            .addOnSuccessListener { documentSnapshot ->
-//                val city = documentSnapshot.toObject<Account>()
-//                //println(city)
-//            }
-////            badge!!.setText(x.toString())
-////            point!!.setText(x2.toString())
-////            badgeTV!!.setText(y2)
-//    }
+
 }

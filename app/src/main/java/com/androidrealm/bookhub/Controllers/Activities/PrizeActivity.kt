@@ -61,7 +61,6 @@ class PrizeActivity : AppCompatActivity() {
             db2.collection("accounts").document(uid)
                 .get().addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-
                         point2 = (task.result["Point"] as Long?)!!
                     } else {
                         onError(task.exception)
