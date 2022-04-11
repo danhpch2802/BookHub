@@ -24,24 +24,23 @@ import kotlin.collections.ArrayList
 
 
 class BookDetailActivity : AppCompatActivity() {
+    private var id:String? ="";
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_detail)
+        val intent = intent
+        id = intent.getStringExtra("id")
     }
 
     override fun onResume() {
         super.onResume()
-        val intent = intent
-        val id = intent.getStringExtra("id")
-
-        Log.i("Id", id.toString())
 
         var fireStore = FirebaseFirestore.getInstance()
 
         val docRef = fireStore.collection("comics").document(id.toString())
         docRef.get()
             .addOnSuccessListener { document ->
-                if (document != null) {
+                if (document.exists()) {
                     val comicGet = document.toObject<Book>()
                     findViewById<TextView>(R.id.detail_book_barTV).setText(comicGet!!.name)
                     GlobalScope.launch {
