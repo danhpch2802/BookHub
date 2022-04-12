@@ -60,6 +60,10 @@
     <string name="accept_request">Accept Request</string>
     <string name="submit">Submit</string>
     <string name="done">Done</string>
+    <string name="user_id">User ID:</string>
+    <string name="request_title">Request Title</string>
+    <string name="request_description">Request Description</string>
+    <string name="checked">Checked:</string>
 
     <string-array name="category_names">
         <item>Horror</item>

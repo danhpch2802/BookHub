@@ -2,22 +2,16 @@ package com.androidrealm.bookhub.Controllers.Activities
 
 
 import android.annotation.SuppressLint
-import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.androidrealm.bookhub.Adapter.RequestAdapter
 import com.androidrealm.bookhub.R
 import com.androidrealm.bookhub.Models.Request
-import com.androidrealm.bookhub.Controllers.Fragments.RequestFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import kotlinx.android.synthetic.main.activity_homepage.*
 
@@ -63,14 +57,11 @@ class RequestListActivity : AppCompatActivity() {
 
         myAdapter!!.setOnItemClickListener(object : RequestAdapter.onItemClickListener{
             override fun onItemClick(position: Int) {
-                //Toast.makeText(this@RequestListActivity, "You click on item $position", Toast.LENGTH_SHORT).show()
+
                 val clickedItem = requestList!![position]
                 val intent = Intent(this@RequestListActivity, RequestDetailActivity::class.java)
-                intent.putExtra("documentID", clickedItem.id)
-//                intent.putExtra("accountID", clickedItem.AccountId)
-//                intent.putExtra("bookName", clickedItem.bookName)
-//                intent.putExtra("bookDetail", clickedItem.bookDetail)
-//                intent.putExtra("checked", clickedItem.Checked)
+                intent.putExtra("documentID", clickedItem.documentId)
+
                 startActivity(intent)
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                 finish()

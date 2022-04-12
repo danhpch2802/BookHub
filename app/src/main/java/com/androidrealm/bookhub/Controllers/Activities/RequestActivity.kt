@@ -1,5 +1,6 @@
 package com.androidrealm.bookhub.Controllers.Activities
 
+import android.app.ProgressDialog
 import android.content.ContentValues
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +18,7 @@ class RequestActivity : AppCompatActivity() {
     var submitBtn: TextView? = null
     var request_name: EditText? = null
     var request_detail: EditText? = null
+    var progressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +52,13 @@ class RequestActivity : AppCompatActivity() {
         }
 
         submitBtn!!.setOnClickListener{
+            // Initialize Progress Dialog
+            progressDialog = ProgressDialog(this)
+            progressDialog!!.show()
+            progressDialog!!.setContentView(R.layout.progress_dialog)
+            progressDialog!!.window!!.setBackgroundDrawableResource(
+                android.R.color.transparent
+            )
             // Get input
             val rq_name = request_name!!.text.toString().trim()
             val rq_detail = request_detail!!.text.toString().trim()
@@ -67,6 +76,7 @@ class RequestActivity : AppCompatActivity() {
 
 
             Toast.makeText(this@RequestActivity, "Submit Successfully!", Toast.LENGTH_SHORT).show()
+            progressDialog!!.dismiss()
         }
 
     }
