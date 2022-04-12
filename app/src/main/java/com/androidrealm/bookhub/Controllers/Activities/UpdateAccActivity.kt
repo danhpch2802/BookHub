@@ -13,7 +13,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_homepage.*
 
 class UpdateAccActivity : AppCompatActivity() {
-
     var uid:String = ""
     var TotalBadge:Int? = 0
     var Point:Number? = 0
