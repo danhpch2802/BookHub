@@ -57,7 +57,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/user_id"
+                    android:text="@string/request_by_user"
                     android:textSize="16sp"
                     android:textColor="@color/black"
                     android:layout_marginStart="65dp"

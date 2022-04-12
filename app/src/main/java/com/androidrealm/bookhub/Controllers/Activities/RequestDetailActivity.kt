@@ -3,6 +3,7 @@ package com.androidrealm.bookhub.Controllers.Activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.Toast
@@ -15,6 +16,7 @@ class RequestDetailActivity : AppCompatActivity() {
     var request_name: TextView? = null
     var request_detail: TextView? = null
     var accept_checkbox: CheckBox? = null
+    var accountId: String ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +36,13 @@ class RequestDetailActivity : AppCompatActivity() {
             db.collection("requests").document(docID).get()
                 .addOnSuccessListener { documentSnapshot ->
                     val data = documentSnapshot.data
-                    userId!!.text = data?.get("accountID") as CharSequence?
+                    accountId = (data?.get("accountID") as CharSequence?).toString()
+                    db.collection("accounts").document(accountId!!).get()
+                        .addOnSuccessListener { document ->
+                            if (document.exists()){
+                                userId!!.text = document.getString("username")
+                            }
+                        }
                     request_name!!.text = data?.get("bookName") as CharSequence?
                     request_detail!!.text = data?.get("bookDetail") as CharSequence?
                     accept_checkbox!!.isChecked = data?.get("checked") as Boolean
@@ -67,7 +75,7 @@ class RequestDetailActivity : AppCompatActivity() {
     override fun onBackPressed() {
         val intent = Intent(this@RequestDetailActivity, RequestListActivity::class.java)
         startActivity(intent)
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         finish()
     }
 }

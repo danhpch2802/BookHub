@@ -10,6 +10,7 @@ import android.widget.*
 import com.androidrealm.bookhub.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_homepage.*
 
@@ -18,7 +19,6 @@ class RequestActivity : AppCompatActivity() {
     var submitBtn: TextView? = null
     var request_name: EditText? = null
     var request_detail: EditText? = null
-    var progressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,13 +52,6 @@ class RequestActivity : AppCompatActivity() {
         }
 
         submitBtn!!.setOnClickListener{
-            // Initialize Progress Dialog
-            progressDialog = ProgressDialog(this)
-            progressDialog!!.show()
-            progressDialog!!.setContentView(R.layout.progress_dialog)
-            progressDialog!!.window!!.setBackgroundDrawableResource(
-                android.R.color.transparent
-            )
             // Get input
             val rq_name = request_name!!.text.toString().trim()
             val rq_detail = request_detail!!.text.toString().trim()
@@ -74,9 +67,13 @@ class RequestActivity : AppCompatActivity() {
             db.collection("requests")
                 .add(request)
 
+            // Add 10 points when submit
+            db.collection("accounts").document(currentUserId)
+                .update("Point", FieldValue.increment(10))
 
+            // Toast
+            Toast.makeText(this@RequestActivity, "You have earned 10 points for making a request!", Toast.LENGTH_SHORT).show()
             Toast.makeText(this@RequestActivity, "Submit Successfully!", Toast.LENGTH_SHORT).show()
-            progressDialog!!.dismiss()
         }
 
     }
