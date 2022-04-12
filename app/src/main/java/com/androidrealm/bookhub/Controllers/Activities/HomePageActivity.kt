@@ -27,15 +27,12 @@ class HomePageActivity : AppCompatActivity(),Serializable {
 
     lateinit var listComicFrame:FrameLayout
 
-    //var uid:String = ""
     var uid:String = "ERQnHq5YlmL78h2wDBQX"
     var role:Long = 3
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_homepage)
         uid = FirebaseAuth.getInstance().currentUser!!.uid
-        // Uncomment the line below if start from login
-        //uid = intent.getStringExtra("uid").toString()
     }
 
     override fun onResume() {
@@ -52,7 +49,6 @@ class HomePageActivity : AppCompatActivity(),Serializable {
                     fireStore.collection("accounts").document(uid)
                         .get().addOnSuccessListener { result ->
                             role = result.get("Role") as Long
-                            //Log.d(TAG,  role.toString())
                             if (role == 1L) {
                                 val intent = Intent(this,  ProfileActivity::class.java)
                                 startActivity(intent)

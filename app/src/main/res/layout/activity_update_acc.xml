@@ -153,19 +153,19 @@
         app:layout_constraintStart_toEndOf="@id/img_point"
         app:layout_constraintTop_toBottomOf="@+id/point_tv" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/badgeChosen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="270dp"
+        android:layout_height="40dp"
         android:layout_marginTop="25dp"
         android:text="BadgeChosen"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:background="@color/gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/avatarAcc" />
-
 
     <TextView
         android:id="@+id/updateButton"

@@ -100,7 +100,7 @@ class LoginActivity : AppCompatActivity() {
                                 "uid",
                                 FirebaseAuth.getInstance().currentUser!!.uid
                             )
-
+                            progressDialog!!.dismiss()
                             startActivity(intentToHomePageActivity)
                             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                             finish()
@@ -134,16 +134,6 @@ class LoginActivity : AppCompatActivity() {
     
     // disable back button pressed
     override fun onBackPressed() {
-        progressDialog!!.dismiss()
     }
 
-    override fun onPause() {
-        super.onPause()
-        progressDialog!!.dismiss()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        progressDialog!!.dismiss()
-    }
 }

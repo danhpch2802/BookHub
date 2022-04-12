@@ -62,6 +62,12 @@
     <string name="done">Done</string>
     <string name="download">Downloaded</string>
 
+    <string name="request_title">Request Title</string>
+    <string name="request_description">Request Description</string>
+    <string name="checked">Checked:</string>
+    <string name="request_by_user">Request By User</string>
+    <string name="create_account">Create Account</string>
+
     <string-array name="category_names">
         <item>Horror</item>
         <item>Romance</item>

@@ -116,19 +116,18 @@ class SignupActivity : AppCompatActivity() {
                             documentRef.set(account)
 
                             // Return to Login Page
-                                val intentToLoginActivity =
-                                    Intent(this@SignupActivity, LoginActivity::class.java)
-                                intentToLoginActivity.flags =
-                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                intentToLoginActivity.putExtra("username", name)
-                                startActivity(intentToLoginActivity)
-                                overridePendingTransition(
-                                    R.anim.slide_in_left,
-                                    R.anim.slide_out_right
-                                )
-                                finish()
-
-
+                            val intentToLoginActivity =
+                                Intent(this@SignupActivity, LoginActivity::class.java)
+                            intentToLoginActivity.flags =
+                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            intentToLoginActivity.putExtra("username", name)
+                            startActivity(intentToLoginActivity)
+                            overridePendingTransition(
+                                R.anim.slide_in_left,
+                                R.anim.slide_out_right
+                            )
+                            progressDialog!!.dismiss()
+                            finish()
                         } else {
                             // If register failed
                                 progressDialog!!.dismiss()
@@ -143,9 +142,6 @@ class SignupActivity : AppCompatActivity() {
         }
     }
 
-
-
-
     override fun onBackPressed() {
         val intentToLoginActivity =
             Intent(this@SignupActivity, LoginActivity::class.java)
@@ -154,16 +150,7 @@ class SignupActivity : AppCompatActivity() {
             R.anim.slide_in_left,
             R.anim.slide_out_right
         )
+        progressDialog!!.dismiss()
         finish()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        progressDialog!!.dismiss()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        progressDialog!!.dismiss()
     }
 }

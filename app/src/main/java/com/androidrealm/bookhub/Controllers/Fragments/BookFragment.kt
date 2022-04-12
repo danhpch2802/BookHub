@@ -413,7 +413,7 @@ class BookFragment : Fragment() {
                 .get()
                 .addOnSuccessListener { document ->
                     userInfo!!.username = document.data!!["username"] as String
-
+                    userInfo!!.Point = document.data!!["Point"] as Long
 
                     val bookViewPage2 = view.findViewById<ViewPager2>(R.id.bookViewPage2)
                     var bookVPAdapter = BookPageView2Adapter(

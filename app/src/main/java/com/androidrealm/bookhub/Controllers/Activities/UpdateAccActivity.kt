@@ -2,6 +2,7 @@ package com.androidrealm.bookhub.Controllers.Activities
 
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -13,7 +14,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_homepage.*
 
 class UpdateAccActivity : AppCompatActivity() {
-
     var uid:String = ""
     var TotalBadge:Int? = 0
     var Point:Number? = 0
@@ -27,7 +27,7 @@ class UpdateAccActivity : AppCompatActivity() {
     var AvaBtn: ImageView? = null
     var username: EditText? = null
     var badge: TextView? = null
-    var badgeTV: TextView? = null
+    var badgeTV: Button? = null
     var point: TextView? = null
     var email: TextView? = null
     var saveBtn: TextView? = null
@@ -56,7 +56,10 @@ class UpdateAccActivity : AppCompatActivity() {
             Toast.makeText(this@UpdateAccActivity, "Edit Successfully!", Toast.LENGTH_SHORT).show()
         }
 
-
+        badgeTV!!.setOnClickListener{
+            val intent = Intent(this,  PrizeListActivity::class.java)
+            startActivity(intent)
+        }
 
         passBtn!!.setOnClickListener{
             val intent = Intent(this,  ForgotPasswordActivity::class.java)
@@ -73,6 +76,8 @@ class UpdateAccActivity : AppCompatActivity() {
             else
             {
                 Toast.makeText(this@UpdateAccActivity, "Edit Successfully!", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this,  ProfileActivity::class.java)
+                startActivity(intent)
                 setAcc(name, email)
                 finish()
             }
@@ -117,6 +122,10 @@ class UpdateAccActivity : AppCompatActivity() {
                             onError(task2.exception)
                         }
                         badgeTV!!.setText(Badge)
+                        if (Badge2 == "b1" || Badge2 =="b2")
+                        {
+                            badgeTV!!.setBackgroundColor(Color.parseColor("#f7971e"))
+                        }
                         ReBtn!!.setOnClickListener{
                             val intent = Intent(this,  ProfileActivity::class.java)
                             startActivity(intent)

@@ -1,5 +1,6 @@
 package com.androidrealm.bookhub.Controllers.Activities
 
+import android.app.ProgressDialog
 import android.content.ContentValues
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,7 @@ import android.widget.*
 import com.androidrealm.bookhub.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_homepage.*
 
@@ -65,7 +67,12 @@ class RequestActivity : AppCompatActivity() {
             db.collection("requests")
                 .add(request)
 
+            // Add 10 points when submit
+            db.collection("accounts").document(currentUserId)
+                .update("Point", FieldValue.increment(10))
 
+            // Toast
+            Toast.makeText(this@RequestActivity, "You have earned 10 points for making a request!", Toast.LENGTH_SHORT).show()
             Toast.makeText(this@RequestActivity, "Submit Successfully!", Toast.LENGTH_SHORT).show()
         }
 
