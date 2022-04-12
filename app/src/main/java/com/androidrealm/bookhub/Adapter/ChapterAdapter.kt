@@ -4,6 +4,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.androidrealm.bookhub.Models.Chapter
@@ -14,14 +17,20 @@ class ChapterAdapter (private var listChapters : ArrayList<Chapter>
 
     var pos:Int?=null
     var onRowsChapterClick : ((Chapter) -> Unit)? = null
+    var itemProgressBar:ProgressBar?=null
+    var onRowsChapterDownloadClick : ((Chapter) -> Unit)? = null
     inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
         val chapterNameTV = listItemView.findViewById(R.id.chapterNameTV) as TextView
-
+        val downloadBtn = listItemView.findViewById<ImageView>(R.id.downloadBtn)
         init {
             chapterNameTV.setOnClickListener {
                 pos=adapterPosition
                 onRowsChapterClick?.invoke(listChapters[adapterPosition])
             }
+            downloadBtn.setOnClickListener {
+                onRowsChapterDownloadClick?.invoke(listChapters[adapterPosition])
+            }
+
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):

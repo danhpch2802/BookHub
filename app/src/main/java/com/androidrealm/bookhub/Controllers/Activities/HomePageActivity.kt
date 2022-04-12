@@ -44,6 +44,8 @@ class HomePageActivity : AppCompatActivity(),Serializable {
         uid = FirebaseAuth.getInstance().currentUser!!.uid
         var fireStore = FirebaseFirestore.getInstance()
         //bottom_navigation.menu.findItem(R.id.home_item).isChecked = true
+
+
         findViewById<BottomNavigationView>(R.id.bottom_navigation).setOnNavigationItemSelectedListener { menuItem ->
             when {
                 menuItem.itemId == R.id.profile_item -> {
@@ -87,6 +89,10 @@ class HomePageActivity : AppCompatActivity(),Serializable {
                                 Log.d(TAG, "Error getting documents: ", exception)
                             }
                     return@setOnNavigationItemSelectedListener true
+                }
+                menuItem.itemId == R.id.downloaded_item->{
+                    return@setOnNavigationItemSelectedListener true
+
                 }
                 else -> false
             }
