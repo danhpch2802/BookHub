@@ -27,37 +27,48 @@ class PrizeDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val intent = intent
         id = intent.getStringExtra("id")
-        if (id == "b1" || id =="b2") {
-            setContentView(R.layout.activity_prize_detail)
-        }
-        else {
-            setContentView(R.layout.activity_prize_detail2)
-        }
+        val db = FirebaseFirestore.getInstance()
+        db.collection("prizes").whereEqualTo("prizeName", id)
+            .get().addOnSuccessListener { documents ->
+                for (document in documents) {
+                    id = document["id"] as String?
+                }
+                if (id == "b1" || id =="b2") {
+                    setContentView(R.layout.activity_prize_detail)
+                }
+                else {
+                    setContentView(R.layout.activity_prize_detail2)
+                }
 
-        uid = FirebaseAuth.getInstance().currentUser!!.uid
+                uid = FirebaseAuth.getInstance().currentUser!!.uid
 
-        badgeChosen = arrayListOf(id.toString())
-        badge = findViewById(R.id.prizeReceived)
-        badgeDes = findViewById(R.id.prizeDescryption)
-        badgeBtn = findViewById(R.id.setPrizeBadge)
-        prizeBtn = findViewById(R.id.gotoPrizeList)
+                badgeChosen = arrayListOf(id.toString())
+                badge = findViewById(R.id.prizeReceived)
+                badgeDes = findViewById(R.id.prizeDescryption)
+                badgeBtn = findViewById(R.id.setPrizeBadge)
+                prizeBtn = findViewById(R.id.gotoPrizeList)
 
 
-        prizeBtn!!.setOnClickListener{
-            val intents = Intent(this,  PrizeListActivity::class.java)
-            startActivity(intents)
-            finish()
-        }
+                prizeBtn!!.setOnClickListener{
+                    val intents = Intent(this,  PrizeListActivity::class.java)
+                    startActivity(intents)
+                    finish()
+                }
 
-        badgeBtn!!.setOnClickListener{
-            setAcc(badgeChosen!!)
-            val intents = Intent(this,  PrizeListActivity::class.java)
-            //Log.d(TAG,badgeChosen.toString())
-            startActivity(intents)
-            finish()
-        }
+                badgeBtn!!.setOnClickListener{
+                    setAcc(badgeChosen!!)
+                    val intents = Intent(this,  PrizeListActivity::class.java)
+                    //Log.d(TAG,badgeChosen.toString())
+                    startActivity(intents)
+                    finish()
+                }
+                getPrize()
+            }
+            .addOnFailureListener { exception ->
+                Log.w(TAG, "Error getting documents: ", exception)
+            }
 
-        getPrize()
+
     }
 
     override fun onResume()

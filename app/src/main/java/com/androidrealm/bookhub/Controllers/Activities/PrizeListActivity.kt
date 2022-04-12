@@ -98,7 +98,7 @@ class PrizeListActivity : AppCompatActivity() {
                             override fun onItemClick(position: Int) {
                                 //Toast.makeText(this@RequestListActivity, "You click on item $position", Toast.LENGTH_SHORT).show()
                                 val intent = Intent(this@PrizeListActivity, PrizeDetailActivity::class.java)
-                                intent.putExtra("id", prizeList!![position])
+                                intent.putExtra("id", prizeNameList!![position])
                                 startActivity(intent)
                                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                                 finish()
@@ -126,7 +126,7 @@ class PrizeListActivity : AppCompatActivity() {
                     override fun onItemClick(position: Int) {
                         //Toast.makeText(this@RequestListActivity, "You click on item $position", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this@PrizeListActivity, PrizeDetailActivity::class.java)
-                        intent.putExtra("id", prizeList!![position])
+                        intent.putExtra("id", prizeNameList!![position])
                         startActivity(intent)
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                         finish()
@@ -144,38 +144,3 @@ class PrizeListActivity : AppCompatActivity() {
         }
     }
 }
-//
-//    fun getDB() {
-//        db = FirebaseFirestore.getInstance()
-//        db!!.collection("prizes").orderBy("id", Query.Direction.ASCENDING)
-//            .addSnapshotListener(object : EventListener<QuerySnapshot> {
-//                @SuppressLint("NotifyDataSetChanged")
-//                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
-//                    if (error != null){
-//                        Log.e("Firestore Error", error.message.toString())
-//                        return
-//                    }
-//                    for (dc: DocumentChange in value?.documentChanges!!){
-//                        if (dc.type == DocumentChange.Type.ADDED){
-//                            prizeList!!.add(dc.document["id"].toString())
-//                            //val db2 = FirebaseFirestore.getInstance()
-//
-//                            //Log.d(TAG, prizeList.toString())
-////                            for (id in prizeList!!) {
-////
-////                                db2.collection("prizes").whereEqualTo(id, true)
-////                                    .get()
-////                                    .addOnSuccessListener { documents ->
-////                                        for (document in documents) {
-////                                            prizeNameList!!.add(document["prizeName"].toString())
-////                                            Log.d(TAG, prizeNameList.toString())
-////                                        }
-////                                    }
-////                            }
-//                            //Log.d(TAG, prizeList.toString())
-//                        }
-//                    }
-//                    myAdapter!!.notifyDataSetChanged()
-//                }
-//            })
-//    }
