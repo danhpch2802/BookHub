@@ -80,7 +80,6 @@ class RequestListActivity : AppCompatActivity() {
                         Log.e("Firestore Error", error.message.toString())
                         return
                     }
-
                     for (dc: DocumentChange in value?.documentChanges!!){
                         if (dc.type == DocumentChange.Type.ADDED){
                             requestList!!.add(dc.document.toObject(Request::class.java))
@@ -88,7 +87,6 @@ class RequestListActivity : AppCompatActivity() {
                     }
                     myAdapter!!.notifyDataSetChanged()
                 }
-
             })
     }
 

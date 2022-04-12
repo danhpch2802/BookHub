@@ -4,6 +4,7 @@ import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.nfc.Tag
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -155,9 +156,12 @@ class ProfileActivity : AppCompatActivity() {
                         onError(task2.exception)
                     }
                     badgeTV!!.setText(Badge)
+                    if (Badge2 == "b1" || Badge2 =="b2")
+                    {
+                        badgeTV!!.setBackgroundColor(Color.parseColor("#f7971e"))
+                    }
                 }
             }
-
     }
 
     fun onError(e: Exception?) {
