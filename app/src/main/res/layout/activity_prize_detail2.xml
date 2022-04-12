@@ -13,13 +13,13 @@
         android:layout_width="520dp"
         android:layout_height="890dp"
         android:layout_marginTop="157dp"
-        android:src="@drawable/reward_detail_golden"
+        android:src="@drawable/reward_detail_small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.820" />
+        app:layout_constraintVertical_bias="0.800" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appPrizeDetailBarLayout"
@@ -51,14 +51,13 @@
 
     <TextView
         android:id="@+id/prizeReceived"
-        android:layout_width="360dp"
+        android:layout_width="350dp"
         android:layout_height="195dp"
         android:text="Prize"
         android:textColor="#FFFFFF"
         android:textSize="42sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:textStyle="bold"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
