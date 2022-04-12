@@ -13,7 +13,7 @@ class Account(
     var BadgeOwn:ArrayList<String> = ArrayList<String>(),
     var History:ArrayList<String> = ArrayList<String>(),
     var FavoriteList:ArrayList<String> = ArrayList<String>(),
-    var Point:Int?=1,
+    var Point:Long?=1,
     var password:String?=  "",
     var username:String?= "",
     //var bookmark:Map<String, String>?=null

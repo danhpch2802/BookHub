@@ -87,6 +87,10 @@ class CommentFragment() : Fragment(), Serializable {
                 val contentComment = commentEdt.text.toString()
                 commentEdt.text.clear()
 
+                userInfo.Point = userInfo.Point!! + 10
+
+                updatePointAfterComment(userInfo, currentUserAuth!!.uid)
+
                 val commentTemp = Comment()
                 commentTemp.accountName = userInfo.username
                 commentTemp.bookID = currentBookId
@@ -100,6 +104,12 @@ class CommentFragment() : Fragment(), Serializable {
         }
 
         return view
+    }
+
+    private fun updatePointAfterComment(userInfo: Account, idAccount : String) {
+        val pointRef = FirebaseFirestore.getInstance().collection("accounts")
+            .document(idAccount)
+            .update("Point", userInfo.Point)
     }
 
     override fun onResume() {
