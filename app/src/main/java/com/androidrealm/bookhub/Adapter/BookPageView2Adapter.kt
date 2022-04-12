@@ -28,7 +28,7 @@ class BookPageView2Adapter (activity: AppCompatActivity, val itemsCount: Int, va
         if (!createNew && !editable)
         {
             when(position) {
-                0 -> return ChapterFragment.newInstance(listChapters as ArrayList<Chapter>,detailComic as Book)
+                0 -> return ChapterFragment.newInstance(listChapters as ArrayList<Chapter>,detailComic as Book, userInfo as Account)
                 else->return CommentFragment.newInstance(listComments as ArrayList<Comment>, userInfo as Account, bookId as String)
             }
         }
