@@ -2,17 +2,21 @@ package com.androidrealm.bookhub.Controllers.Activities
 
 import android.content.ContentValues.TAG
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Layout
 import android.util.Log
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.androidrealm.bookhub.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+
 
 class PrizeActivity : AppCompatActivity() {
     var AvaBtn: ImageView? = null
@@ -21,6 +25,7 @@ class PrizeActivity : AppCompatActivity() {
     var badge:String? = "The Bookaholic"
     var uid:String = "ERQnHq5YlmL78h2wDBQX"
     var Badge2 = "2"
+    var screen_main: ConstraintLayout?= null
     var usernameTV: TextView? = null
     var badgeTV: TextView? = null
     var pointTV: TextView? = null
@@ -53,13 +58,10 @@ class PrizeActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-
         prizeBtn!!.setOnClickListener{
             val intent = Intent(this,  PrizeListActivity::class.java)
             startActivity(intent)
         }
-
-
 
         AvaBtn!!.setImageResource(R.drawable.amagami_cover)
         getPrize()
@@ -96,6 +98,11 @@ class PrizeActivity : AppCompatActivity() {
                         onError(task2.exception)
                     }
                     badgeTV!!.setText(badge)
+                    if (Badge2 == "b1" || Badge2 =="b2")
+                    {
+                        screen_main = findViewById(R.id.prize_layout)
+                        screen_main!!.setBackgroundColor(Color.parseColor("#ffa500"))
+                    }
                 }
             }
     }
@@ -159,7 +166,6 @@ class PrizeActivity : AppCompatActivity() {
                             {
                                 Toast.makeText(this, "You don't have enough Points", Toast.LENGTH_SHORT).show()
                             }
-
                             if (prizeList!!.size == 0)
                             {
                                 Toast.makeText(this, "You already have full prize", Toast.LENGTH_SHORT).show()
@@ -195,7 +201,6 @@ class PrizeActivity : AppCompatActivity() {
             .get().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     db.collection("accounts").document(uid).update("BadgeOwn", FieldValue.arrayUnion(id))
-
                     db.collection("accounts").document(uid).update("BadgeUnown", FieldValue.arrayRemove(id))
                 }
                 else {onError(task.exception)}

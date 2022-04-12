@@ -13,7 +13,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class PrizeDetailActivity : AppCompatActivity() {
     var prizeName:String? = "Unlock the book: The mythology of Bookahholic-chan"
     var prizeDes:String? = "The Bookaholic"
-
+    var role:Long = 3
     var uid:String = ""
     lateinit var auth : FirebaseAuth
 
@@ -25,6 +25,8 @@ class PrizeDetailActivity : AppCompatActivity() {
     var prizeBtn: TextView?= null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        var fireStore = FirebaseFirestore.getInstance()
         val intent = intent
         id = intent.getStringExtra("id")
         val db = FirebaseFirestore.getInstance()
@@ -54,21 +56,32 @@ class PrizeDetailActivity : AppCompatActivity() {
                     startActivity(intents)
                     finish()
                 }
-
-                badgeBtn!!.setOnClickListener{
-                    setAcc(badgeChosen!!)
-                    val intents = Intent(this,  PrizeListActivity::class.java)
-                    //Log.d(TAG,badgeChosen.toString())
-                    startActivity(intents)
-                    finish()
-                }
+                fireStore.collection("accounts").document(uid)
+                    .get().addOnSuccessListener { result ->
+                        role = result.get("Role") as Long
+                        if (role == 1L) {
+                            badgeBtn!!.setOnClickListener {
+                            setAcc(badgeChosen!!)
+                            val intents = Intent(this, ProfileActivity::class.java)
+                            startActivity(intents)
+                            finish()
+                            }
+                        }
+                        else {
+                            badgeBtn!!.setText("Delete Badge")
+                            badgeBtn!!.setOnClickListener {
+                                delBad(badgeChosen!![0])
+                                val intents = Intent(this, PrizeListActivity::class.java)
+                                startActivity(intents)
+                                finish()
+                            }
+                        }
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.w(TAG, "Error getting documents: ", exception)
+                    }
                 getPrize()
             }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting documents: ", exception)
-            }
-
-
     }
 
     override fun onResume()
@@ -100,6 +113,13 @@ class PrizeDetailActivity : AppCompatActivity() {
                 }
                 else {onError(task.exception)}
             }
+    }
+
+    fun delBad(id : String)
+    {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("prizes").document(id)
+            .delete()
     }
     fun onError(e: Exception?) {
         if (e != null) {

@@ -1,47 +1,86 @@
 package com.androidrealm.bookhub.Controllers.Activities
 
 
+import android.annotation.SuppressLint
+import android.content.ContentValues
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.androidrealm.bookhub.Adapter.AccountAdapter
 import com.androidrealm.bookhub.Models.Account
 import com.androidrealm.bookhub.R
-import com.androidrealm.bookhub.Controllers.Fragments.AccountFragment
+import com.google.firebase.firestore.*
 
 
 class AccountActivity : AppCompatActivity() {
+    var recyclerView: RecyclerView?= null
+    var accountList: ArrayList<Account> ?= null
+    var myAdapter: AccountAdapter?= null
+    var db: FirebaseFirestore ?= null
+    var reBtn: ImageView?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account)
+        recyclerView = findViewById(R.id.acc_list)
+        recyclerView!!.setHasFixedSize(true)
+        recyclerView!!.layoutManager = LinearLayoutManager(this)
 
-        val badge = ArrayList<String>()//Creating an empty arraylist.
-        badge.add("Top5")//Adding object in arraylist.
-        badge.add("Bookaholic")
+        accountList = arrayListOf()
+        myAdapter = AccountAdapter(accountList!!)
+        recyclerView!!.adapter = myAdapter
+        reBtn = findViewById(R.id.accListReturn)
 
+        reBtn!!.setOnClickListener{
+            finish()
+        }
 
-        val badgeUnown = ArrayList<String>()//Creating an empty arraylist.
-        badge.add("s2")//Adding object in arraylist.
-        badge.add("s3")
+        myAdapter!!.setOnItemClickListener(object : AccountAdapter.onItemClickListener{
+            override fun onItemClick(position: Int) {
+                val clickedItem = accountList!![position]
+                val intent = Intent(this@AccountActivity, AccountDetailActivity::class.java)
+                intent.putExtra("uid", clickedItem.documentId)
+                startActivity(intent)
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+            }
+        })
 
-        val his = ArrayList<String>()//Creating an empty arraylist.
-        his.add("OP")//Adding object in arraylist.
-        his.add("Nar")
+        getDB()
+    }
 
+//    override fun onResume(){
+//        super.onResume()
+//    }
 
-        val fav = ArrayList<String>()//Creating an empty arraylist.
-        fav.add("OP")//Adding object in arraylist.
-        fav.add("Nar")
+    private fun getDB() {
+        db = FirebaseFirestore.getInstance()
+        db!!.collection("accounts").orderBy("username", Query.Direction.ASCENDING)
+            .addSnapshotListener(object : EventListener<QuerySnapshot> {
+                @SuppressLint("NotifyDataSetChanged")
+                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                    if (error != null){
+                        Log.e("Firestore Error", error.message.toString())
+                        return
+                    }
+                    for (dc: DocumentChange in value?.documentChanges!!){
+                        if (dc.type == DocumentChange.Type.ADDED){
+                            accountList!!.add(dc.document.toObject(Account::class.java))
+                        }
+                    }
+                    myAdapter!!.notifyDataSetChanged()
+                }
+            })
+    }
 
-        val lists = ArrayList<Account>()
-        lists.add(Account("sacd","", badge, badgeUnown,badgeUnown, his,fav,1,"sdf","danh"))
-        lists.add(Account("Long","", badge, badgeUnown,badgeUnown, his,fav,1,"sdf","danh"))
-
-        if (savedInstanceState == null) {
-            val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-            val fragment: Fragment = AccountFragment.newInstance(lists)
-            ft.replace(R.id.fragment_acc_view, fragment)
-            ft.commit()
+    fun onError(e: Exception?) {
+        if (e != null) {
+            Log.d("RewardError", "onError: " + e.message)
         }
     }
 }

@@ -64,6 +64,7 @@
     <string name="request_title">Request Title</string>
     <string name="request_description">Request Description</string>
     <string name="checked">Checked:</string>
+    <string name="create_account">Create Account</string>
 
     <string-array name="category_names">
         <item>Horror</item>

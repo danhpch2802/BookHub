@@ -4,7 +4,8 @@ import com.google.firebase.firestore.DocumentId
 import java.io.Serializable
 
 class Account(
-    //@DocumentId
+    @DocumentId
+    var documentId:String?=null,
     var Avatar:String?= "",
     var Email:String?= "",
     var Badge:ArrayList<String> = ArrayList<String>(),
@@ -15,5 +16,5 @@ class Account(
     var Point:Int?=1,
     var password:String?=  "",
     var username:String?= "",
-    var bookmark:Map<String, String>?=null
+    //var bookmark:Map<String, String>?=null
 ) : Serializable

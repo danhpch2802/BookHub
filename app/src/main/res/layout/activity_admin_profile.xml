@@ -68,7 +68,6 @@
         android:layout_marginTop="5dp"
         android:text="Username"
         android:textAlignment="center"
-        android:textColor="@color/darkred"
         android:textSize="35sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -80,7 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
-        android:background="#45CFCFE3"
+        android:background="@color/app_golden"
         android:text="Title"
         android:textAlignment="center"
         android:textColor="@color/black"
@@ -157,8 +156,8 @@
 
 
     <ImageButton
-        android:id="@+id/my_acc_btn_pf"
-        android:src="@drawable/view_profile_button"
+        android:id="@+id/all_account_btn_pf"
+        android:src="@drawable/accounts_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="75dp"
@@ -180,13 +179,13 @@
         tools:ignore="SpeakableTextPresentCheck" />
 
     <ImageButton
-        android:id="@+id/all_account_btn_pf"
+        android:id="@+id/my_acc_btn_pf"
+        android:src="@drawable/view_profile_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="75dp"
         android:layout_marginTop="75dp"
         android:background="@color/white"
-        android:src="@drawable/accounts_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/prize_btn_pf"
         tools:ignore="SpeakableTextPresentCheck" />
