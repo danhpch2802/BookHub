@@ -39,6 +39,7 @@ class BookReadActivity : AppCompatActivity()  {
         val id = intent.getStringExtra("id")
         val ChapterPos = intent.getIntExtra("ChapterPos",0)
 
+        Log.i("chapterTest",ChapterPos.toString())
         pdfViewer = findViewById<PDFView>(R.id.bookPDF)
         pageTV=findViewById<TextView>(R.id.pagenumber)
         chapterName=findViewById(R.id.detail_book_barTV)
@@ -56,6 +57,7 @@ class BookReadActivity : AppCompatActivity()  {
                     chapterName!!.setText(book?.listChapter?.get(currentChap)!!.name)
 
                     loadSpinner(book!!.listChapter!!)
+                    chapterSpinner!!.setSelection(currentChap,false)
                     chapterSpinner!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                         override fun onNothingSelected(p0: AdapterView<*>?) {
                                 // TODO: do nothing – needed by the interface
@@ -88,6 +90,7 @@ class BookReadActivity : AppCompatActivity()  {
         val backBtn=findViewById<ImageView>(R.id.backBtn)
         backBtn.setOnClickListener {
             onBackPressed()
+            this.finish()
         }
     }
     fun loadSpinner(listChapter:ArrayList<Chapter>){

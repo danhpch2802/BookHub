@@ -102,6 +102,7 @@ class ChapterFragment(listChapter: Any?, detailBook: Book) : Fragment() {
             intent.putExtra("id",detailBook.id)
             startActivity(intent)
         }
+
         adapter.onRowsChapterDownloadClick={chapterClick ->
             if(ContextCompat.checkSelfPermission(requireContext(),android.Manifest.permission.WRITE_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED){
                 Log.d("External","Permission already granted!")
@@ -109,8 +110,7 @@ class ChapterFragment(listChapter: Any?, detailBook: Book) : Fragment() {
             }
             else{
                 Log.d("External","Permission not granted!")
-                this.chapterClick=chapterClick
-                this.detailBook=detailBook
+
                 requestStoragePermissionLauncher.launch(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
             }
