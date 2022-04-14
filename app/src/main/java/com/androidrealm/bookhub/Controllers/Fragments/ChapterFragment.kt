@@ -57,9 +57,12 @@ class ChapterFragment(listChapter: Any?, detailBook: Book) : Fragment() {
 
         return view
     }
+    var pdfPath:String?=null
+    var imagePath:String?=null
     var chapterClick:Chapter?=null
     var detailBook:Book?=null
     var progressBar:ProgressBar?=null
+
 
     override fun onResume() {
         super.onResume()
@@ -142,25 +145,21 @@ class ChapterFragment(listChapter: Any?, detailBook: Book) : Fragment() {
             progressBar!!.visibility=View.VISIBLE
             val referenceCover= FirebaseStorage.getInstance().getReferenceFromUrl((detailBook!!.imagePath.toString()))
             var coverName=referenceCover.getName().split(".")[0]
-            var imagePath=String()
             referenceCover.getBytes(50000000) //50mb
                 .addOnSuccessListener { bytes->
-                    imagePath = imageSaveToLocal(bytes, detailBook!!.name.toString())
+                    imageSaveToLocal(bytes, detailBook!!.name.toString())
+                    val referencePDF= FirebaseStorage.getInstance().getReferenceFromUrl((chapterClick!!.links.toString()))
+                    var PDFName = chapterClick.name.toString()
+                    referencePDF.getBytes(50000000)
+                        .addOnSuccessListener { bytes->
+                            pdfSaveToLocal(bytes,PDFName,detailBook!!.name.toString())
+                            var newDownloadBook = DownloadBook(
+                                imagePath=imagePath.toString(),  chapterName = chapterClick!!.name.toString(),
+                                chapterPath = pdfPath.toString()
+                                ,name= detailBook!!.name.toString(), summary = detailBook!!.summary.toString(),author= detailBook!!.author.toString())
+                            db.downloadBookDAO().insertDownloadBook(newDownloadBook)
+                        }
                 }
-            Log.d("testing",imagePath)
-
-            val referencePDF= FirebaseStorage.getInstance().getReferenceFromUrl((chapterClick!!.links.toString()))
-            var PDFName = chapterClick.name.toString()
-            var pdfPath=String()
-            referencePDF.getBytes(50000000)
-                .addOnSuccessListener { bytes->
-                    pdfPath=pdfSaveToLocal(bytes,PDFName,detailBook!!.name.toString())
-                }
-
-            var newDownloadBook = DownloadBook(imagePath=imagePath,  chapterName = chapterClick!!.name.toString(),
-                chapterPath = pdfPath
-                ,name= detailBook!!.name.toString(), summary = detailBook!!.summary.toString(),author= detailBook!!.author.toString())
-            db.downloadBookDAO().insertDownloadBook(newDownloadBook)
         }
         else
         {
@@ -168,12 +167,11 @@ class ChapterFragment(listChapter: Any?, detailBook: Book) : Fragment() {
         }
     }
 
-    private fun imageSaveToLocal (bytes:ByteArray, coverName:String) :String{
+     fun imageSaveToLocal (bytes:ByteArray, coverName:String) {
         var removedCoverName=coverName.replace("\\s".toRegex(),"")
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
 
         var imageName="${removedCoverName}${timeStamp}Cover.jpg"
-        var path=""
         try {
 
             var imagedownload_folder =  File(requireContext().getExternalFilesDir("Cover").toString())
@@ -182,24 +180,22 @@ class ChapterFragment(listChapter: Any?, detailBook: Book) : Fragment() {
             var filepath=imagedownload_folder.path+"/"+imageName
 
             val out=FileOutputStream(filepath)
+            this.imagePath=String()
+            this.imagePath+=filepath.toString()
             out.write(bytes)
             out.close()
-            path=filepath
-            Log.i("testing",filepath.toString())
 
         } catch (t: Throwable) {
             Log.i("testing",t.message.toString())
             Toast.makeText(requireContext(),t.message, Toast.LENGTH_LONG).show()
         }
-        return path
     }
 
-    private fun pdfSaveToLocal (bytes:ByteArray,name:String,book_name:String) :String{
+    fun pdfSaveToLocal (bytes:ByteArray,name:String,book_name:String) {
         var removedBookName=book_name.replace("\\s".toRegex(),"")
         var removedName=name.replace("\\s".toRegex(),"")
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         var pdfName="${removedBookName}${removedName}${timeStamp}.pdf"
-        var path=""
         try {
 
             var pdfdownload_folder =  File(requireContext().getExternalFilesDir("PDF").toString())
@@ -210,15 +206,13 @@ class ChapterFragment(listChapter: Any?, detailBook: Book) : Fragment() {
             val out=FileOutputStream(filepath)
             out.write(bytes)
             out.close()
-            path=filepath
-            Log.i("testing",path)
             Toast.makeText(requireContext(),"Download Completed",Toast.LENGTH_LONG).show()
             progressBar!!.visibility=View.INVISIBLE
-
+            this.pdfPath=String()
+            this.pdfPath+=filepath.toString()
         } catch (t: Throwable) {
             Log.i("testing",t.message.toString())
             Toast.makeText(requireContext(),t.message, Toast.LENGTH_LONG).show()
         }
-        return path
     }
 }

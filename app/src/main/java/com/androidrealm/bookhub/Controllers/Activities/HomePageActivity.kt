@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.androidrealm.bookhub.ComicAdapter
+import com.androidrealm.bookhub.Controllers.Fragments.DownloadedBookFragment
 import com.androidrealm.bookhub.Models.Book
 import com.androidrealm.bookhub.R
 import com.androidrealm.bookhub.Controllers.Fragments.ListComicFragment
@@ -26,7 +27,7 @@ import java.io.Serializable
 class HomePageActivity : AppCompatActivity(),Serializable {
 
     lateinit var listComicFrame:FrameLayout
-
+    var location=1
     var uid:String = "ERQnHq5YlmL78h2wDBQX"
     var role:Long = 3
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,59 +43,116 @@ class HomePageActivity : AppCompatActivity(),Serializable {
         var fireStore = FirebaseFirestore.getInstance()
         //bottom_navigation.menu.findItem(R.id.home_item).isChecked = true
 
-
         findViewById<BottomNavigationView>(R.id.bottom_navigation).setOnNavigationItemSelectedListener { menuItem ->
             when {
-                menuItem.itemId == R.id.profile_item -> {
-                    fireStore.collection("accounts").document(uid)
-                        .get().addOnSuccessListener { result ->
-                            role = result.get("Role") as Long
-                            if (role == 1L) {
-                                val intent = Intent(this,  ProfileActivity::class.java)
-                                startActivity(intent)
-                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                menuItem.itemId == R.id.home_item-> {
+                    if(location!=1) {
+                        val listOfComic = ArrayList<Book>();
+                        val docRef = fireStore.collection("comics")
+                        docRef.get()
+                            .addOnSuccessListener { result ->
+                                for (document in result) {
+                                    val comicGet = document.toObject<Book>()
+                                    comicGet.id = document.id
+                                    listOfComic.add(comicGet)
+                                }
+
+                                var adapter = ComicAdapter(listOfComic)
+                                adapter.onItemClick = { book ->
+                                    val intent = Intent(this, BookDetailActivity::class.java)
+                                    intent.putExtra("id", book.id)
+                                    startActivity(intent)
+                                }
+                                val ft: FragmentTransaction =
+                                    supportFragmentManager.beginTransaction().setCustomAnimations(
+                                        R.anim.slide_in_left,
+                                        R.anim.slide_out_right
+                                    )
+                                val fragment: Fragment = ListComicFragment.newInstance(adapter, 3)
+                                ft.replace(R.id.fragment_container_view, fragment)
+                                ft.commit()
                             }
-                            else{
-                                val intent = Intent(this,  AdminProfileActivity::class.java)
-                                startActivity(intent)
-                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                            .addOnFailureListener { exception ->
+                                Log.d(TAG, "Error getting documents: ", exception)
                             }
-                        }
-                        .addOnFailureListener { exception ->
-                            Log.d(TAG, "Error getting documents: ", exception)
-                        }
+                        location=1
+                    }
                     return@setOnNavigationItemSelectedListener true
+
                 }
-                menuItem.itemId == R.id.manage_book_item -> {
+                menuItem.itemId == R.id.profile_item -> {
+                    if(location!=2) {
                         fireStore.collection("accounts").document(uid)
                             .get().addOnSuccessListener { result ->
-                                    role = result.get("Role") as Long
-                                //Log.d(TAG,  role.toString())
+                                role = result.get("Role") as Long
                                 if (role == 1L) {
-                                    val intent = Intent(this,  RequestActivity::class.java)
+                                    val intent = Intent(this, ProfileActivity::class.java)
                                     startActivity(intent)
-                                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-                                }
-                                else{
-                                    val intent = Intent(this,  RequestListActivity::class.java)
+                                    overridePendingTransition(
+                                        R.anim.slide_in_right,
+                                        R.anim.slide_out_left
+                                    )
+                                } else {
+                                    val intent = Intent(this, AdminProfileActivity::class.java)
                                     startActivity(intent)
-                                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                                    overridePendingTransition(
+                                        R.anim.slide_in_right,
+                                        R.anim.slide_out_left
+                                    )
                                 }
                             }
                             .addOnFailureListener { exception ->
                                 Log.d(TAG, "Error getting documents: ", exception)
                             }
+                        location=2
+                    }
+                    return@setOnNavigationItemSelectedListener true
+                }
+                menuItem.itemId == R.id.manage_book_item -> {
+                    if(location!=3) {
+                        fireStore.collection("accounts").document(uid)
+                            .get().addOnSuccessListener { result ->
+                                role = result.get("Role") as Long
+                                //Log.d(TAG,  role.toString())
+                                if (role == 1L) {
+                                    val intent = Intent(this, RequestActivity::class.java)
+                                    startActivity(intent)
+                                    overridePendingTransition(
+                                        R.anim.slide_in_right,
+                                        R.anim.slide_out_left
+                                    )
+                                } else {
+                                    val intent = Intent(this, RequestListActivity::class.java)
+                                    startActivity(intent)
+                                    overridePendingTransition(
+                                        R.anim.slide_in_right,
+                                        R.anim.slide_out_left
+                                    )
+                                }
+                            }
+                            .addOnFailureListener { exception ->
+                                Log.d(TAG, "Error getting documents: ", exception)
+                            }
+                        location=3
+                    }
                     return@setOnNavigationItemSelectedListener true
                 }
                 menuItem.itemId == R.id.downloaded_item->{
+                    if(location!=4) {
+                        val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
+                        val fragment: Fragment = DownloadedBookFragment.newInstance()
+                        ft.replace(R.id.fragment_container_view, fragment)
+                        ft.commit()
+                        location=4
+                    }
                     return@setOnNavigationItemSelectedListener true
 
                 }
                 else -> false
             }
         }
-
-        val listOfComic=ArrayList<Book>();
+        val listOfComic = ArrayList<Book>();
         val docRef = fireStore.collection("comics")
         docRef.get()
             .addOnSuccessListener { result ->
@@ -104,19 +162,21 @@ class HomePageActivity : AppCompatActivity(),Serializable {
                     listOfComic.add(comicGet)
                 }
 
-                var adapter= ComicAdapter(listOfComic)
+                var adapter = ComicAdapter(listOfComic)
                 adapter.onItemClick = { book ->
                     val intent = Intent(this, BookDetailActivity::class.java)
-                    intent.putExtra("id",book.id)
+                    intent.putExtra("id", book.id)
                     startActivity(intent)
                 }
                 val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                val fragment: Fragment = ListComicFragment.newInstance(adapter,3)
+                val fragment: Fragment = ListComicFragment.newInstance(adapter, 3)
                 ft.replace(R.id.fragment_container_view, fragment)
                 ft.commit()
             }
             .addOnFailureListener { exception ->
                 Log.d(TAG, "Error getting documents: ", exception)
             }
+
+
     }
 }

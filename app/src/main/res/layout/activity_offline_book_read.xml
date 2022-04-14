@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Controllers.Activities.BookReadActivity"
+    android:background="#000000">
+
+    <RelativeLayout
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="#000000">
+
+        <TextView
+            android:id="@+id/detail_book_barTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="6dp"
+            android:text="@string/chapterName"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+
+            />
+
+        <TextView
+            android:id="@+id/pagenumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/detail_book_barTV"
+            android:layout_centerHorizontal="true"
+            android:text="N/N"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+
+        <ImageView
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_back"
+            app:tint="@color/white" />
+
+    </RelativeLayout>
+
+
+    <com.github.barteksc.pdfviewer.PDFView
+        android:id="@+id/bookPDF"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolBar"
+        android:background="#CD000000">
+
+    </com.github.barteksc.pdfviewer.PDFView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="181dp"
+        android:layout_marginLeft="181dp"
+        android:layout_marginTop="181dp"
+        android:layout_marginRight="181dp"
+        app:layout_anchorGravity="center" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/nextChapterBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="121dp"
+        android:layout_marginLeft="161dp"
+        android:layout_marginTop="670dp"
+        android:layout_marginRight="161dp"
+        app:layout_anchorGravity="center"
+        android:text="@string/next_chapter"
+        android:visibility="invisible"
+        app:backgroundTint="#6B6B6B" />
+</RelativeLayout>

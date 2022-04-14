@@ -27,6 +27,9 @@
             android:name=".Controllers.Activities.AdminProfileActivity"
             android:exported="false" />
         <activity
+            android:name=".Controllers.Activities.OfflineBookReadActivity"
+            android:exported="false" />
+        <activity
             android:name=".Controllers.Activities.PrizeDetailActivity"
             android:exported="false" /> <!-- <activity -->
         <!-- android:name=".PrizeActivity" -->
