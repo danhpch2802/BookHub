@@ -96,6 +96,8 @@ class ChapterFragment(listChapter: Any?, detailBook: Book) : Fragment() {
         chapterRW.layoutManager = LinearLayoutManager(activity)
         adapter.onRowsChapterClick = { chapterClick ->
             userInfo.Point = userInfo.Point!! + 10
+            detailBook.viewNumber=detailBook.viewNumber!!+1
+            updateViewAfterChapterClick(detailBook, detailBook!!.id!!)
             updatePointAfterChapterClick(userInfo, currentUserAuth!!.uid)
             val intent= Intent(requireActivity(), BookReadActivity::class.java)
             intent.putExtra("ChapterPos",adapter.pos)
@@ -122,6 +124,13 @@ class ChapterFragment(listChapter: Any?, detailBook: Book) : Fragment() {
             .document(idAccount)
             .update("Point", userInfo.Point)
     }
+
+    private fun updateViewAfterChapterClick(bookInfo: Book, idBook : String) {
+        val pointRef = FirebaseFirestore.getInstance().collection("comics")
+            .document(idBook)
+            .update("viewNumber", bookInfo.viewNumber)
+    }
+
     private val requestStoragePermissionLauncher= registerForActivityResult(ActivityResultContracts.RequestPermission()){
         isGranted:Boolean ->
         if(isGranted)
