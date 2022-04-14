@@ -1,5 +1,6 @@
 package com.androidrealm.bookhub.Controllers.Activities
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -7,7 +8,9 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.androidrealm.bookhub.Models.Account
 import com.androidrealm.bookhub.R
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 
 class AccountDetailActivity : AppCompatActivity() {
     var AvaBtn: ImageView? = null
@@ -53,10 +56,21 @@ class AccountDetailActivity : AppCompatActivity() {
 
         }
         delBtn!!.setOnClickListener{
-            delAcc(uid)
-            val intents = Intent(this, AccountActivity::class.java)
-            startActivity(intents)
-            finish()
+            val db = FirebaseFirestore.getInstance()
+            var role = 3L
+            db.collection("accounts").document(uid)
+                .get().addOnSuccessListener { result ->
+                    role = result.get("Role") as Long
+                    if (role == 0L)
+                    {Toast.makeText(this, "This is an admin!!", Toast.LENGTH_SHORT).show()}
+                    else {
+                    delAcc(uid)
+                    val intents = Intent(this, AccountActivity::class.java)
+                    startActivity(intents)
+                    finish()
+                    }
+                }
+
         }
         reBtn!!.setOnClickListener{
             finish()
@@ -122,6 +136,13 @@ class AccountDetailActivity : AppCompatActivity() {
         val db = FirebaseFirestore.getInstance()
         db.collection("accounts").document(id)
             .delete()
+//        val user = Firebase.auth.getUser(id)
+//        user.delete()
+//            .addOnCompleteListener { task ->
+//                if (task.isSuccessful) {
+//                    Log.d(TAG, "User account deleted.")
+//                }
+//            }
     }
     fun onError(e: Exception?) {
         if (e != null) {
@@ -141,3 +162,4 @@ class AccountDetailActivity : AppCompatActivity() {
             }
     }
 }
+

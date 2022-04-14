@@ -90,20 +90,39 @@ class LoginActivity : AppCompatActivity() {
                     .addOnCompleteListener { task ->
                         // If login successful
                         if (task.isSuccessful) {
-                            Toast.makeText(this, "Login Successful!", Toast.LENGTH_SHORT).show()
-                            // Send user to Homepage Activity
-                            val intentToHomePageActivity =
-                                Intent(this, HomePageActivity::class.java)
-                            intentToHomePageActivity.flags =
-                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                            intentToHomePageActivity.putExtra(
-                                "uid",
-                                FirebaseAuth.getInstance().currentUser!!.uid
-                            )
-                            progressDialog!!.dismiss()
-                            startActivity(intentToHomePageActivity)
-                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-                            finish()
+                            FirebaseFirestore.getInstance().collection("accounts").get().addOnSuccessListener { result ->
+                                var flag = 0
+                                for (documents in result) {
+                                    if (FirebaseAuth.getInstance().currentUser!!.uid == documents.id) {
+                                        Toast.makeText(this, "Login Successful!", Toast.LENGTH_SHORT).show()
+                                        // Send user to Homepage Activity
+                                        val intentToHomePageActivity =
+                                            Intent(this, HomePageActivity::class.java)
+                                        intentToHomePageActivity.flags =
+                                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                        intentToHomePageActivity.putExtra(
+                                            "uid",
+                                            FirebaseAuth.getInstance().currentUser!!.uid
+                                        )
+                                        flag = 1
+                                        progressDialog!!.dismiss()
+                                        startActivity(intentToHomePageActivity)
+                                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                                        finish()
+                                        break
+                                    }
+                                }
+                                if (flag == 0) {
+                                Toast.makeText(
+                                    this,
+                                    "Error! Account Deleted Because Violate User Agreement or Account Not existed",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                progressDialog!!.dismiss()
+                            }
+
+                            }
+
                         } else {
                             // If login failed
                             progressDialog!!.dismiss()
