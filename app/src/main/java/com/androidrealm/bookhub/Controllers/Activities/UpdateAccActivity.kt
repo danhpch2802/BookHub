@@ -56,10 +56,6 @@ class UpdateAccActivity : AppCompatActivity() {
             Toast.makeText(this@UpdateAccActivity, "Edit Successfully!", Toast.LENGTH_SHORT).show()
         }
 
-        badgeTV!!.setOnClickListener{
-            val intent = Intent(this,  PrizeListActivity::class.java)
-            startActivity(intent)
-        }
 
         passBtn!!.setOnClickListener{
             val intent = Intent(this,  ForgotPasswordActivity::class.java)
@@ -130,6 +126,10 @@ class UpdateAccActivity : AppCompatActivity() {
                             val intent = Intent(this,  ProfileActivity::class.java)
                             startActivity(intent)
                         }
+                        badgeTV!!.setOnClickListener{
+                            val intent = Intent(this,  PrizeListActivity::class.java)
+                            startActivity(intent)
+                        }
                     }
                 }
                 else{
@@ -138,6 +138,10 @@ class UpdateAccActivity : AppCompatActivity() {
                         startActivity(intent)
                     }
                     badgeTV!!.setText("Admin")
+                    badgeTV!!.setOnClickListener{
+                        Toast.makeText(this, "You 're an admin, there no badge precious than this", Toast.LENGTH_SHORT).show()
+                    }
+
                 }
 
             }

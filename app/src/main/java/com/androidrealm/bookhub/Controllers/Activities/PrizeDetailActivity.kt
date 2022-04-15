@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
+import android.widget.Toast
 import com.androidrealm.bookhub.R
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
 class PrizeDetailActivity : AppCompatActivity() {
@@ -70,10 +72,16 @@ class PrizeDetailActivity : AppCompatActivity() {
                         else {
                             badgeBtn!!.setText("Delete Badge")
                             badgeBtn!!.setOnClickListener {
-                                delBad(badgeChosen!![0])
-                                val intents = Intent(this, PrizeListActivity::class.java)
-                                startActivity(intents)
-                                finish()
+                                if (badgeChosen!![0] == "s1")
+                                {
+                                    Toast.makeText(this, "Can delete this badge. It 's the standard badge!", Toast.LENGTH_SHORT).show()
+                                }
+                                else {
+                                    delBad(badgeChosen!![0])
+                                    val intents = Intent(this, PrizeListActivity::class.java)
+                                    startActivity(intents)
+                                    finish()
+                                }
                             }
                         }
                     }
@@ -120,6 +128,17 @@ class PrizeDetailActivity : AppCompatActivity() {
         val db = FirebaseFirestore.getInstance()
         db.collection("prizes").document(id)
             .delete()
+        db.collection("accounts")
+            .get().addOnSuccessListener { result ->
+                for (documents in result) {
+                            db.collection("accounts").document(documents.id).update("BadgeOwn", FieldValue.arrayRemove(id))
+                            db.collection("accounts").document(documents.id).update("BadgeUnown", FieldValue.arrayRemove(id))
+                            db.collection("accounts").document(documents.id).update("Badge", FieldValue.arrayRemove(id))
+                    }
+                }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "Error getting documents: ", exception)
+            }
     }
     fun onError(e: Exception?) {
         if (e != null) {

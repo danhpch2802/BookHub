@@ -10,6 +10,7 @@ import android.os.Handler
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +20,7 @@ import com.androidrealm.bookhub.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.toObject
+import kotlinx.android.synthetic.main.activity_prize_list.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -33,12 +35,14 @@ class PrizeListActivity : AppCompatActivity() {
     var myAdapter: PrizeAdapter?= null
     var db: FirebaseFirestore ?= null
     var role:Long = 3
+    var newPrizeBtn: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_prize_list)
         recyclerView = findViewById(R.id.prize_list)
         reBtn = findViewById(R.id.prizelistReturn)
+        newPrizeBtn = findViewById(R.id.newPrize)
 
         recyclerView!!.setHasFixedSize(true)
         recyclerView!!.layoutManager = LinearLayoutManager(this)
@@ -59,11 +63,18 @@ class PrizeListActivity : AppCompatActivity() {
                         startActivity(intents)
                         finish()
                     }
+                    newPrizeBtn!!.isInvisible = true
                 }
                 else {
                     getAdminAcc()
                     reBtn!!.setOnClickListener{
                         val intents = Intent(this,  AdminProfileActivity::class.java)
+                        startActivity(intents)
+                        finish()
+                    }
+
+                    newPrizeBtn!!.setOnClickListener{
+                        val intents = Intent(this,  NewPrizeActivity::class.java)
                         startActivity(intents)
                         finish()
                     }
@@ -74,7 +85,6 @@ class PrizeListActivity : AppCompatActivity() {
     fun getAcc () {
         val db = FirebaseFirestore.getInstance()
         val db2 = FirebaseFirestore.getInstance()
-        var cnt = 0
         db.collection("accounts").document(uid)
             .get().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -85,7 +95,6 @@ class PrizeListActivity : AppCompatActivity() {
                 else {
                     onError(task.exception)
                 }
-
                 for(i in prizeList!!.indices){
                     Log.d(TAG, "beforedb" + i.toString())
                     db2.collection("prizes").document(prizeList!![i]).get().addOnSuccessListener { result ->
@@ -116,7 +125,7 @@ class PrizeListActivity : AppCompatActivity() {
             .addOnSuccessListener { result ->
                 for (document in result) {
                     prizeNameList!!.add(document["prizeName"].toString())
-                    prizeList!!.add(document["id"].toString())
+                    //prizeList!!.add(document["id"].toString())
                 }
 
                 myAdapter = PrizeAdapter(prizeNameList!!)

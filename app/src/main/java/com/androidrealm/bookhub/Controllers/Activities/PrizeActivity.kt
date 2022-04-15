@@ -133,7 +133,7 @@ class PrizeActivity : AppCompatActivity() {
                             {
                                 Toast.makeText(this, "You don't have enough Points", Toast.LENGTH_SHORT).show()
                             }
-                            if (prizeList!!.size == 0)
+                            else if (prizeList!!.size == 0)
                             {
                                 Toast.makeText(this, "You already have full prize", Toast.LENGTH_SHORT).show()
                             }
@@ -156,7 +156,6 @@ class PrizeActivity : AppCompatActivity() {
                     db2.collection("accounts").document(uid)
                         .get().addOnCompleteListener { task ->
                             if (task.isSuccessful) {
-
                                 point2 = (task.result["Point"] as Long?)!!
                             } else {
                                 onError(task.exception)
@@ -166,7 +165,7 @@ class PrizeActivity : AppCompatActivity() {
                             {
                                 Toast.makeText(this, "You don't have enough Points", Toast.LENGTH_SHORT).show()
                             }
-                            if (prizeList!!.size == 0)
+                            else if (prizeList!!.size == 0)
                             {
                                 Toast.makeText(this, "You already have full prize", Toast.LENGTH_SHORT).show()
                             }
