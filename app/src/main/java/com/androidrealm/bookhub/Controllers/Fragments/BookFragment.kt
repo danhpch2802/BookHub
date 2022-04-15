@@ -388,13 +388,6 @@ class BookFragment : Fragment() {
             "editable"
         ) as Boolean
 
-        detailComic = requireArguments().getSerializable(
-            "comic"
-        ) as Book
-
-        bookId = detailComic.id
-
-
         //no create && no edit
         if(!createNew && !editable) {
 //            var recommendAdapter = ComicAdapter(recommendList!!)
@@ -405,6 +398,12 @@ class BookFragment : Fragment() {
             listComment = requireArguments().getSerializable(
                 "listComment"
             ) as ArrayList<Comment>
+
+            detailComic = requireArguments().getSerializable(
+                "comic"
+            ) as Book
+
+            bookId = detailComic.id
 
             val currentUserAuth = FirebaseAuth.getInstance().currentUser
 
@@ -447,6 +446,11 @@ class BookFragment : Fragment() {
         //no create && edit
         else
         {
+            detailComic = requireArguments().getSerializable(
+                "comic"
+            ) as Book
+
+            bookId = detailComic.id
             val bookViewPage2 = view.findViewById<ViewPager2>(R.id.bookViewPage2)
             var bookVPAdapter = BookPageView2Adapter(
                 activity as AppCompatActivity, 2,

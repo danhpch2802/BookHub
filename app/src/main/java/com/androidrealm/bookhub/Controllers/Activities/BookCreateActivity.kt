@@ -19,8 +19,6 @@ class BookCreateActivity: AppCompatActivity() {
         ReBtn = findViewById(R.id.reBookCreate)
 
         ReBtn!!.setOnClickListener{
-            val intent = Intent(this,  AdminProfileActivity::class.java)
-            startActivity(intent)
             finish()
         }
         if (savedInstanceState == null) {
