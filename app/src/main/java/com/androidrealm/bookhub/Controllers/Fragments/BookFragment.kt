@@ -54,7 +54,6 @@ class BookFragment : Fragment() {
     private var recommendList : ArrayList<Book>? =ArrayList<Book>()
     private var createNew = false
     private var comicCoverIV : ImageView? = null
-
     private var imageUri : Uri? = null
 
     private var listCategoryChosen = ArrayList<String>()
@@ -78,8 +77,8 @@ class BookFragment : Fragment() {
                 bundle.putSerializable("comic", book)
                 bundle.putSerializable("recommendedList", recommendList)
                 bundle.putSerializable("listComment", listComment)
-                bundle.putSerializable("editable", editable)
             }
+            bundle.putSerializable("editable", editable)
             bundle.putSerializable("createNew", createNew)
             fragment.setArguments(bundle)
 

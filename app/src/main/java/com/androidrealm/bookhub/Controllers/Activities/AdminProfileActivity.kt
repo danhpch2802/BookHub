@@ -6,10 +6,8 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import com.androidrealm.bookhub.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -34,9 +32,12 @@ class AdminProfileActivity : AppCompatActivity() {
     var badgeTV: TextView? = null
     var point: TextView? = null
 
+    var createNewBtn:Button?=null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_profile)
+
 
         preferences = getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE)
         uid = FirebaseAuth.getInstance().currentUser!!.uid
@@ -50,7 +51,7 @@ class AdminProfileActivity : AppCompatActivity() {
         badgeTV = findViewById(R.id.pf_prize)
         AvaBtn = findViewById(R.id.avatarpf_img)
         SignoutBtn = findViewById(R.id.signout_btn_pf)
-
+        createNewBtn=findViewById<Button>(R.id.createNewBtn)
 
         getAcc()
 
@@ -101,6 +102,11 @@ class AdminProfileActivity : AppCompatActivity() {
                 }
                 else -> false
             }
+        }
+
+        createNewBtn!!.setOnClickListener {
+            val intent=Intent(this,BookCreateActivity::class.java)
+            startActivity(intent)
         }
     }
 
