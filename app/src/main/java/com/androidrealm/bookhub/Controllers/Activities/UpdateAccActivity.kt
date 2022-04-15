@@ -72,10 +72,25 @@ class UpdateAccActivity : AppCompatActivity() {
             else
             {
                 Toast.makeText(this@UpdateAccActivity, "Edit Successfully!", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this,  ProfileActivity::class.java)
-                startActivity(intent)
                 setAcc(name, email)
-                finish()
+                var role = 3L
+                val db = FirebaseFirestore.getInstance()
+                db.collection("accounts").document(uid)
+                    .get().addOnSuccessListener { result ->
+                        role = result.get("Role") as Long
+                        if (role == 0L){
+                            val intent = Intent(this,  AdminProfileActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                        else
+                        {
+                            val intent = Intent(this,  ProfileActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                    }
+
             }
         }
     }
@@ -138,6 +153,7 @@ class UpdateAccActivity : AppCompatActivity() {
                         startActivity(intent)
                     }
                     badgeTV!!.setText("Admin")
+                    badgeTV!!.setBackgroundColor(Color.parseColor("#f7971e"))
                     badgeTV!!.setOnClickListener{
                         Toast.makeText(this, "You 're an admin, there no badge precious than this", Toast.LENGTH_SHORT).show()
                     }

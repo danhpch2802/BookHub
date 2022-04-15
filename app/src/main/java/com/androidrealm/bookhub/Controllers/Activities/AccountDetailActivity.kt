@@ -2,6 +2,7 @@ package com.androidrealm.bookhub.Controllers.Activities
 
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
@@ -31,7 +32,7 @@ class AccountDetailActivity : AppCompatActivity() {
     var Badge:String? = ""
     var Badge2:String? = ""
     var Email:String? = ""
-
+    var role :Long?=3L
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_detail)
@@ -57,7 +58,6 @@ class AccountDetailActivity : AppCompatActivity() {
         }
         delBtn!!.setOnClickListener{
             val db = FirebaseFirestore.getInstance()
-            var role = 3L
             db.collection("accounts").document(uid)
                 .get().addOnSuccessListener { result ->
                     role = result.get("Role") as Long
@@ -73,23 +73,36 @@ class AccountDetailActivity : AppCompatActivity() {
 
         }
         reBtn!!.setOnClickListener{
+            val intents = Intent(this, AccountActivity::class.java)
+            startActivity(intents)
             finish()
         }
         saveBtn!!.setOnClickListener{
-            val name = username!!.text.toString().trim()
-            val email = email!!.text.toString().trim()
-
-            if(name.isEmpty()){
-                Toast.makeText(this, "Please enter your username", Toast.LENGTH_SHORT).show()
-            }
-            else
-            {
-                setAcc(name, email)
-                Toast.makeText(this, "Edit Successfully!", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this,  AccountActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
+            val db = FirebaseFirestore.getInstance()
+            db.collection("accounts").document(uid)
+                .get().addOnSuccessListener { result ->
+                    role = result.get("Role") as Long?
+                    if (role == 0L)
+                    {
+                        Toast.makeText(this, "This is an admin!!", Toast.LENGTH_SHORT).show()
+                    }
+                    else
+                    {
+                        val name = username!!.text.toString().trim()
+                        val email = email!!.text.toString().trim()
+                        if(name.isEmpty()){
+                            Toast.makeText(this, "Please enter your username", Toast.LENGTH_SHORT).show()
+                        }
+                        else
+                        {
+                            setAcc(name, email)
+                            Toast.makeText(this, "Edit Successfully!", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this,  AccountActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                    }
+                }
         }
     }
 //
@@ -111,23 +124,29 @@ class AccountDetailActivity : AppCompatActivity() {
                 }
                     TotalBadge = cnt
                 Point =  task.result["Point"] as Number?
-
+                role = task.result["Role"] as Long?
                 }
             else {onError(task.exception)}
             username!!.setText(Name)
             badge!!.setText(TotalBadge.toString())
             point!!.setText(Point.toString())
             val db2 = FirebaseFirestore.getInstance()
+            email!!.setText(Email)
+            if(role == 0L)
+            {
+                badgeTV!!.setText("Admin")
+                badgeTV!!.setBackgroundColor(Color.parseColor("#f7971e"))
+            }
+            else{
             db2.collection("prizes").document(Badge!!).get().addOnCompleteListener { task2 ->
                 if (task2.isSuccessful) {
                     Badge2 = task2.result["prizeName"] as? String
-                }
-                else {
+                } else {
                     onError(task2.exception)
                 }
                 badgeTV!!.setText(Badge2)
             }
-            email!!.setText(Email)
+            }
             }
         }
 

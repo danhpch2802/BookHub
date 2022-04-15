@@ -20,7 +20,6 @@ class AdminProfileActivity : AppCompatActivity() {
     var AllAccBtn: ImageButton? = null
     var AvaBtn: ImageView? = null
     var SignoutBtn: ImageButton? = null
-
     var uid:String = ""
 
     var Point:Number? = 0
@@ -52,7 +51,6 @@ class AdminProfileActivity : AppCompatActivity() {
         AvaBtn = findViewById(R.id.avatarpf_img)
         SignoutBtn = findViewById(R.id.signout_btn_pf)
         createNewBtn=findViewById<Button>(R.id.createNewBtn)
-
         getAcc()
 
         //Log.d(TAG, Badge2)
