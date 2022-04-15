@@ -74,10 +74,11 @@ class BookFragment : Fragment() {
             val fragment= BookFragment()
             val bundle = Bundle()
             if(!createNew!!) {
-                bundle.putSerializable("comic", book)
+
                 bundle.putSerializable("recommendedList", recommendList)
                 bundle.putSerializable("listComment", listComment)
             }
+            bundle.putSerializable("comic", book)
             bundle.putSerializable("editable", editable)
             bundle.putSerializable("createNew", createNew)
             fragment.setArguments(bundle)
