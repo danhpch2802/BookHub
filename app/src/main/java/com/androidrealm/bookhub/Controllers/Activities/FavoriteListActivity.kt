@@ -29,7 +29,7 @@ class FavoriteListActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-            val fragment: Fragment = ListComicFragment.newInstance(adapter,3)
+            val fragment: Fragment = ListComicFragment.newInstance(3)
             ft.replace(R.id.fragment_Favorite_List, fragment)
             ft.commit()
         }

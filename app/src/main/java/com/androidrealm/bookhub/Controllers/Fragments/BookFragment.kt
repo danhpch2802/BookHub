@@ -332,6 +332,7 @@ class BookFragment : Fragment() {
                         }
                         R.id.deleteBook -> {
                             bookId = detailComic.id
+                            alertDialog.setMessage("Deleting")
                             alertDialog.show()
                             deleteAllFileInStorage(detailComic)
                             GlobalScope.launch {

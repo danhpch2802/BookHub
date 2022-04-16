@@ -30,10 +30,16 @@ class HomePageActivity : AppCompatActivity(),Serializable {
     var location=1
     var uid:String = "ERQnHq5YlmL78h2wDBQX"
     var role:Long = 3
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_homepage)
         uid = FirebaseAuth.getInstance().currentUser!!.uid
+
+        val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+        val fragment: Fragment = ListComicFragment.newInstance(3)
+        ft.replace(R.id.fragment_container_view, fragment)
+        ft.commit()
     }
 
     override fun onResume() {
@@ -47,34 +53,15 @@ class HomePageActivity : AppCompatActivity(),Serializable {
             when {
                 menuItem.itemId == R.id.home_item-> {
                     if(location!=1) {
-                        val listOfComic = ArrayList<Book>();
-                        val docRef = fireStore.collection("comics")
-                        docRef.get()
-                            .addOnSuccessListener { result ->
-                                for (document in result) {
-                                    val comicGet = document.toObject<Book>()
-                                    comicGet.id = document.id
-                                    listOfComic.add(comicGet)
-                                }
 
-                                var adapter = ComicAdapter(listOfComic)
-                                adapter.onItemClick = { book ->
-                                    val intent = Intent(this, BookDetailActivity::class.java)
-                                    intent.putExtra("id", book.id)
-                                    startActivity(intent)
-                                }
-                                val ft: FragmentTransaction =
-                                    supportFragmentManager.beginTransaction().setCustomAnimations(
-                                        R.anim.slide_in_left,
-                                        R.anim.slide_out_right
-                                    )
-                                val fragment: Fragment = ListComicFragment.newInstance(adapter, 3)
-                                ft.replace(R.id.fragment_container_view, fragment)
-                                ft.commit()
-                            }
-                            .addOnFailureListener { exception ->
-                                Log.d(TAG, "Error getting documents: ", exception)
-                            }
+                        val ft: FragmentTransaction =
+                            supportFragmentManager.beginTransaction().setCustomAnimations(
+                                R.anim.slide_in_left,
+                                R.anim.slide_out_right
+                            )
+                        val fragment: Fragment = ListComicFragment.newInstance(3)
+                        ft.replace(R.id.fragment_container_view, fragment)
+                        ft.commit()
                         location=1
                     }
                     return@setOnNavigationItemSelectedListener true
@@ -152,31 +139,5 @@ class HomePageActivity : AppCompatActivity(),Serializable {
                 else -> false
             }
         }
-        val listOfComic = ArrayList<Book>();
-        val docRef = fireStore.collection("comics")
-        docRef.get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    val comicGet = document.toObject<Book>()
-                    comicGet.id = document.id
-                    listOfComic.add(comicGet)
-                }
-
-                var adapter = ComicAdapter(listOfComic)
-                adapter.onItemClick = { book ->
-                    val intent = Intent(this, BookDetailActivity::class.java)
-                    intent.putExtra("id", book.id)
-                    startActivity(intent)
-                }
-                val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                val fragment: Fragment = ListComicFragment.newInstance(adapter, 3)
-                ft.replace(R.id.fragment_container_view, fragment)
-                ft.commit()
-            }
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "Error getting documents: ", exception)
-            }
-
-
     }
 }

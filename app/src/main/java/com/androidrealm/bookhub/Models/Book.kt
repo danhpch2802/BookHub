@@ -9,7 +9,7 @@ class Book(
 
     var ratedAccount: ArrayList<String>? = ArrayList<String>(),
 
-    var viewNumber: Int = 0,
+    var viewNumber: Long = 0,
     var locked: Boolean = false,
 
     var name:String?="", //

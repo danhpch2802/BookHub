@@ -3,8 +3,6 @@ package com.androidrealm.bookhub.Controllers.Activities
 import android.content.ContentValues
 import android.os.Bundle
 import android.util.Log
-import android.view.GestureDetector
-import android.view.MotionEvent
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -16,7 +14,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_book_read.*
-import java.lang.Math.abs
 
 
 class BookReadActivity : AppCompatActivity()  {
@@ -89,8 +86,7 @@ class BookReadActivity : AppCompatActivity()  {
 
         val backBtn=findViewById<ImageView>(R.id.backBtn)
         backBtn.setOnClickListener {
-            onBackPressed()
-            this.finish()
+            finish()
         }
     }
     fun loadSpinner(listChapter:ArrayList<Chapter>){
@@ -133,7 +129,11 @@ class BookReadActivity : AppCompatActivity()  {
                         pageTV!!.setText("$currentPage/$pageCount")
                         if(currentPage==pageCount)
                         {
-                            if(currentChap<book!!.listChapter!!.size) nextChapterBtn!!.visibility=View.VISIBLE
+                            if(currentChap + 1 < book!!.listChapter!!.size) nextChapterBtn!!.visibility=View.VISIBLE
+                        }
+                        else
+                        {
+                            nextChapterBtn!!.visibility=View.GONE
                         }
                     }
                     ?.onTap {it->

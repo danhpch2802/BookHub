@@ -1,8 +1,6 @@
 package com.androidrealm.bookhub.Controllers.Activities
 
-import android.content.ContentValues
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
@@ -12,7 +10,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.androidrealm.bookhub.R
 import com.github.barteksc.pdfviewer.PDFView
-import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_book_read.*
 import java.io.File
 
@@ -26,7 +23,7 @@ class OfflineBookReadActivity : AppCompatActivity()  {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_book_read)
+        setContentView(R.layout.activity_offline_book_read)
 
         val intent = intent
         val name  = intent.getStringExtra("chapterName")
@@ -34,11 +31,14 @@ class OfflineBookReadActivity : AppCompatActivity()  {
         pdfViewer = findViewById<PDFView>(R.id.bookPDF)
         pageTV=findViewById<TextView>(R.id.pagenumber)
         chapterName=findViewById(R.id.detail_book_barTV)
+
+        chapterName!!.text = name.toString()
+
         topBar=findViewById(R.id.toolBar)
         loadPdfFromStrorage(link)
-        val backBtn=findViewById<ImageView>(R.id.backBtn)
+        val backBtn=findViewById<ImageView>(R.id.OffbackBtn)
         backBtn.setOnClickListener {
-            onBackPressed()
+            finish()
         }
     }
 

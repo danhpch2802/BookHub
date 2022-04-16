@@ -81,7 +81,7 @@ class ChapterFragment(listChapter: Any?, detailBook: Book?=null) : Fragment(), S
             "listChapter"
         ) as ArrayList<Chapter>
 
-        var detailBook=requireArguments().getSerializable(
+        detailBook = requireArguments().getSerializable(
             "detailBook"
         ) as Book
 
@@ -99,19 +99,19 @@ class ChapterFragment(listChapter: Any?, detailBook: Book?=null) : Fragment(), S
         chapterRW.layoutManager = LinearLayoutManager(activity)
         adapter.onRowsChapterClick = { chapterClick ->
             userInfo.Point = userInfo.Point!! + 10
-            detailBook.viewNumber=detailBook.viewNumber!!+1
-            updateViewAfterChapterClick(detailBook, detailBook!!.id!!)
+            detailBook!!.viewNumber= detailBook!!.viewNumber!!+1
+            updateViewAfterChapterClick(detailBook!!, detailBook!!.id!!)
             updatePointAfterChapterClick(userInfo, currentUserAuth!!.uid)
             val intent= Intent(requireActivity(), BookReadActivity::class.java)
             intent.putExtra("ChapterPos",adapter.pos)
-            intent.putExtra("id",detailBook.id)
+            intent.putExtra("id", detailBook!!.id)
             startActivity(intent)
         }
 
         adapter.onRowsChapterDownloadClick={chapterClick ->
             if(ContextCompat.checkSelfPermission(requireContext(),android.Manifest.permission.WRITE_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED){
                 Log.d("External","Permission already granted!")
-                downloadChapter(chapterClick,detailBook)
+                downloadChapter(chapterClick, detailBook!!)
             }
             else{
                 Log.d("External","Permission not granted!")
