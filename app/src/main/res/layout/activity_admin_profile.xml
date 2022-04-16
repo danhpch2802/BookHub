@@ -267,7 +267,7 @@
         android:id="@+id/createNewBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="84dp"
+        android:layout_marginBottom="56dp"
         android:backgroundTint="#1281FF"
         android:text="Create new Book"
         app:layout_constraintBottom_toBottomOf="parent"
