@@ -1,9 +1,12 @@
 package com.androidrealm.bookhub.Controllers.Fragments
 
-import android.app.ProgressDialog
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +15,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,14 +33,13 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import java.io.File
 import java.io.FileOutputStream
+import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
-class ChapterFragment(listChapter: Any?, detailBook: Book) : Fragment() {
+class ChapterFragment(listChapter: Any?, detailBook: Book?=null) : Fragment(), Serializable {
     companion object {
-        fun newInstance
-                    (listChapter: ArrayList<Chapter>, detailBook: Book, userInfo: Account,): ChapterFragment
+        fun newInstance(listChapter: ArrayList<Chapter>, detailBook: Book, userInfo: Account): ChapterFragment
         {
             val fragment= ChapterFragment(listChapter,detailBook)
             val bundle = Bundle()
@@ -136,7 +139,7 @@ class ChapterFragment(listChapter: Any?, detailBook: Book) : Fragment() {
         if(isGranted)
         {
             Log.d("External","Permission is granted!")
-            downloadChapter(chapterClick!!,detailBook)
+            downloadChapter(chapterClick!!,detailBook!!)
         }
         else
         {
@@ -150,33 +153,51 @@ class ChapterFragment(listChapter: Any?, detailBook: Book) : Fragment() {
         var existDownloadedBook = db.downloadBookDAO().findByNameAndChapter(detailBook.name.toString(),
             chapterClick.name.toString()
         )
+        var existed:Boolean
         if(existDownloadedBook==null){
-            progressBar!!.visibility=View.VISIBLE
-            val referenceCover= FirebaseStorage.getInstance().getReferenceFromUrl((detailBook!!.imagePath.toString()))
-            var coverName=referenceCover.getName().split(".")[0]
-            referenceCover.getBytes(50000000) //50mb
-                .addOnSuccessListener { bytes->
-                    imageSaveToLocal(bytes, detailBook!!.name.toString())
-                    val referencePDF= FirebaseStorage.getInstance().getReferenceFromUrl((chapterClick!!.links.toString()))
-                    var PDFName = chapterClick.name.toString()
-                    referencePDF.getBytes(50000000)
-                        .addOnSuccessListener { bytes->
-                            pdfSaveToLocal(bytes,PDFName,detailBook!!.name.toString())
-                            var newDownloadBook = DownloadBook(
-                                imagePath=imagePath.toString(),  chapterName = chapterClick!!.name.toString(),
-                                chapterPath = pdfPath.toString()
-                                ,name= detailBook!!.name.toString(), summary = detailBook!!.summary.toString(),author= detailBook!!.author.toString())
-                            db.downloadBookDAO().insertDownloadBook(newDownloadBook)
-                        }
-                }
+            existed=false
         }
         else
         {
-            Toast.makeText(requireContext(),"Chapter already downloaded",Toast.LENGTH_SHORT).show()
+            existed=true;
+        }
+        Log.i("testbool",existed.toString())
+        val dialog = ChooseFolderDialogFragment()
+        val bundle=Bundle()
+        bundle.putSerializable("chapterClick",chapterClick)
+        bundle.putSerializable("detailBook",detailBook)
+        bundle.putSerializable("Fragment",this)
+        bundle.putBoolean("Existed",existed)
+        dialog.setArguments(bundle);
+
+        dialog.show(requireActivity().supportFragmentManager, "testting")
+    }
+
+    fun pdfSaveToDownload(bytes: ByteArray?, name: String, book_name: String) {
+        var removedBookName=book_name.replace("\\s".toRegex(),"")
+        var removedName=name.replace("\\s".toRegex(),"")
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        var pdfName="${removedBookName}${removedName}${timeStamp}.pdf"
+        try {
+
+            var pdfdownload_folder =  Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+
+            pdfdownload_folder.mkdirs()
+            var filepath=pdfdownload_folder.path+"/"+pdfName
+
+            val out=FileOutputStream(filepath)
+            out.write(bytes)
+            out.close()
+            Toast.makeText(requireContext(),"Download Completed",Toast.LENGTH_LONG).show()
+            progressBar!!.visibility=View.INVISIBLE
+            this.pdfPath=String()
+            this.pdfPath+=filepath.toString()
+        } catch (t: Throwable) {
+            Log.i("testing",t.message.toString())
         }
     }
 
-     fun imageSaveToLocal (bytes:ByteArray, coverName:String) {
+    fun imageSaveToLocal (bytes:ByteArray, coverName:String) {
         var removedCoverName=coverName.replace("\\s".toRegex(),"")
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
 
@@ -196,7 +217,6 @@ class ChapterFragment(listChapter: Any?, detailBook: Book) : Fragment() {
 
         } catch (t: Throwable) {
             Log.i("testing",t.message.toString())
-            Toast.makeText(requireContext(),t.message, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -221,7 +241,80 @@ class ChapterFragment(listChapter: Any?, detailBook: Book) : Fragment() {
             this.pdfPath+=filepath.toString()
         } catch (t: Throwable) {
             Log.i("testing",t.message.toString())
-            Toast.makeText(requireContext(),t.message, Toast.LENGTH_LONG).show()
         }
+    }
+}
+
+class ChooseFolderDialogFragment: DialogFragment() {
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return activity?.let {
+// Use the Builder class for convenient dialog construction
+            val builder = AlertDialog.Builder(it)
+            builder.setTitle("Choose folder to store book")
+            val bundle=arguments
+
+            val chapterClick=bundle!!.getSerializable("chapterClick") as Chapter
+            val detailBook=bundle!!.getSerializable("detailBook") as Book
+            val existed=bundle!!.getSerializable("Existed") as Boolean
+            var db = DownloadBookDatabase.getInstance(requireContext())
+
+            val cf=bundle!!.getSerializable("Fragment") as ChapterFragment
+            if(!existed){
+            builder.setItems(arrayOf("Download(PDF)", "Storage( Can be read in offline )"),
+                DialogInterface.OnClickListener {
+                        dialog, which ->
+                    cf!!.progressBar!!.visibility=View.VISIBLE
+                    if(which==0){
+                        val referencePDF= FirebaseStorage.getInstance().getReferenceFromUrl((chapterClick!!.links.toString()))
+                        var PDFName = chapterClick.name.toString()
+                        referencePDF.getBytes(50000000)
+                            .addOnSuccessListener { bytes->
+                                cf.pdfSaveToDownload(bytes,PDFName,detailBook!!.name.toString())
+                            }
+                    }
+                    else{
+                        val referenceCover= FirebaseStorage.getInstance().getReferenceFromUrl((detailBook!!.imagePath.toString()))
+                        var coverName=referenceCover.getName().split(".")[0]
+                        referenceCover.getBytes(50000000) //50mb
+                            .addOnSuccessListener { bytes->
+                                cf.imageSaveToLocal(bytes, detailBook!!.name.toString())
+                                val referencePDF= FirebaseStorage.getInstance().getReferenceFromUrl((chapterClick!!.links.toString()))
+                                var PDFName = chapterClick.name.toString()
+                                referencePDF.getBytes(50000000)
+                                    .addOnSuccessListener { bytes->
+                                        cf.pdfSaveToLocal(bytes,PDFName,detailBook!!.name.toString())
+                                        var newDownloadBook = DownloadBook(
+                                            imagePath=cf.imagePath.toString(),  chapterName = chapterClick!!.name.toString(),
+                                            chapterPath = cf.pdfPath.toString()
+                                            ,name= detailBook!!.name.toString(), summary = detailBook!!.summary.toString(),author= detailBook!!.author.toString())
+                                        db.downloadBookDAO().insertDownloadBook(newDownloadBook)
+                                    }
+                            }
+                    }
+                })}
+            else
+            {
+                builder.setItems(arrayOf("Download(PDF)"),
+                    DialogInterface.OnClickListener { dialog, which ->
+
+                        cf!!.progressBar!!.visibility=View.VISIBLE
+                        if (which == 0) {
+                            val referencePDF = FirebaseStorage.getInstance()
+                                .getReferenceFromUrl((chapterClick!!.links.toString()))
+                            var PDFName = chapterClick.name.toString()
+                            referencePDF.getBytes(50000000)
+                                .addOnSuccessListener { bytes ->
+                                    cf.pdfSaveToDownload(
+                                        bytes,
+                                        PDFName,
+                                        detailBook!!.name.toString()
+                                    )
+                                }
+                        }
+                    })
+            }
+// Create the AlertDialog object and return it
+            builder.create()
+        } ?: throw IllegalStateException("Activity cannot be null")
     }
 }

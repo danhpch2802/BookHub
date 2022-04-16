@@ -70,7 +70,7 @@ class OfflineBookReadActivity : AppCompatActivity()  {
                         true
                     }
                     ?.load()
-                findViewById<ProgressBar>(R.id.progressBar).visibility= View.GONE
+        findViewById<ProgressBar>(R.id.progressBar).visibility= View.GONE
     }
 
     private fun topBarAnimation(): Unit {

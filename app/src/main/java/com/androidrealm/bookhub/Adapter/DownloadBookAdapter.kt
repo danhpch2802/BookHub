@@ -27,6 +27,7 @@ class DownloadBookAdapter (private var downloadBook : List<DownloadBook>
         val comicIV = listItemView.findViewById(R.id.comicIVlinear) as ImageView
         init {
             listItemView.setOnClickListener {
+                pos=adapterPosition
                 onItemClick?.invoke(
                     downloadBook[adapterPosition]
                 )

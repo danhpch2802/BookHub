@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -57,10 +58,21 @@ class DownloadedBookFragment:  Fragment() {
 
         adapter.onItemClick={
                 chapterClick ->
-            val intent= Intent(requireActivity(), OfflineBookReadActivity::class.java)
-            intent.putExtra("chapterName",chapterClick.name)
-            intent.putExtra("chapterLink",chapterClick.chapterPath)
-            startActivity(intent)
+                if(!File(chapterClick.chapterPath).exists()){
+                    Toast.makeText(requireActivity(),"Corrupted book, clearing.,",Toast.LENGTH_LONG).show()
+                    listDownloaded.removeAt(adapter.pos!!)
+                    adapter.notifyItemRemoved(adapter.pos!!)
+                    deleteDownloaded(chapterClick)
+                }
+            else{
+                    val intent = Intent(requireActivity(), OfflineBookReadActivity::class.java)
+                    intent.putExtra("chapterName", chapterClick.name)
+                    intent.putExtra("chapterLink", chapterClick.chapterPath)
+                    startActivity(intent)
+                }
+
+
+
         }
 
         adapter.onDeleteClick={
