@@ -66,7 +66,7 @@ class DownloadedBookFragment:  Fragment() {
                 }
             else{
                     val intent = Intent(requireActivity(), OfflineBookReadActivity::class.java)
-                    intent.putExtra("chapterName", chapterClick.name)
+                    intent.putExtra("chapterName", chapterClick.chapterName)
                     intent.putExtra("chapterLink", chapterClick.chapterPath)
                     startActivity(intent)
                 }
