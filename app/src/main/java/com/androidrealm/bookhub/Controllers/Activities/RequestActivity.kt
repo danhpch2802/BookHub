@@ -19,6 +19,7 @@ class RequestActivity : AppCompatActivity() {
     var submitBtn: TextView? = null
     var request_name: EditText? = null
     var request_detail: EditText? = null
+    var username: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,12 +61,21 @@ class RequestActivity : AppCompatActivity() {
             val db = FirebaseFirestore.getInstance()
             val currentUserId = FirebaseAuth.getInstance().currentUser!!.uid
             val request: MutableMap<String, Any> = HashMap()
-            request["accountID"] = currentUserId
-            request["bookDetail"] = rq_detail
-            request["bookName"] = rq_name
-            request["checked"] = false
-            db.collection("requests")
-                .add(request)
+            db.collection("accounts").document(currentUserId).get()
+                .addOnSuccessListener { document ->
+                    if (document.exists()){
+                        username = document.getString("username")
+                        request["accountName"] = username!!
+                        request["bookDetail"] = rq_detail
+                        request["bookName"] = rq_name
+                        request["checked"] = false
+                        db.collection("requests")
+                            .add(request)
+                    }
+                    else{
+                        Toast.makeText(this, "Cannot find username of this ID", Toast.LENGTH_SHORT).show()
+                    }
+                }
 
             // Add 10 points when submit
             db.collection("accounts").document(currentUserId)
@@ -74,6 +84,10 @@ class RequestActivity : AppCompatActivity() {
             // Toast
             Toast.makeText(this@RequestActivity, "You have earned 10 points for making a request!", Toast.LENGTH_SHORT).show()
             Toast.makeText(this@RequestActivity, "Submit Successfully!", Toast.LENGTH_SHORT).show()
+
+            // Clear Edit Text
+            request_name!!.text.clear()
+            request_detail!!.text.clear()
         }
 
     }

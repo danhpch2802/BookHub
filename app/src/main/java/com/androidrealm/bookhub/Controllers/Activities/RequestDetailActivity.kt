@@ -3,8 +3,8 @@ package com.androidrealm.bookhub.Controllers.Activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.androidrealm.bookhub.R
@@ -12,18 +12,17 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class RequestDetailActivity : AppCompatActivity() {
     var doneBtn: TextView? = null
-    var userId: TextView ?= null
+    var username: TextView ?= null
     var request_name: TextView? = null
     var request_detail: TextView? = null
     var accept_checkbox: CheckBox? = null
-    var accountId: String ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_request_detail)
 
         doneBtn = findViewById(R.id.doneBtn)
-        userId = findViewById(R.id.userID_tv)
+        username = findViewById(R.id.userID_tv)
         request_name = findViewById(R.id.requestTitle_tv)
         request_detail = findViewById(R.id.requestDetail_tv)
         accept_checkbox = findViewById(R.id.checkbox_request)
@@ -36,13 +35,7 @@ class RequestDetailActivity : AppCompatActivity() {
             db.collection("requests").document(docID).get()
                 .addOnSuccessListener { documentSnapshot ->
                     val data = documentSnapshot.data
-                    accountId = (data?.get("accountID") as CharSequence?).toString()
-                    db.collection("accounts").document(accountId!!).get()
-                        .addOnSuccessListener { document ->
-                            if (document.exists()){
-                                userId!!.text = document.getString("username")
-                            }
-                        }
+                    username!!.text = data?.get("accountName") as CharSequence?
                     request_name!!.text = data?.get("bookName") as CharSequence?
                     request_detail!!.text = data?.get("bookDetail") as CharSequence?
                     accept_checkbox!!.isChecked = data?.get("checked") as Boolean
@@ -54,7 +47,6 @@ class RequestDetailActivity : AppCompatActivity() {
 
         doneBtn!!.setOnClickListener{
             if(accept_checkbox!!.isChecked){
-
                 if (docID != null) {
                     db.collection("requests").document(docID)
                         .update("checked", true)

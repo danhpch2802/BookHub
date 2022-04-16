@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -68,11 +69,12 @@ class RequestListActivity : AppCompatActivity() {
             }
         })
         getDB()
+
     }
 
     private fun getDB() {
         db = FirebaseFirestore.getInstance()
-        db!!.collection("requests").orderBy("accountID", Query.Direction.ASCENDING)
+        db!!.collection("requests").orderBy("accountName", Query.Direction.ASCENDING)
             .addSnapshotListener(object : EventListener<QuerySnapshot>{
                 @SuppressLint("NotifyDataSetChanged")
                 override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
@@ -88,6 +90,14 @@ class RequestListActivity : AppCompatActivity() {
                     myAdapter!!.notifyDataSetChanged()
                 }
             })
+//        db!!.collection("requests").get()
+//            .addOnSuccessListener { documents ->
+//                for (doc in documents){
+//                    if (doc.getBoolean("checked") == true){
+//                        check_image!!.setImageResource(R.drawable.check)
+//                    }
+//                }
+//            }
     }
 
 }

@@ -1,11 +1,10 @@
 package com.androidrealm.bookhub.Adapter
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.androidrealm.bookhub.Models.Request
 import com.androidrealm.bookhub.R
@@ -28,10 +27,13 @@ class RequestAdapter(private val listRequest: ArrayList<Request>) : RecyclerView
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val request: Request = listRequest[position]
-        holder.userid.text = request.accountID
+        holder.username.text = request.accountName
         holder.requestDetail.text = request.bookDetail
         holder.requestTitle.text = request.bookName
         holder.checked.text = request.checked.toString()
+        if (holder.checked.text == "true"){
+            holder.check_image.setImageResource(R.drawable.check)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -39,10 +41,11 @@ class RequestAdapter(private val listRequest: ArrayList<Request>) : RecyclerView
     }
 
     class MyViewHolder(itemView: View, listener: onItemClickListener) : RecyclerView.ViewHolder(itemView){
-        val userid: TextView = itemView.findViewById(R.id.rq_id_tv)
+        val username: TextView = itemView.findViewById(R.id.rq_id_tv)
         val requestTitle: TextView = itemView.findViewById(R.id.rq_title_tv)
         val requestDetail: TextView = itemView.findViewById(R.id.rq_detail_tv)
         val checked: TextView = itemView.findViewById(R.id.rq_checked_tv)
+        var check_image: ImageView = itemView.findViewById(R.id.check_icon)
 
         init{
             itemView.setOnClickListener { 
