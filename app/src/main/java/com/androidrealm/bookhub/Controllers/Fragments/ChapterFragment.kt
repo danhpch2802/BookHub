@@ -109,6 +109,8 @@ class ChapterFragment(listChapter: Any?, detailBook: Book?=null) : Fragment(), S
         }
 
         adapter.onRowsChapterDownloadClick={chapterClick ->
+            this.chapterClick=chapterClick
+            this.detailBook=detailBook
             if(ContextCompat.checkSelfPermission(requireContext(),android.Manifest.permission.WRITE_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED){
                 Log.d("External","Permission already granted!")
                 downloadChapter(chapterClick, detailBook!!)
