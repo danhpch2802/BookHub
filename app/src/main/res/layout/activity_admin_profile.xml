@@ -132,7 +132,7 @@
         android:id="@+id/all_account_btn_pf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="72dp"
+        android:layout_marginStart="75dp"
         android:layout_marginTop="210dp"
         android:background="@color/white"
         android:src="@drawable/accounts_button"
@@ -157,7 +157,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="75dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="63dp"
         android:background="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/prize_btn_pf"
@@ -165,13 +165,13 @@
 
 
     <ImageButton
-        android:id="@+id/signout_btn_pf"
+        android:id="@+id/createNewBtn"
+        android:src="@drawable/create_new_book"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="63dp"
         android:layout_marginEnd="75dp"
         android:background="@color/white"
-        android:src="@drawable/sign_out_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/prize_btn_pf"
         tools:ignore="SpeakableTextPresentCheck" />
@@ -216,7 +216,7 @@
         android:id="@+id/acc_btn_tv_pf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="All Account"
+        android:text="All Accounts"
         android:textAlignment="center"
         android:textSize="17sp"
         android:textStyle="bold"
@@ -238,26 +238,28 @@
 
 
     <ImageButton
-        android:id="@+id/createNewBtn"
+        android:id="@+id/signout_btn_pf"
+        android:src="@drawable/sign_out_btn"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="34dp"
+        android:layout_marginEnd="75dp"
+        android:layout_marginTop="63dp"
         android:background="@color/white"
-        android:src="@drawable/create_new_book"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/my_acc_btn_tv_pf"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/my_acc_btn_pf"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="58dp"
-        android:text="Create new book"
+        android:text="Create Books"
         android:textAlignment="center"
         android:textSize="17sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/createNewBtn"
+        app:layout_constraintStart_toStartOf="@+id/createNewBtn"
         app:layout_constraintTop_toBottomOf="@+id/createNewBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
