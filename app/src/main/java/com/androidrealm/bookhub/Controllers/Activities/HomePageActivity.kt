@@ -8,34 +8,31 @@ import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.androidrealm.bookhub.ComicAdapter
-import com.androidrealm.bookhub.Controllers.Fragments.DownloadedBookFragment
-import com.androidrealm.bookhub.Models.Book
+import com.androidrealm.bookhub.Controllers.Fragments.*
 import com.androidrealm.bookhub.R
-import com.androidrealm.bookhub.Controllers.Fragments.ListComicFragment
-import com.androidrealm.bookhub.Controllers.Fragments.ProfileFragment
-import com.androidrealm.bookhub.Controllers.Fragments.RequestFragment
-import com.androidrealm.bookhub.Models.Chapter
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObject
-import kotlinx.android.synthetic.main.activity_homepage.*
 import java.io.Serializable
 
 
 class HomePageActivity : AppCompatActivity(),Serializable {
 
+    lateinit var appBarLayout2: MaterialToolbar
     lateinit var listComicFrame:FrameLayout
     var location=1
     var uid:String = "ERQnHq5YlmL78h2wDBQX"
     var role:Long = 3
-
+    val profileFragment = ProfileFragment()
+    val requestFragment = RequestFragment()
+    val adminProfileFragment = AdminProfileFragment()
+    val adminRequestListFragment = RequestListFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_homepage)
         uid = FirebaseAuth.getInstance().currentUser!!.uid
-
+        appBarLayout2 = findViewById(R.id.topAppbar)
         val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
         val fragment: Fragment = ListComicFragment.newInstance(3)
         ft.replace(R.id.fragment_container_view, fragment)
@@ -44,7 +41,6 @@ class HomePageActivity : AppCompatActivity(),Serializable {
 
     override fun onResume() {
         super.onResume()
-
         uid = FirebaseAuth.getInstance().currentUser!!.uid
         var fireStore = FirebaseFirestore.getInstance()
         //bottom_navigation.menu.findItem(R.id.home_item).isChecked = true
@@ -53,15 +49,11 @@ class HomePageActivity : AppCompatActivity(),Serializable {
             when {
                 menuItem.itemId == R.id.home_item-> {
                     if(location!=1) {
+                        appBarLayout2.setTitle("Home")
 
-                        val ft: FragmentTransaction =
-                            supportFragmentManager.beginTransaction().setCustomAnimations(
-                                R.anim.slide_in_left,
-                                R.anim.slide_out_right
-                            )
+
                         val fragment: Fragment = ListComicFragment.newInstance(3)
-                        ft.replace(R.id.fragment_container_view, fragment)
-                        ft.commit()
+                        replaceFragment(fragment, location, 1)
                         location=1
                     }
                     return@setOnNavigationItemSelectedListener true
@@ -69,68 +61,54 @@ class HomePageActivity : AppCompatActivity(),Serializable {
                 }
                 menuItem.itemId == R.id.profile_item -> {
                     if(location!=2) {
+                        appBarLayout2.setTitle("Profile")
                         fireStore.collection("accounts").document(uid)
                             .get().addOnSuccessListener { result ->
                                 role = result.get("Role") as Long
                                 if (role == 1L) {
-                                    val intent = Intent(this, ProfileActivity::class.java)
-                                    startActivity(intent)
-                                    overridePendingTransition(
-                                        R.anim.slide_in_right,
-                                        R.anim.slide_out_left
-                                    )
+
+                                    Log.d(TAG, "Location Value: " + location.toString())
+                                    replaceFragment(profileFragment, location, 2)
+//
                                 } else {
-                                    val intent = Intent(this, AdminProfileActivity::class.java)
-                                    startActivity(intent)
-                                    overridePendingTransition(
-                                        R.anim.slide_in_right,
-                                        R.anim.slide_out_left
-                                    )
+                                    Log.d(TAG, "Location Value: " + location.toString())
+                                    replaceFragment(adminProfileFragment, location,2)
                                 }
+                                location=2
                             }
                             .addOnFailureListener { exception ->
                                 Log.d(TAG, "Error getting documents: ", exception)
                             }
-                        location=2
                     }
                     return@setOnNavigationItemSelectedListener true
                 }
                 menuItem.itemId == R.id.manage_book_item -> {
                     if(location!=3) {
+                        appBarLayout2.setTitle("Request")
                         fireStore.collection("accounts").document(uid)
                             .get().addOnSuccessListener { result ->
                                 role = result.get("Role") as Long
                                 //Log.d(TAG,  role.toString())
                                 if (role == 1L) {
-                                    val intent = Intent(this, RequestActivity::class.java)
-                                    startActivity(intent)
-                                    overridePendingTransition(
-                                        R.anim.slide_in_right,
-                                        R.anim.slide_out_left
-                                    )
+                                    Log.d(TAG, "Location Value: " + location.toString())
+                                    replaceFragment(requestFragment, location,3)
                                 } else {
-                                    val intent = Intent(this, RequestListActivity::class.java)
-                                    startActivity(intent)
-                                    overridePendingTransition(
-                                        R.anim.slide_in_right,
-                                        R.anim.slide_out_left
-                                    )
+                                    Log.d(TAG, "Location Value: " + location.toString())
+                                    replaceFragment(adminRequestListFragment, location,3 )
                                 }
+                                location=3
                             }
                             .addOnFailureListener { exception ->
                                 Log.d(TAG, "Error getting documents: ", exception)
                             }
-                        location=3
                     }
                     return@setOnNavigationItemSelectedListener true
                 }
                 menuItem.itemId == R.id.downloaded_item->{
                     if(location!=4) {
-                        val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-                            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
+                        appBarLayout2.setTitle("Download")
                         val fragment: Fragment = DownloadedBookFragment.newInstance()
-                        ft.replace(R.id.fragment_container_view, fragment)
-                        ft.commit()
+                        replaceFragment(fragment, location, 4)
                         location=4
                     }
                     return@setOnNavigationItemSelectedListener true
@@ -140,4 +118,25 @@ class HomePageActivity : AppCompatActivity(),Serializable {
             }
         }
     }
+
+    private fun replaceFragment (fragment: Fragment, Location: Int, Cmp: Int)
+    {
+        if (fragment!= null ){
+            Log.d(TAG, "Location In-Value: " + Location.toString())
+
+            if (Location > Cmp) {
+                val transaction = supportFragmentManager.beginTransaction().setCustomAnimations(
+                    R.anim.slide_in_left,
+                    R.anim.slide_out_right
+                )
+                transaction.replace(R.id.fragment_container_view, fragment)
+                transaction.commit()
+            }
+            else {
+                val transaction = supportFragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
+                transaction.replace(R.id.fragment_container_view, fragment)
+                transaction.commit()
+            }
+        }
+        }
 }

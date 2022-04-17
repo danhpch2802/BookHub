@@ -59,8 +59,6 @@ class ForgotPasswordActivity : AppCompatActivity() {
             }
         }
         cancelBtn!!.setOnClickListener {
-            val intent = Intent(this,  UpdateAccActivity::class.java)
-            startActivity(intent)
             finish()
         }
     }

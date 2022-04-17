@@ -1,29 +1,20 @@
 package com.androidrealm.bookhub.Controllers.Activities
 
-import android.annotation.SuppressLint
-import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isInvisible
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.androidrealm.bookhub.Adapter.PrizeAdapter
+import com.androidrealm.bookhub.Controllers.Fragments.AdminProfileFragment
 import com.androidrealm.bookhub.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
-import com.google.firebase.firestore.ktx.toObject
-import kotlinx.android.synthetic.main.activity_prize_list.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class PrizeListActivity : AppCompatActivity() {
 
@@ -59,8 +50,6 @@ class PrizeListActivity : AppCompatActivity() {
                 if (role == 1L) {
                     getAcc()
                     reBtn!!.setOnClickListener{
-                        val intents = Intent(this,  PrizeActivity::class.java)
-                        startActivity(intents)
                         finish()
                     }
                     newPrizeBtn!!.isInvisible = true
@@ -68,8 +57,6 @@ class PrizeListActivity : AppCompatActivity() {
                 else {
                     getAdminAcc()
                     reBtn!!.setOnClickListener{
-                        val intents = Intent(this,  AdminProfileActivity::class.java)
-                        startActivity(intents)
                         finish()
                     }
 

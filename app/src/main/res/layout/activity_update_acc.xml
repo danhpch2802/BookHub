@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent" >
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="#33CFCFE3"
     tools:context=".Controllers.Activities.UpdateAccActivity">
 
@@ -35,7 +41,7 @@
                 android:id="@+id/returnProfile"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:src="@drawable/ic_back" />
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -44,13 +50,13 @@
         android:id="@+id/avatarAcc"
         android:layout_width="125dp"
         android:layout_height="125dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="100dp"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="250dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout2">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.cardview.widget.CardView
             android:layout_width="125dp"
@@ -156,12 +162,12 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/badgeChosen"
         android:layout_width="270dp"
-        android:layout_height="40dp"
+        android:layout_height="48dp"
         android:layout_marginTop="25dp"
+        android:background="@color/gray"
+        android:gravity="center"
         android:text="BadgeChosen"
         android:textSize="18sp"
-        android:gravity="center"
-        android:background="@color/gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -172,7 +178,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="227dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/black_fill__rounded_color"
         android:clickable="true"
@@ -188,7 +194,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/updateAccUsername" />
+        app:layout_constraintTop_toBottomOf="@+id/changePass" />
 
     <TextView
         android:id="@+id/changePass"
@@ -196,7 +202,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="35dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/orange_fill__rounded_color"
         android:clickable="true"
@@ -216,10 +222,10 @@
     <TextView
         android:id="@+id/emailAcc"
         android:layout_width="300dp"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="95dp"
         android:textAlignment="center"
-        android:textSize="15sp"
+        android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
@@ -227,3 +233,4 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -56,10 +56,10 @@ class UpdateAccActivity : AppCompatActivity() {
             Toast.makeText(this@UpdateAccActivity, "Edit Successfully!", Toast.LENGTH_SHORT).show()
         }
 
-
         passBtn!!.setOnClickListener{
             val intent = Intent(this,  ForgotPasswordActivity::class.java)
             startActivity(intent)
+
         }
 
         saveBtn!!.setOnClickListener{
@@ -73,24 +73,20 @@ class UpdateAccActivity : AppCompatActivity() {
             {
                 Toast.makeText(this@UpdateAccActivity, "Edit Successfully!", Toast.LENGTH_SHORT).show()
                 setAcc(name, email)
-                var role = 3L
-                val db = FirebaseFirestore.getInstance()
-                db.collection("accounts").document(uid)
-                    .get().addOnSuccessListener { result ->
-                        role = result.get("Role") as Long
-                        if (role == 0L){
-                            val intent = Intent(this,  AdminProfileActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                        }
-                        else
-                        {
-                            val intent = Intent(this,  ProfileActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                        }
-                    }
-
+                finish()
+//                var role = 3L
+//                val db = FirebaseFirestore.getInstance()
+//                db.collection("accounts").document(uid)
+//                    .get().addOnSuccessListener { result ->
+//                        role = result.get("Role") as Long
+//                        if (role == 0L){
+//                            finish()
+//                        }
+//                        else
+//                        {
+//                            finish()
+//                        }
+//                    }
             }
         }
     }
@@ -138,8 +134,7 @@ class UpdateAccActivity : AppCompatActivity() {
                             badgeTV!!.setBackgroundColor(Color.parseColor("#f7971e"))
                         }
                         ReBtn!!.setOnClickListener{
-                            val intent = Intent(this,  ProfileActivity::class.java)
-                            startActivity(intent)
+                            finish()
                         }
                         badgeTV!!.setOnClickListener{
                             val intent = Intent(this,  PrizeListActivity::class.java)
@@ -149,13 +144,12 @@ class UpdateAccActivity : AppCompatActivity() {
                 }
                 else{
                     ReBtn!!.setOnClickListener{
-                        val intent = Intent(this,  AdminProfileActivity::class.java)
-                        startActivity(intent)
+                        finish()
                     }
                     badgeTV!!.setText("Admin")
                     badgeTV!!.setBackgroundColor(Color.parseColor("#f7971e"))
                     badgeTV!!.setOnClickListener{
-                        Toast.makeText(this, "You 're an admin, there no badge precious than this", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "You 're an admin, there no badge more precious than this", Toast.LENGTH_SHORT).show()
                     }
 
                 }

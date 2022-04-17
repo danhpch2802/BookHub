@@ -1,4 +1,4 @@
-package com.androidrealm.bookhub.Controllers.Activities
+package com.androidrealm.bookhub.Controllers.Fragments
 
 import android.content.Context
 import android.content.Intent
@@ -6,14 +6,18 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.Fragment
+import com.androidrealm.bookhub.Controllers.Activities.*
 import com.androidrealm.bookhub.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_homepage.*
 
-class AdminProfileActivity : AppCompatActivity() {
+class AdminProfileFragment : Fragment() {
     lateinit var preferences: SharedPreferences
     var PrizeBtn: ImageButton? = null
     var MyAccBtn: ImageButton? = null
@@ -33,40 +37,47 @@ class AdminProfileActivity : AppCompatActivity() {
 
     var createNewBtn:Button?=null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_admin_profile)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.activity_admin_profile, container, false)
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        preferences = getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE)
+        //
+        preferences = requireActivity().getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE)
         uid = FirebaseAuth.getInstance().currentUser!!.uid
 
-        PrizeBtn = findViewById(R.id.prize_btn_pf)
-        MyAccBtn = findViewById(R.id.my_acc_btn_pf)
-        AllAccBtn = findViewById(R.id.all_account_btn_pf)
-        username = findViewById(R.id.pf_username)
-        badge = findViewById(R.id.badge_pf)
-        point = findViewById(R.id.point_prize_pf)
-        badgeTV = findViewById(R.id.pf_prize)
-        AvaBtn = findViewById(R.id.avatarpf_img)
-        SignoutBtn = findViewById(R.id.signout_btn_pf)
-        createNewBtn=findViewById<Button>(R.id.createNewBtn)
+        PrizeBtn = view.findViewById(R.id.prize_btn_pf)
+        MyAccBtn = view.findViewById(R.id.my_acc_btn_pf)
+        AllAccBtn = view.findViewById(R.id.all_account_btn_pf)
+        username = view.findViewById(R.id.pf_username)
+        badge = view.findViewById(R.id.badge_pf)
+        point = view.findViewById(R.id.point_prize_pf)
+        badgeTV = view.findViewById(R.id.pf_prize)
+        AvaBtn = view.findViewById(R.id.avatarpf_img)
+        SignoutBtn = view.findViewById(R.id.signout_btn_pf)
+        createNewBtn=view.findViewById<Button>(R.id.createNewBtn)
         getAcc()
 
         //Log.d(TAG, Badge2)
         AvaBtn!!.setImageResource(R.drawable.amagami_cover)
         PrizeBtn!!.setOnClickListener{
-            val intent = Intent(this,  PrizeListActivity::class.java)
+            val intent = Intent(requireActivity(),  PrizeListActivity::class.java)
             startActivity(intent)
         }
 
         MyAccBtn!!.setOnClickListener{
-            val intent = Intent(this,  UpdateAccActivity::class.java)
+            val intent = Intent(requireActivity(),  UpdateAccActivity::class.java)
             startActivity(intent)
         }
 
         AllAccBtn!!.setOnClickListener{
-            val intent = Intent(this,  AccountActivity::class.java)
+            val intent = Intent(requireActivity(),  AccountActivity::class.java)
             startActivity(intent)
         }
 
@@ -76,34 +87,12 @@ class AdminProfileActivity : AppCompatActivity() {
             editor.clear()
             editor.apply()
             FirebaseAuth.getInstance().signOut()
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
-        }
-
-        bottom_navigation.menu.findItem(R.id.profile_item).isChecked = true
-        bottom_navigation.setOnNavigationItemSelectedListener { menuItem ->
-            when {
-                menuItem.itemId == R.id.home_item -> {
-                    val intent = Intent(this,  HomePageActivity::class.java)
-                    startActivity(intent)
-                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-                    return@setOnNavigationItemSelectedListener true
-                }
-                menuItem.itemId == R.id.manage_book_item -> {
-                    val intent = Intent(this,  RequestListActivity::class.java)
-                    startActivity(intent)
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-                    return@setOnNavigationItemSelectedListener true
-                }
-                menuItem.itemId == R.id.profile_item -> {
-                    return@setOnNavigationItemSelectedListener true
-                }
-                else -> false
-            }
+            startActivity(Intent(requireActivity(), LoginActivity::class.java))
+//            finish()
         }
 
         createNewBtn!!.setOnClickListener {
-            val intent=Intent(this,BookCreateActivity::class.java)
+            val intent=Intent(requireActivity(), BookCreateActivity::class.java)
             startActivity(intent)
         }
     }

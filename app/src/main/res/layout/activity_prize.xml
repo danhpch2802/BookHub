@@ -84,7 +84,7 @@
         android:layout_gravity="center"
         android:layout_marginStart="36dp"
         android:layout_marginEnd="36dp"
-        android:layout_marginBottom="70dp"
+        android:layout_marginBottom="57dp"
         android:background="@drawable/orange_fill__rounded_color"
         android:clickable="true"
         android:focusable="true"

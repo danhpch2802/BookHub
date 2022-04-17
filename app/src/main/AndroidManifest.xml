@@ -28,9 +28,6 @@
             android:name=".Controllers.Activities.ForgotPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".Controllers.Activities.AdminProfileActivity"
-            android:exported="false" />
-        <activity
             android:name=".Controllers.Activities.OfflineBookReadActivity"
             android:exported="false" />
         <activity
@@ -48,13 +45,13 @@
             android:name=".Controllers.Activities.UpdateAccActivity"
             android:exported="false" />
         <activity
-            android:name=".Controllers.Activities.RequestActivity"
+            android:name=".Controllers.Fragments.RequestFragment"
             android:exported="true" />
         <activity
             android:name=".Controllers.Activities.BookCreateActivity"
             android:exported="false" />
         <activity
-            android:name=".Controllers.Activities.RequestListActivity"
+            android:name=".Controllers.Fragments.RequestListFragment"
             android:exported="true" />
         <activity
             android:name=".Controllers.Activities.SignupActivity"
@@ -82,9 +79,6 @@
             android:exported="false" />
         <activity
             android:name=".Controllers.Activities.FavoriteListActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Controllers.Activities.ProfileActivity"
             android:exported="false" />
         <activity
             android:name=".Controllers.Activities.AccountActivity"

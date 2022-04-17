@@ -54,8 +54,6 @@ class PrizeActivity : AppCompatActivity() {
 
         var point2:Long = 0
         reBtn!!.setOnClickListener{
-            val intent = Intent(this,  ProfileActivity::class.java)
-            startActivity(intent)
             finish()
         }
         prizeBtn!!.setOnClickListener{

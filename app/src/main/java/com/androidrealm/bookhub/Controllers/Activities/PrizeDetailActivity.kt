@@ -4,6 +4,7 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
@@ -64,11 +65,13 @@ class PrizeDetailActivity : AppCompatActivity() {
                         if (role == 1L) {
                             badgeBtn!!.setOnClickListener {
                             setAcc(badgeChosen!!)
-                            val intents = Intent(this, ProfileActivity::class.java)
-                            startActivity(intents)
-                            finish()
+                                Toast.makeText(this, "Set Prize Badge Successfully, Navigating to Homepage", Toast.LENGTH_SHORT).show()
+                                Handler().postDelayed({
+                                    val intents = Intent(this, HomePageActivity::class.java)
+                                    startActivity(intents)
+                                    finish()},1200)
+                                }
                             }
-                        }
                         else {
                             badgeBtn!!.setText("Delete Badge")
                             badgeBtn!!.setOnClickListener {

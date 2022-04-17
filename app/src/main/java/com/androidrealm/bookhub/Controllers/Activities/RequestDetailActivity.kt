@@ -4,9 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.CheckBox
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.androidrealm.bookhub.Controllers.Fragments.RequestListFragment
 import com.androidrealm.bookhub.R
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -56,16 +56,16 @@ class RequestDetailActivity : AppCompatActivity() {
                     Toast.makeText(this, "Unable to get data from Firestore", Toast.LENGTH_SHORT).show()
                 }
             }
-
-            val intentBack = Intent(this, RequestListActivity::class.java)
-            startActivity(intentBack)
-            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+//
+//            val intentBack = Intent(this, RequestListFragment::class.java)
+//            startActivity(intentBack)
+//            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
             finish()
         }
     }
 
     override fun onBackPressed() {
-        val intent = Intent(this@RequestDetailActivity, RequestListActivity::class.java)
+        val intent = Intent(this@RequestDetailActivity, RequestListFragment::class.java)
         startActivity(intent)
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         finish()
