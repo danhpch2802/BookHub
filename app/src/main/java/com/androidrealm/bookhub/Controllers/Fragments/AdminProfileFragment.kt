@@ -35,7 +35,7 @@ class AdminProfileFragment : Fragment() {
     var badgeTV: TextView? = null
     var point: TextView? = null
 
-    var createNewBtn:Button?=null
+    var createNewBtn:ImageButton?=null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,7 +61,7 @@ class AdminProfileFragment : Fragment() {
         badgeTV = view.findViewById(R.id.pf_prize)
         AvaBtn = view.findViewById(R.id.avatarpf_img)
         SignoutBtn = view.findViewById(R.id.signout_btn_pf)
-        createNewBtn=view.findViewById<Button>(R.id.createNewBtn)
+        createNewBtn=view.findViewById<ImageButton>(R.id.createNewBtn)
         getAcc()
 
         //Log.d(TAG, Badge2)
