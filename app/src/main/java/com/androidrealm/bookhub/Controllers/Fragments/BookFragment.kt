@@ -3,6 +3,7 @@ package com.androidrealm.bookhub.Controllers.Fragments
 import android.app.Activity.RESULT_OK
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -108,6 +109,9 @@ class BookFragment : Fragment() {
 
         val categoryContent = view.findViewById<LinearLayout>(R.id.categoriesID)
         val uploadBtn = view.findViewById<Button>(R.id.uploadComic)
+
+        val favoriteBtn = view.findViewById<Button>(R.id.markAsFavoriteBtn)
+
         var categoryView = arrayListOf<View>()
 
         createNew=requireArguments().getSerializable(
@@ -355,6 +359,19 @@ class BookFragment : Fragment() {
                 comicAuthorET.setFocusable(false)
                 comicRatingTV.setFocusable(false)
                 comicSummaryET.setFocusable(false)
+                favoriteBtn.setOnClickListener {
+                    if (favoriteBtn.isSelected)
+                    {
+                        favoriteBtn.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.btn_star,0,0,0)
+                        favoriteBtn.isSelected = false
+                    }
+                    else
+                    {
+                        favoriteBtn.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.btn_star_big_on,0,0,0)
+                        favoriteBtn.isSelected = true
+                    }
+                }
+
             }
 
             for (category in detailComic.listCategory!!) {
@@ -391,11 +408,6 @@ class BookFragment : Fragment() {
 
         //no create && no edit
         if(!createNew && !editable) {
-//            var recommendAdapter = ComicAdapter(recommendList!!)
-//            val ft: FragmentTransaction = activity?.supportFragmentManager!!.beginTransaction()
-//            val fragment: Fragment = ListComicFragment.newInstance(recommendAdapter, -1)
-//            ft.replace(R.id.recommendFragmentContainer, fragment)
-//            ft.commit()
             listComment = requireArguments().getSerializable(
                 "listComment"
             ) as ArrayList<Comment>
