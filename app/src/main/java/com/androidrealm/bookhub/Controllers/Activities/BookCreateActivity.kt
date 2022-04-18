@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.androidrealm.bookhub.R
 import com.androidrealm.bookhub.Controllers.Fragments.BookFragment
+import com.androidrealm.bookhub.Controllers.Fragments.CreateNewChapterFragment.Companion.listChapterToCreate
+import com.androidrealm.bookhub.Controllers.Fragments.CreateNewChapterFragment.Companion.pdfListURIToCreate
 import com.androidrealm.bookhub.Models.Book
 
 class BookCreateActivity: AppCompatActivity() {
@@ -19,6 +21,8 @@ class BookCreateActivity: AppCompatActivity() {
         ReBtn = findViewById(R.id.reBookCreate)
 
         ReBtn!!.setOnClickListener{
+            pdfListURIToCreate.clear()
+            listChapterToCreate.clear()
             finish()
         }
         if (savedInstanceState == null) {
