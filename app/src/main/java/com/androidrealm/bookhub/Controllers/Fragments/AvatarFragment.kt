@@ -1,5 +1,6 @@
 package com.androidrealm.bookhub.Controllers.Fragments
 
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -19,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 
 class AvatarFragment : Fragment() {
+    var flag = 0
     private lateinit var listAvaRW: RecyclerView
     companion object {
         fun newInstance
@@ -62,13 +64,35 @@ class AvatarFragment : Fragment() {
         adapter.onItemClick = { book ->
             val db = FirebaseFirestore.getInstance()
             db.collection("accounts").document(uid)
-                .get().addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        db.collection("accounts").document(uid).update("Avatar", book)
+                .get().addOnSuccessListener { task ->
+                    if (book == "9")
+                    {
+                        flag = 1
+                        var badge: ArrayList<String> = task.get("Badge") as ArrayList<String>
+                        for (i in badge)
+                        {
+                            if (i == "b1" )
+                            {
+                                flag = 0
+                            }
+                            else
+                            {
+                                Toast.makeText(context, "You must have the Wibu Badge to change to avatar " + book, Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                        }
                     }
-                    else {onError(task.exception)}
+                    if (flag == 0) {
+                        db.collection("accounts").document(uid).update("Avatar", book)
+                        Toast.makeText(context, "Changed to avatar " + book, Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                    flag = 0
                 }
-            Toast.makeText(context, "Changed to avatar " + book, Toast.LENGTH_SHORT).show()
+                .addOnFailureListener { exception ->
+                    Log.d(ContentValues.TAG, "Error getting documents: ", exception)
+                }
+
         }
         listAvaRW.adapter=adapter
 

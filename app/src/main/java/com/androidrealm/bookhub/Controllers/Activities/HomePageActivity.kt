@@ -65,7 +65,6 @@ class HomePageActivity : AppCompatActivity(),Serializable {
                             .get().addOnSuccessListener { result ->
                                 role = result.get("Role") as Long
                                 if (role == 1L) {
-
                                     Log.d(TAG, "Location Value: " + location.toString())
                                     replaceFragment(profileFragment, location, 2)
 //
