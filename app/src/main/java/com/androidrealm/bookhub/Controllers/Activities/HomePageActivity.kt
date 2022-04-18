@@ -51,7 +51,6 @@ class HomePageActivity : AppCompatActivity(),Serializable {
                     if(location!=1) {
                         appBarLayout2.setTitle("Home")
 
-
                         val fragment: Fragment = ListComicFragment.newInstance(3)
                         replaceFragment(fragment, location, 1)
                         location=1
@@ -122,7 +121,7 @@ class HomePageActivity : AppCompatActivity(),Serializable {
     private fun replaceFragment (fragment: Fragment, Location: Int, Cmp: Int)
     {
         if (fragment!= null ){
-            Log.d(TAG, "Location In-Value: " + Location.toString())
+            //Log.d(TAG, "Location In-Value: " + Location.toString())
 
             if (Location > Cmp) {
                 val transaction = supportFragmentManager.beginTransaction().setCustomAnimations(

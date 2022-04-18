@@ -65,11 +65,12 @@ class PrizeDetailActivity : AppCompatActivity() {
                         if (role == 1L) {
                             badgeBtn!!.setOnClickListener {
                             setAcc(badgeChosen!!)
-                                Toast.makeText(this, "Set Prize Badge Successfully, Navigating to Homepage", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, "Set Prize Badge Successfully, Return to Homepage", Toast.LENGTH_SHORT).show()
                                 Handler().postDelayed({
                                     val intents = Intent(this, HomePageActivity::class.java)
                                     startActivity(intents)
                                     finish()},1200)
+
                                 }
                             }
                         else {

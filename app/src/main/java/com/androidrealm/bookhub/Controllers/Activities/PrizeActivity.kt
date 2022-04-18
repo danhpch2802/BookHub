@@ -61,7 +61,6 @@ class PrizeActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        AvaBtn!!.setImageResource(R.drawable.amagami_cover)
         getPrize()
     }
 
@@ -75,7 +74,20 @@ class PrizeActivity : AppCompatActivity() {
             .get().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     username = task.result["username"] as String?
-
+                    var avatar:String ?= ""
+                    avatar = task.result["Avatar"] as String?
+                    when (avatar) {
+                        "1" -> AvaBtn!!.setImageResource(R.drawable.amagami_cover)
+                        "2" -> AvaBtn!!.setImageResource(R.drawable.doll_cover)
+                        "3" -> AvaBtn!!.setImageResource(R.drawable.fechippuru_cover)
+                        "4" -> AvaBtn!!.setImageResource(R.drawable.kanojo_cover)
+                        "5" -> AvaBtn!!.setImageResource(R.drawable.komi_cover)
+                        "6" -> AvaBtn!!.setImageResource(R.drawable.meika_cover)
+                        "7" -> AvaBtn!!.setImageResource(R.drawable.mokanojo_cover)
+                        "8" -> AvaBtn!!.setImageResource(R.drawable.tonikaku_cover)
+                        "9" -> AvaBtn!!.setImageResource(R.drawable.yofukashi_cover)
+                        else -> AvaBtn!!.setImageResource(R.drawable.amagami_cover)
+                    }
                     for (document in task.result["Badge"] as ArrayList<*>) {
                         Badge2 = document as String
                         break

@@ -29,7 +29,6 @@
                 android:layout_width="125dp"
                 android:layout_height="125dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/doll_cover"
                 tools:ignore="ImageContrastCheck" />
         </androidx.cardview.widget.CardView>
     </androidx.cardview.widget.CardView>
@@ -52,7 +51,7 @@
         android:id="@+id/pf_prize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="30dp"
         android:background="@color/app_golden"
         android:text="Title"
         android:textAlignment="center"

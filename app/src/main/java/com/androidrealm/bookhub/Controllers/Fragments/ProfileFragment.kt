@@ -31,14 +31,13 @@ class ProfileFragment : Fragment() {
     var AvaBtn: ImageView? = null
     var ReBtn: ImageView? = null
     var SignoutBtn: ImageButton? = null
-
     var uid:String = ""
-
     var Badge2 = "2"
     var TotalBadge:Int? = 0
     var Point:Number? = 0
     var Name:String? = ""
     var Badge:String ?= ""
+
     var role:Long = 3
 
     var username: TextView? = null
@@ -70,13 +69,12 @@ class ProfileFragment : Fragment() {
         badgeTV = view.findViewById(R.id.pf_prize)
         AvaBtn = view.findViewById(R.id.avatarpf_img)
         SignoutBtn = view.findViewById(R.id.signout_btn_pf)
-//
 //        //ReBtn = findViewById(R.id.returnHomepage)
 //
         getAcc()
 //
 //        //Log.d(TAG, Badge2)
-        AvaBtn!!.setImageResource(R.drawable.amagami_cover)
+
         PrizeBtn!!.setOnClickListener{
             val intent = Intent (getActivity(), PrizeActivity::class.java)
             getActivity()?.startActivity(intent)
@@ -107,6 +105,10 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        getAcc()
+    }
 
     fun getAcc () {
         val db = FirebaseFirestore.getInstance()
@@ -114,6 +116,20 @@ class ProfileFragment : Fragment() {
             .get().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Name = task.result["username"] as String?
+                    var avatar:String ?= ""
+                    avatar = task.result["Avatar"] as String?
+                    when (avatar) {
+                        "1" -> AvaBtn!!.setImageResource(R.drawable.amagami_cover)
+                        "2" -> AvaBtn!!.setImageResource(R.drawable.doll_cover)
+                        "3" -> AvaBtn!!.setImageResource(R.drawable.fechippuru_cover)
+                        "4" -> AvaBtn!!.setImageResource(R.drawable.kanojo_cover)
+                        "5" -> AvaBtn!!.setImageResource(R.drawable.komi_cover)
+                        "6" -> AvaBtn!!.setImageResource(R.drawable.meika_cover)
+                        "7" -> AvaBtn!!.setImageResource(R.drawable.mokanojo_cover)
+                        "8" -> AvaBtn!!.setImageResource(R.drawable.tonikaku_cover)
+                        "9" -> AvaBtn!!.setImageResource(R.drawable.yofukashi_cover)
+                        else -> AvaBtn!!.setImageResource(R.drawable.amagami_cover)
+                    }
                     var cnt = 0
                     for (document in task.result["BadgeOwn"] as ArrayList<*>) {
                         cnt++

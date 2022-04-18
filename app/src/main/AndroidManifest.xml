@@ -11,10 +11,13 @@
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BookHub">
+        <activity
+            android:name=".Controllers.Activities.AvatarListActivity"
+            android:exported="false" />
         <activity
             android:name=".Controllers.Activities.NewPrizeActivity"
             android:exported="false" />
@@ -45,14 +48,8 @@
             android:name=".Controllers.Activities.UpdateAccActivity"
             android:exported="false" />
         <activity
-            android:name=".Controllers.Fragments.RequestFragment"
-            android:exported="true" />
-        <activity
             android:name=".Controllers.Activities.BookCreateActivity"
             android:exported="false" />
-        <activity
-            android:name=".Controllers.Fragments.RequestListFragment"
-            android:exported="true" />
         <activity
             android:name=".Controllers.Activities.SignupActivity"
             android:exported="false" />

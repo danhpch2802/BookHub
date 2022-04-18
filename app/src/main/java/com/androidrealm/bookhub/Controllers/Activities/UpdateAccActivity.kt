@@ -49,11 +49,11 @@ class UpdateAccActivity : AppCompatActivity() {
         email = findViewById(R.id.emailAcc)
         passBtn = findViewById(R.id.changePass)
         getAcc()
-        AvaBtn!!.setImageResource(R.drawable.amagami_cover)
         ReBtn = findViewById(R.id.returnProfile)
 
         AvaBtn!!.setOnClickListener{
-            Toast.makeText(this@UpdateAccActivity, "Edit Successfully!", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this,  AvatarListActivity::class.java)
+            startActivity(intent)
         }
 
         passBtn!!.setOnClickListener{
@@ -74,21 +74,13 @@ class UpdateAccActivity : AppCompatActivity() {
                 Toast.makeText(this@UpdateAccActivity, "Edit Successfully!", Toast.LENGTH_SHORT).show()
                 setAcc(name, email)
                 finish()
-//                var role = 3L
-//                val db = FirebaseFirestore.getInstance()
-//                db.collection("accounts").document(uid)
-//                    .get().addOnSuccessListener { result ->
-//                        role = result.get("Role") as Long
-//                        if (role == 0L){
-//                            finish()
-//                        }
-//                        else
-//                        {
-//                            finish()
-//                        }
-//                    }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getAcc()
     }
 
     fun getAcc () {
@@ -98,6 +90,20 @@ class UpdateAccActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Document found in the offline cache
                     Name = task.result["username"] as String?
+                    var avatar:String ?= ""
+                    avatar = task.result["Avatar"] as String?
+                    when (avatar) {
+                        "1" -> AvaBtn!!.setImageResource(R.drawable.amagami_cover)
+                        "2" -> AvaBtn!!.setImageResource(R.drawable.doll_cover)
+                        "3" -> AvaBtn!!.setImageResource(R.drawable.fechippuru_cover)
+                        "4" -> AvaBtn!!.setImageResource(R.drawable.kanojo_cover)
+                        "5" -> AvaBtn!!.setImageResource(R.drawable.komi_cover)
+                        "6" -> AvaBtn!!.setImageResource(R.drawable.meika_cover)
+                        "7" -> AvaBtn!!.setImageResource(R.drawable.mokanojo_cover)
+                        "8" -> AvaBtn!!.setImageResource(R.drawable.tonikaku_cover)
+                        "9" -> AvaBtn!!.setImageResource(R.drawable.yofukashi_cover)
+                        else -> AvaBtn!!.setImageResource(R.drawable.amagami_cover)
+                    }
                     var cnt = 0
                     for (document in task.result["Badge"] as ArrayList<*>) {
                         cnt++
@@ -112,7 +118,6 @@ class UpdateAccActivity : AppCompatActivity() {
 
                 }
                 else {onError(task.exception)}
-
                 Email = FirebaseAuth.getInstance().currentUser!!.email
                 username!!.setHint("New Username")
                 badge!!.setText(TotalBadge.toString())
