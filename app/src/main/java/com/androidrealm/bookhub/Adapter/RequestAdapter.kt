@@ -34,6 +34,7 @@ class RequestAdapter(private val listRequest: ArrayList<Request>) : RecyclerView
         if (holder.checked.text == "true"){
             holder.check_image.setImageResource(R.drawable.check)
         }
+        else holder.check_image.setImageResource(R.drawable.multiply)
     }
 
     override fun getItemCount(): Int {

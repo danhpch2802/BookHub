@@ -1,14 +1,17 @@
 package com.androidrealm.bookhub.Controllers.Activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.Toast
 import com.androidrealm.bookhub.Controllers.Fragments.RequestListFragment
+import com.androidrealm.bookhub.Models.Request
 import com.androidrealm.bookhub.R
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.*
 
 class RequestDetailActivity : AppCompatActivity() {
     var doneBtn: TextView? = null
@@ -40,34 +43,27 @@ class RequestDetailActivity : AppCompatActivity() {
                     request_detail!!.text = data?.get("bookDetail") as CharSequence?
                     accept_checkbox!!.isChecked = data?.get("checked") as Boolean
                 }
-        }
-        else{
+        } else {
             Toast.makeText(this, "Unable to get data from Firestore", Toast.LENGTH_SHORT).show()
         }
 
-        doneBtn!!.setOnClickListener{
-            if(accept_checkbox!!.isChecked){
+        doneBtn!!.setOnClickListener {
+            if (accept_checkbox!!.isChecked) {
                 if (docID != null) {
                     db.collection("requests").document(docID)
                         .update("checked", true)
                     Toast.makeText(this, "Request Confirmed", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(this, "Unable to get data from Firestore", Toast.LENGTH_SHORT)
+                        .show()
                 }
-                else{
-                    Toast.makeText(this, "Unable to get data from Firestore", Toast.LENGTH_SHORT).show()
+            } else {
+                if (docID != null) {
+                    db.collection("requests").document(docID)
+                        .update("checked", false)
                 }
             }
-//
-//            val intentBack = Intent(this, RequestListFragment::class.java)
-//            startActivity(intentBack)
-//            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
             finish()
         }
-    }
-
-    override fun onBackPressed() {
-        val intent = Intent(this@RequestDetailActivity, RequestListFragment::class.java)
-        startActivity(intent)
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-        finish()
     }
 }

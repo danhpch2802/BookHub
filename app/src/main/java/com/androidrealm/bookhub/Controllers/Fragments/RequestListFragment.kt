@@ -39,6 +39,10 @@ class RequestListFragment : Fragment() {
         recyclerView = view.findViewById(R.id.rq_list)
         recyclerView!!.setHasFixedSize(true)
         recyclerView!!.layoutManager = LinearLayoutManager(context)
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         requestList = arrayListOf()
         myAdapter = RequestAdapter(requestList!!)
@@ -55,12 +59,11 @@ class RequestListFragment : Fragment() {
             }
         })
         getDB()
-
     }
 
     private fun getDB() {
         db = FirebaseFirestore.getInstance()
-        db!!.collection("requests").orderBy("accountName", Query.Direction.ASCENDING)
+        db!!.collection("requests").orderBy("checked", Query.Direction.ASCENDING)
             .addSnapshotListener(object : EventListener<QuerySnapshot>{
                 @SuppressLint("NotifyDataSetChanged")
                 override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
@@ -77,5 +80,4 @@ class RequestListFragment : Fragment() {
                 }
             })
     }
-
 }
