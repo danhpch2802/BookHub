@@ -15,6 +15,7 @@ import com.androidrealm.bookhub.Models.Comment
 import com.androidrealm.bookhub.R
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.GlobalScope
@@ -63,19 +64,35 @@ class BookDetailActivity : AppCompatActivity() {
             .addOnFailureListener { exception ->
                 Log.d(TAG, "get failed with ", exception)
             }
+
         val topAppbar=findViewById<MaterialToolbar>(R.id.topAppbar)
 
-        topAppbar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.editIT -> {
-                    val intent = Intent(this, BookUpdateActivity::class.java)
-                    intent.putExtra("id",id)
-                    startActivity(intent)
-                    true
+        val currentIDAccount = FirebaseAuth.getInstance().currentUser!!.uid
+
+        val accref = fireStore.collection("accounts").document(currentIDAccount)
+        accref.get()
+            .addOnSuccessListener { document->
+                Log.i("role", document.data!!["Role"].toString())
+                if (document.data!!["Role"]!!.equals(0L))
+                {
+                    topAppbar.setOnMenuItemClickListener { menuItem ->
+                        when (menuItem.itemId) {
+                            R.id.editIT -> {
+                                val intent = Intent(this, BookUpdateActivity::class.java)
+                                intent.putExtra("id",id)
+                                startActivity(intent)
+                                true
+                            }
+                            else -> false
+                        }
+                    }
                 }
-                else -> false
+                else if (document.data!!["Role"]!!.equals(1L))
+                {
+                    Log.i("cc","")
+                    topAppbar.menu.clear()
+                }
             }
-        }
 
         findViewById<ImageView>(R.id.backIV).setOnClickListener {
             onBackPressed()

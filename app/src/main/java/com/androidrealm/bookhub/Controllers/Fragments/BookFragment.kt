@@ -359,6 +359,9 @@ class BookFragment : Fragment() {
                 comicAuthorET.setFocusable(false)
                 comicRatingTV.setFocusable(false)
                 comicSummaryET.setFocusable(false)
+
+
+
                 favoriteBtn.setOnClickListener {
                     if (favoriteBtn.isSelected)
                     {
