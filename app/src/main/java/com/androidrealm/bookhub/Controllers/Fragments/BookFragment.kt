@@ -3,17 +3,13 @@ package com.androidrealm.bookhub.Controllers.Fragments
 import android.app.Activity.RESULT_OK
 import android.content.DialogInterface
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -39,9 +35,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import dmax.dialog.SpotsDialog
-import kotlinx.coroutines.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import kotlin.collections.ArrayList
+import java.math.RoundingMode
+import java.text.DecimalFormat
 
 
 /**
@@ -65,6 +63,8 @@ class BookFragment : Fragment() {
     private var fireStore : FirebaseFirestore? = null
 
     private var userInfo : Account? = Account()
+
+    private var comicRatingTV: TextView? = null
 
 
     companion object {
@@ -104,7 +104,7 @@ class BookFragment : Fragment() {
         comicCoverIV = view.findViewById<ImageView>(R.id.comicCoverIV)
          val comicNameET = view.findViewById<EditText>(R.id.comicNameET)
         val comicAuthorET = view.findViewById<EditText>(R.id.comicAuthorET)
-        val comicRatingTV = view.findViewById<EditText>(R.id.comicRatingTV)
+        comicRatingTV = view.findViewById<EditText>(R.id.comicRatingTV)
         val comicSummaryET = view.findViewById<EditText>(R.id.comicSummaryET)
 
         val categoryContent = view.findViewById<LinearLayout>(R.id.categoriesID)
@@ -357,7 +357,7 @@ class BookFragment : Fragment() {
             else {
                 comicNameET.setFocusable(false)
                 comicAuthorET.setFocusable(false)
-                comicRatingTV.setFocusable(false)
+                comicRatingTV!!.setFocusable(false)
                 comicSummaryET.setFocusable(false)
 
 
@@ -393,8 +393,22 @@ class BookFragment : Fragment() {
             comicNameET.setText(detailComic.name)
             comicAuthorET.setText(detailComic.author)
 
-            val calScore= detailComic.score.sum()/5
-            comicRatingTV.setText("${calScore}/5")
+            var calScore = 0.0F
+
+            if (!detailComic.score.sum().equals(0))
+            {
+                for (i in 0..4)
+                {
+                    calScore = calScore + detailComic.score[i] * (i+1)
+                }
+
+                calScore= calScore/detailComic.score.sum()
+            }
+
+            val df = DecimalFormat("#.##")
+            df.roundingMode = RoundingMode.CEILING
+
+            comicRatingTV!!.setText("${df.format(calScore)}/5")
             comicSummaryET.setText(detailComic.summary)
             Picasso.get()
                 .load(detailComic.imagePath)
@@ -484,6 +498,31 @@ class BookFragment : Fragment() {
             imageUri = data?.data
         }
 
+    }
+
+    fun reFreshStar(indexNewStar: Long) {
+        var calScore = 0.0F
+
+        if (!detailComic.score.sum().equals(0))
+        {
+            for (i in 0..4)
+            {
+                calScore = calScore + detailComic.score[i] * (i+1)
+            }
+
+            calScore = calScore + (indexNewStar)
+
+            calScore= calScore / (detailComic.score.sum()+1)
+
+        }
+        else
+        {
+            calScore = calScore + (indexNewStar+1)
+        }
+        val df = DecimalFormat("#.##")
+        df.roundingMode = RoundingMode.CEILING
+
+        comicRatingTV!!.setText("${df.format(calScore)}/5")
     }
 
 

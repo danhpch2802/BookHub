@@ -2,13 +2,11 @@ package com.androidrealm.bookhub.Controllers.Fragments
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -46,10 +44,18 @@ class CommentFragment() : Fragment(), Serializable {
         commentRW=view.findViewById(R.id.commentRW)
 
         // set the custom adapter to the RecyclerView
+        val currentUserAuth = FirebaseAuth.getInstance().currentUser
+
+        val commentSection = view.findViewById<LinearLayout>(R.id.commentSection)
 
         var listComment=requireArguments().getSerializable(
             "listComment"
         ) as ArrayList<Comment>
+
+        if (listComment.any { it.accountID == currentUserAuth!!.uid })
+        {
+            commentSection.visibility = View.GONE
+        }
 
         commentRW.addItemDecoration(
             DividerItemDecoration(
@@ -74,10 +80,14 @@ class CommentFragment() : Fragment(), Serializable {
 
         val commentEdt = view.findViewById<EditText>(R.id.commentBox)
         val sendBtn = view.findViewById<Button>(R.id.sendBtn)
-        val currentUserAuth = FirebaseAuth.getInstance().currentUser
+        val ratingBar = view.findViewById<RatingBar>(R.id.ratingForComment)
+
+
+
+
 
         sendBtn.setOnClickListener {
-            if (commentEdt.text.equals(""))
+            if (commentEdt.text.isEmpty())
             {
                 Toast.makeText(requireActivity(),"Please input comment",Toast.LENGTH_SHORT)
                     .show()
@@ -91,19 +101,43 @@ class CommentFragment() : Fragment(), Serializable {
 
                 updatePointAfterComment(userInfo, currentUserAuth!!.uid)
 
+                commentSection.visibility = View.GONE
+
                 val commentTemp = Comment()
                 commentTemp.accountName = userInfo.username
                 commentTemp.bookID = currentBookId
                 commentTemp.content = contentComment
                 commentTemp.createdAt = Timestamp.now().toDate()
                 commentTemp.accountID = currentUserAuth!!.uid
+                commentTemp.starRated = ratingBar.rating.toLong()
+
                 addCommentInFireStore(commentTemp)
+                addScoreInFireStoreComic(currentBookId, commentTemp.starRated!!)
+
+                val myFragment = requireActivity().supportFragmentManager
+                    .findFragmentById(R.id.fragment_book) as BookFragment
+
+                myFragment.reFreshStar(commentTemp.starRated!!)
+
                 listComment.add(0,commentTemp)
                 adapter.notifyItemInserted(0)
             }
         }
 
         return view
+    }
+
+    private fun addScoreInFireStoreComic(currentBookId: String, index: Long) {
+        val comicRef = FirebaseFirestore.getInstance().collection("comics")
+            .document(currentBookId)
+            .get()
+            .addOnSuccessListener { doc->
+                val scoreList = doc.data!!["score"] as ArrayList<Long>
+                scoreList[index.toInt() - 1] = scoreList[index.toInt() - 1] + 1
+                val updateComicRef = FirebaseFirestore.getInstance().collection("comics")
+                    .document(currentBookId)
+                    .update("score", scoreList)
+            }
     }
 
     private fun updatePointAfterComment(userInfo: Account, idAccount : String) {

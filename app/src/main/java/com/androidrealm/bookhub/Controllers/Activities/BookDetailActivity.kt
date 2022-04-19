@@ -102,7 +102,6 @@ class BookDetailActivity : AppCompatActivity() {
 
     private suspend fun findListComment(idBook: String?): ArrayList<Comment> {
         var tempListComment = ArrayList<Comment>()
-        Log.i("123", idBook.toString())
         try {
             FirebaseFirestore.getInstance().collection("comments")
                 .whereEqualTo("bookID", idBook.toString())
@@ -118,6 +117,7 @@ class BookDetailActivity : AppCompatActivity() {
                         it.data!!["accountName"] as String,
                         it.data!!["bookID"] as String,
                         it.data!!["content"] as String,
+                        it.data!!["starRated"] as Long,
                         tempDate
                     ))
                 }

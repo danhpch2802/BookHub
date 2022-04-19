@@ -18,6 +18,7 @@ class CommentAdapter (private var listComments : List<Comment>
         val commentorTV = listItemView.findViewById(R.id.commentorTV) as TextView
         val dateCommentTV = listItemView.findViewById(R.id.dateCommentTV) as TextView
         val contentTV = listItemView.findViewById(R.id.contentTV) as TextView
+        val numRatedTV = listItemView.findViewById<TextView>(R.id.numratedComment)
 
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
@@ -47,6 +48,10 @@ class CommentAdapter (private var listComments : List<Comment>
         dateCommentTV.setText(dateFormat.format(comment.createdAt).toString())
         val contentTV = holder.contentTV
         contentTV.setText(comment.content)
+
+        val ratedNumTV = holder.numRatedTV
+
+        ratedNumTV.setText(comment.starRated.toString())
 
     }
 

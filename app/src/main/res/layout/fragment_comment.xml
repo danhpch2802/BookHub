@@ -5,37 +5,57 @@
     android:layout_height="match_parent"
     tools:context=".Controllers.Fragments.CommentFragment"
     android:orientation="vertical">
-    <RelativeLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/commentBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_toLeftOf="@+id/sendBtn"
-            android:hint="@string/comment" />
-
-        <Button
-            android:id="@+id/sendBtn"
+        android:layout_height="wrap_content"
+        android:id="@+id/commentSection"
+        android:orientation="vertical">
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="16dp"
-            android:backgroundTint="#1565C0"
-            android:text="@string/send"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            />
+            android:layout_height="wrap_content">
 
-    </RelativeLayout>
+            <EditText
+                android:id="@+id/commentBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toLeftOf="@+id/sendBtn"
+                android:hint="@string/comment" />
+
+            <Button
+                android:id="@+id/sendBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="#1565C0"
+                android:text="@string/send" />
+        </RelativeLayout>
+
+        <RatingBar
+            android:id="@+id/ratingForComment"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:numStars="5"
+            android:rating="3"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
+            android:stepSize="1.0">
+
+        </RatingBar>
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/commentRW"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+/>
 
 </LinearLayout>
