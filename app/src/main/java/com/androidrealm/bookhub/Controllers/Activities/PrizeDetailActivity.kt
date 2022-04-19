@@ -14,8 +14,8 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
 class PrizeDetailActivity : AppCompatActivity() {
-    var prizeName:String? = "Unlock the book: The mythology of Bookahholic-chan"
-    var prizeDes:String? = "The Bookaholic"
+    var prizeName:String? = ""
+    var prizeDes:String? = ""
     var role:Long = 3
     var uid:String = ""
     lateinit var auth : FirebaseAuth
@@ -76,7 +76,7 @@ class PrizeDetailActivity : AppCompatActivity() {
                         else {
                             badgeBtn!!.setText("Delete Badge")
                             badgeBtn!!.setOnClickListener {
-                                if (badgeChosen!![0] == "s1")
+                                if (badgeChosen!![0] == "s1"|| badgeChosen!![0] == "b1" || badgeChosen!![0] == "b2")
                                 {
                                     Toast.makeText(this, "Can delete this badge. It 's the standard badge!", Toast.LENGTH_SHORT).show()
                                 }

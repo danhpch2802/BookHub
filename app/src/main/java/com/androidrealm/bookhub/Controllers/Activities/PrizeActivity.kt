@@ -21,8 +21,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 class PrizeActivity : AppCompatActivity() {
     var AvaBtn: ImageView? = null
     var point:String? = ""
-    var username:String? = "Danh"
-    var badge:String? = "The Bookaholic"
+    var username:String? = ""
+    var badge:String? = ""
     var uid:String = "ERQnHq5YlmL78h2wDBQX"
     var Badge2 = "2"
     var screen_main: ConstraintLayout?= null
