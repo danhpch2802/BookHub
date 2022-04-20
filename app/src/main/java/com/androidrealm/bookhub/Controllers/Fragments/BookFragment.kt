@@ -110,8 +110,6 @@ class BookFragment : Fragment() {
         val categoryContent = view.findViewById<LinearLayout>(R.id.categoriesID)
         val uploadBtn = view.findViewById<Button>(R.id.uploadComic)
 
-        val favoriteBtn = view.findViewById<Button>(R.id.markAsFavoriteBtn)
-
         var categoryView = arrayListOf<View>()
 
         createNew=requireArguments().getSerializable(
@@ -354,26 +352,12 @@ class BookFragment : Fragment() {
                     }
                 }
             }
+            //Read
             else {
                 comicNameET.setFocusable(false)
                 comicAuthorET.setFocusable(false)
                 comicRatingTV!!.setFocusable(false)
                 comicSummaryET.setFocusable(false)
-
-
-
-                favoriteBtn.setOnClickListener {
-                    if (favoriteBtn.isSelected)
-                    {
-                        favoriteBtn.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.btn_star,0,0,0)
-                        favoriteBtn.isSelected = false
-                    }
-                    else
-                    {
-                        favoriteBtn.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.btn_star_big_on,0,0,0)
-                        favoriteBtn.isSelected = true
-                    }
-                }
 
             }
 
@@ -443,6 +427,41 @@ class BookFragment : Fragment() {
                 .addOnSuccessListener { document ->
                     userInfo!!.username = document.data!!["username"] as String
                     userInfo!!.Point = document.data!!["Point"] as Long
+                    userInfo!!.FavoriteList = document.data!!["FavoriteList"] as ArrayList<String>
+
+                    val favoriteBtn = view.findViewById<Button>(R.id.markAsFavoriteBtn)
+
+                    if (userInfo!!.FavoriteList.contains(bookId))
+                    {
+                        favoriteBtn.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.btn_star_big_on,0,0,0)
+                        favoriteBtn.isSelected = true
+                    }
+                    else
+                    {
+                        favoriteBtn.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.btn_star,0,0,0)
+                        favoriteBtn.isSelected = false
+                    }
+
+                    favoriteBtn.setOnClickListener {
+
+                        if (favoriteBtn.isSelected)
+                        {
+                            val position = userInfo!!.FavoriteList.indexOf(bookId)
+                            userInfo!!.FavoriteList.removeAt(position)
+                            updateFavoriteList(currentUserAuth!!.uid, userInfo!!.FavoriteList)
+
+                            favoriteBtn.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.btn_star,0,0,0)
+                            favoriteBtn.isSelected = false
+                        }
+                        else
+                        {
+                            userInfo!!.FavoriteList.add(0, bookId!!)
+                            updateFavoriteList(currentUserAuth!!.uid, userInfo!!.FavoriteList)
+
+                            favoriteBtn.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.btn_star_big_on,0,0,0)
+                            favoriteBtn.isSelected = true
+                        }
+                    }
 
                     val bookViewPage2 = view.findViewById<ViewPager2>(R.id.bookViewPage2)
                     var bookVPAdapter = BookPageView2Adapter(
@@ -488,6 +507,13 @@ class BookFragment : Fragment() {
             )
             bookViewPage2.adapter = bookVPAdapter
         }
+    }
+
+    fun updateFavoriteList(userInfoId: String, listFavorite: ArrayList<String>)
+    {
+        val accountRef = FirebaseFirestore.getInstance().collection("accounts")
+            .document(userInfoId)
+            .update("FavoriteList", listFavorite)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

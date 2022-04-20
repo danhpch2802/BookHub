@@ -1,37 +1,92 @@
 package com.androidrealm.bookhub.Controllers.Activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
+import android.util.Log
+import android.widget.ImageView
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+
 import com.androidrealm.bookhub.ComicAdapter
 import com.androidrealm.bookhub.Models.Book
 import com.androidrealm.bookhub.R
 import com.androidrealm.bookhub.Controllers.Fragments.ListComicFragment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 class FavoriteListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorite_list)
 
-        val listOfComic=ArrayList<Book>()
-//        listOfComic.add(Book(R.drawable.amagami_cover,"Amagami"))
-//        listOfComic.add(Book(R.drawable.fechippuru_cover,"Fechippury"))
-//        listOfComic.add(Book(R.drawable.kanojo_cover,"Kanojo Okarimasu"))
-//        listOfComic.add(Book(R.drawable.komi_cover,"Komi-san"))
-//        listOfComic.add(Book(R.drawable.meika_cover,"Meika"))
-//        listOfComic.add(Book(R.drawable.doll_cover,"Sono bisque"))
-//        listOfComic.add(Book(R.drawable.mokanojo_cover,"Kanojo mo Kanojo"))
-//        listOfComic.add(Book(R.drawable.tonikaku_cover,"Tonakaku Cawaii"))
-//        listOfComic.add(Book(R.drawable.yofukashi_cover,"Yofukashi no uta"))
+         val backIC = findViewById<ImageView>(R.id.backFavorite)
 
-        val adapter = ComicAdapter(listOfComic)
+        backIC.setOnClickListener {
+            finish()
+        }
 
-        if (savedInstanceState == null) {
-            val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-            val fragment: Fragment = ListComicFragment.newInstance(3)
-            ft.replace(R.id.fragment_Favorite_List, fragment)
-            ft.commit()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val curruser = FirebaseAuth.getInstance().currentUser
+        var favoriteList = ArrayList<String>()
+
+        val favoriteRV = findViewById<RecyclerView>(R.id.listComicFavorRV)
+
+
+        GlobalScope.launch {
+            favoriteList = getFavoriteList(curruser!!.uid) as ArrayList<String>
+
+            val listOfComicFavor = ArrayList<Book>()
+
+            getInfoFavorite(favoriteList, listOfComicFavor)
+
+            val adapter = ComicAdapter(listOfComicFavor)
+
+            withContext(Dispatchers.Main)
+            {
+                adapter.onItemClick = { book ->
+                    val intent = Intent(this@FavoriteListActivity, BookDetailActivity::class.java)
+                    intent.putExtra("id", book.id)
+                    startActivity(intent)
+                }
+
+                favoriteRV.adapter = adapter
+
+                favoriteRV.layoutManager = GridLayoutManager(this@FavoriteListActivity, 3)
+            }
         }
     }
+
+    private suspend fun getInfoFavorite(listFavorite: ArrayList<String>, listInfoComic: ArrayList<Book>)
+    {
+        val comicRef = FirebaseFirestore.getInstance().collection("comics")
+        for(i in listFavorite)
+        {
+            listInfoComic.add(
+                comicRef.document(i.toString())
+                    .get()
+                    .await()
+                    .toObject<Book>()!!
+            )
+        }
+    }
+
+    private suspend fun getFavoriteList(uid: String): Any {
+        return FirebaseFirestore.getInstance().collection("accounts")
+            .document(uid)
+            .get()
+            .await()["FavoriteList"]!!
+    }
+
+
 }

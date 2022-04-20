@@ -235,7 +235,7 @@
             android:id="@+id/fav_btn_tv_pf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rank"
+            android:text="@string/Favorite"
             android:textAlignment="center"
             android:textSize="17sp"
             android:textStyle="bold"
