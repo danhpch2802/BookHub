@@ -25,6 +25,7 @@
                 android:textStyle="bold">
             </TextView>
             <ImageView
+                android:id="@+id/icBackHistory"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:src="@drawable/ic_back"
@@ -38,10 +39,10 @@
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
         <!-- Your scrolling content -->
 
-        <androidx.fragment.app.FragmentContainerView
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/fragment_History_List"
+            android:id="@+id/historyListRV"
             />
 
     </androidx.core.widget.NestedScrollView>

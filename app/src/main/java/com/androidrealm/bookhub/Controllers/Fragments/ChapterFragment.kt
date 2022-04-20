@@ -98,10 +98,19 @@ class ChapterFragment(listChapter: Any?, detailBook: Book?=null) : Fragment(), S
 
         chapterRW.layoutManager = LinearLayoutManager(activity)
         adapter.onRowsChapterClick = { chapterClick ->
+
             userInfo.Point = userInfo.Point!! + 10
+
             detailBook!!.viewNumber= detailBook!!.viewNumber!!+1
-            updateViewAfterChapterClick(detailBook!!, detailBook!!.id!!)
-            updatePointAfterChapterClick(userInfo, currentUserAuth!!.uid)
+
+            updateViewAfterChapterClick(detailBook!!, detailBook!!.id!!) //update point read
+            updatePointAfterChapterClick(userInfo, currentUserAuth!!.uid) // update viewNumber
+
+            updateHistory(userInfo.History, detailBook!!.id, currentUserAuth!!.uid)
+
+
+
+
             val intent= Intent(requireActivity(), BookReadActivity::class.java)
             intent.putExtra("ChapterPos",adapter.pos)
             intent.putExtra("id", detailBook!!.id)
@@ -124,6 +133,28 @@ class ChapterFragment(listChapter: Any?, detailBook: Book?=null) : Fragment(), S
         }
 
     }
+
+    private fun updateHistory(history: ArrayList<String>, idBook: String?, uid: String) {
+        if (history.contains(idBook.toString())) // exist in history
+        {
+            val position = history.indexOf(idBook.toString())
+            history.removeAt(position)
+            history.add(0,idBook.toString())
+        }
+        else //not exist in history
+        {
+            if (history.size>=10) //greater than 10 delete last
+            {
+                history.removeLast()
+            }
+            history.add(0, idBook.toString())
+        }
+
+        val accountRef = FirebaseFirestore.getInstance().collection("accounts")
+            .document(uid)
+            .update("History", history)
+    }
+
     private fun updatePointAfterChapterClick(userInfo: Account, idAccount : String) {
         val pointRef = FirebaseFirestore.getInstance().collection("accounts")
             .document(idAccount)

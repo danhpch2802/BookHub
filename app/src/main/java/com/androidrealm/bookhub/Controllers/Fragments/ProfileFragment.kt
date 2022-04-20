@@ -81,7 +81,8 @@ class ProfileFragment : Fragment() {
         }
 //
         HistoryBtn!!.setOnClickListener{
-            Toast.makeText(context, "Submit Successfully!", Toast.LENGTH_SHORT).show()
+            val intent = Intent(requireActivity(), HistoryActivity::class.java)
+            startActivity(intent)
         }
 
         FavBtn!!.setOnClickListener{

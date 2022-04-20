@@ -428,6 +428,7 @@ class BookFragment : Fragment() {
                     userInfo!!.username = document.data!!["username"] as String
                     userInfo!!.Point = document.data!!["Point"] as Long
                     userInfo!!.FavoriteList = document.data!!["FavoriteList"] as ArrayList<String>
+                    userInfo!!.History = document.data!!["History"] as ArrayList<String>
 
                     val favoriteBtn = view.findViewById<Button>(R.id.markAsFavoriteBtn)
 

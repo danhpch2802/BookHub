@@ -87,6 +87,4 @@ class FavoriteListActivity : AppCompatActivity() {
             .get()
             .await()["FavoriteList"]!!
     }
-
-
 }

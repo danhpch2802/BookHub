@@ -8,15 +8,25 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.androidrealm.bookhub.Models.Book
 import com.androidrealm.bookhub.R
+import com.squareup.picasso.Picasso
 import java.io.Serializable
 
 class ComicAdapterLinear (private var listOfBook : List<Book>
 ):
     RecyclerView.Adapter<ComicAdapterLinear.ViewHolder>(), Serializable {
 
+    var onItemClick: ((Book) -> Unit)? = null
+
     inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
         val comicNameTVlinear = listItemView.findViewById(R.id.comicNameTVlinear) as TextView
         val comicIVlinear = listItemView.findViewById(R.id.comicIVlinear) as ImageView
+        init {
+            listItemView.setOnClickListener {
+                onItemClick?.invoke(
+                    listOfBook[adapterPosition]
+                )
+            }
+        }
 
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
@@ -33,13 +43,14 @@ class ComicAdapterLinear (private var listOfBook : List<Book>
         return listOfBook.size
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-// Get the data model based on position
+
         val book: Book = listOfBook.get(position)
-// Set item views based on your views and data model
+
         val comicNameTV = holder.comicNameTVlinear
         comicNameTV.setText(book.name)
         val comicIV = holder.comicIVlinear
-//        comicIV.setImageResource(book.imagePath!!)
+        Picasso.get().load(book.imagePath).into(comicIV);
+
     }
 
 }
