@@ -39,11 +39,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import dmax.dialog.SpotsDialog
-import kotlinx.android.synthetic.main.fragment_book.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import java.io.Serializable
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
@@ -53,7 +51,7 @@ import java.text.DecimalFormat
  * Use the [BookFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class BookFragment : Fragment(),Serializable {
+class BookFragment : Fragment() {
     private var detailComic=Book()
     private var listComment : ArrayList<Comment>? =ArrayList<Comment>()
     private var recommendList : ArrayList<Book>? =ArrayList<Book>()
@@ -369,6 +367,7 @@ class BookFragment : Fragment(),Serializable {
                                 deleteDocumentInFireStore(bookId)
                             }
                             deleteCommentInFireStore(bookId)
+                            deleteInAccountHistory(bookId)
                             deleteInAccountFavorite(bookId)
                             listChapterToEdit.clear()
                             pdfListUriToEdit.clear()
@@ -415,8 +414,6 @@ class BookFragment : Fragment(),Serializable {
                 calScore= calScore/detailComic.score.sum()
             }
 
-            val df = DecimalFormat("#.##")
-            df.roundingMode = RoundingMode.CEILING
 
             calRating(calScore)
 
@@ -584,14 +581,23 @@ class BookFragment : Fragment(),Serializable {
         }
         else
         {
-            calScore = calScore + (indexNewStar+1)
+            calScore = calScore + (indexNewStar)
         }
-        val df = DecimalFormat("#.##")
-        df.roundingMode = RoundingMode.CEILING
 
         calRating(calScore)
     }
 
+    private fun deleteInAccountHistory(bookId: String?) {
+        fireStore!!.collection("accounts")
+            .whereArrayContains("History", bookId.toString())
+            .get()
+            .addOnSuccessListener { querySnapshot->
+                for (document in querySnapshot)
+                {
+                    document.reference.update("History", FieldValue.arrayRemove(bookId))
+                }
+            }
+    }
 
     private fun deleteInAccountFavorite(bookId: String?) {
         fireStore!!.collection("accounts")
