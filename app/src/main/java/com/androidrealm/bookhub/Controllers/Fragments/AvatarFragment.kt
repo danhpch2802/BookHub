@@ -68,18 +68,19 @@ class AvatarFragment : Fragment() {
                     if (book == "9")
                     {
                         flag = 1
-                        var badge: ArrayList<String> = task.get("Badge") as ArrayList<String>
+                        var badge: ArrayList<String> = task.get("BadgeOwn") as ArrayList<String>
                         for (i in badge)
                         {
                             if (i == "b1" )
                             {
                                 flag = 0
+                                break
                             }
-                            else
-                            {
-                                Toast.makeText(context, "You must have the Wibu Badge to change to avatar " + book, Toast.LENGTH_SHORT)
-                                    .show()
-                            }
+                        }
+                        if (flag == 1)
+                        {
+                            Toast.makeText(context, "You must have the Wibu Badge to change to avatar " + book, Toast.LENGTH_SHORT)
+                                .show()
                         }
                     }
                     if (flag == 0) {
