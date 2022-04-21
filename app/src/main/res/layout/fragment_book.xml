@@ -178,7 +178,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/categoriesScrollView" />
 
-            <androidx.fragment.app.FragmentContainerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recommendFragmentContainer"
                 android:layout_width="376dp"
                 android:layout_height="200dp"
@@ -189,7 +189,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/recommendTV">
 
-            </androidx.fragment.app.FragmentContainerView>
+            </androidx.recyclerview.widget.RecyclerView>
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/bookTab"

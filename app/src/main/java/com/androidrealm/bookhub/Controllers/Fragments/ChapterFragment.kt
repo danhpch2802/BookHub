@@ -109,11 +109,10 @@ class ChapterFragment(listChapter: Any?, detailBook: Book?=null) : Fragment(), S
             updateHistory(userInfo.History, detailBook!!.id, currentUserAuth!!.uid)
 
 
-
-
             val intent= Intent(requireActivity(), BookReadActivity::class.java)
             intent.putExtra("ChapterPos",adapter.pos)
             intent.putExtra("id", detailBook!!.id)
+
             startActivity(intent)
         }
 

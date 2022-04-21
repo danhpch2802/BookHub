@@ -16,6 +16,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.FragmentTransaction
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.androidrealm.bookhub.Adapter.BookPageView2Adapter
 import com.androidrealm.bookhub.ComicAdapter
@@ -56,6 +58,7 @@ class BookFragment : Fragment() {
     private var listComment : ArrayList<Comment>? =ArrayList<Comment>()
     private var recommendList : ArrayList<Book>? =ArrayList<Book>()
     private var createNew = false
+    private var editable = false
     private var comicCoverIV : ImageView? = null
     private var comicNameET : EditText? = null
     private var comicAuthorET : EditText? = null
@@ -72,14 +75,10 @@ class BookFragment : Fragment() {
     private var userInfo : Account? = Account()
 
     private var ratingLL:RatingBar?=null
-    private var star1:ImageView?=null
-    private var star2:ImageView?=null
-    private var star3:ImageView?=null
-    private var star4:ImageView?=null
-    private var star5:ImageView?=null
+
 
     private var recommendTV:TextView?=null
-    private var recommendFragmentContainer:FragmentContainerView?=null
+    private var recommendFragmentContainer:RecyclerView?=null
     private var cover_EditRL:RelativeLayout?=null
     private var favoriteBtn:Button?=null
 
@@ -123,7 +122,7 @@ class BookFragment : Fragment() {
         comicAuthorET = view.findViewById<EditText>(R.id.comicAuthorET)
         cover_EditRL=view.findViewById(R.id.cover_EditRL)
         recommendTV=view.findViewById(R.id.recommendTV)
-        recommendFragmentContainer=view.findViewById<FragmentContainerView>(R.id.recommendFragmentContainer)
+        recommendFragmentContainer=view.findViewById<RecyclerView>(R.id.recommendFragmentContainer)
         favoriteBtn = view.findViewById<Button>(R.id.markAsFavoriteBtn)
 
         ratingLL=view.findViewById(R.id.ratingLL)
@@ -138,7 +137,9 @@ class BookFragment : Fragment() {
         createNew=requireArguments().getSerializable(
             "createNew"
         ) as Boolean
-
+        editable= requireArguments().getSerializable(
+            "editable"
+        ) as Boolean
         if(createNew) // create new here
         {
             hideWhenEdit()
@@ -444,12 +445,17 @@ class BookFragment : Fragment() {
 
             bookId = detailComic.id
 
-            var recommendAdapter = ComicAdapter(recommendList!!)
 
-            val recommendFt: FragmentTransaction = activity?.supportFragmentManager!!.beginTransaction()
-            val recommendFragment: Fragment = ListRecommendComicFragment.newInstance(recommendAdapter, -1)
-            recommendFt.replace(R.id.recommendFragmentContainer, recommendFragment)
-            recommendFt.commit()
+            var recommendAdapter = ComicAdapter(recommendList!!)
+            recommendAdapter.onItemClick = { book ->
+                val intent = Intent(requireContext(), BookDetailActivity::class.java)
+                intent.putExtra("id", book.id)
+                requireActivity().finish()
+                startActivity(intent)
+            }
+
+            recommendFragmentContainer!!.adapter=recommendAdapter
+            recommendFragmentContainer!!.layoutManager=GridLayoutManager(requireContext(),3)
 
             val currentUserAuth = FirebaseAuth.getInstance().currentUser
 
@@ -598,6 +604,7 @@ class BookFragment : Fragment() {
 
         calRating(calScore)
     }
+
 
     private fun deleteInAccountHistory(bookId: String?) {
         fireStore!!.collection("accounts")
@@ -814,6 +821,14 @@ class BookFragment : Fragment() {
         favoriteBtn!!.visibility=View.GONE
         cover_EditRL!!.visibility=View.VISIBLE
         ratingLL!!.visibility=View.GONE
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if(!createNew && !editable) {
+
+        }
     }
 }
 
