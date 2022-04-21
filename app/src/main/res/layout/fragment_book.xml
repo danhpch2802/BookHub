@@ -93,6 +93,8 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginBottom="16dp"
 
+                android:isIndicator="true"
+
                 android:background="@android:color/transparent"
                 android:numStars="5"
                 android:orientation="horizontal"
