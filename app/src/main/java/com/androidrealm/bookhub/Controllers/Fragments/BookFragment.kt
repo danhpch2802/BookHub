@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainerView
 import androidx.viewpager2.widget.ViewPager2
 import com.androidrealm.bookhub.Adapter.BookPageView2Adapter
 import com.androidrealm.bookhub.Controllers.Fragments.CreateNewChapterFragment.Companion.listChapterToCreate
@@ -35,6 +36,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import dmax.dialog.SpotsDialog
+import kotlinx.android.synthetic.main.fragment_book.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -53,6 +55,9 @@ class BookFragment : Fragment() {
     private var recommendList : ArrayList<Book>? =ArrayList<Book>()
     private var createNew = false
     private var comicCoverIV : ImageView? = null
+    private var comicNameET : EditText? = null
+    private var comicAuthorET : EditText? = null
+    private var comicSummaryET:EditText?=null
     private var imageUri : Uri? = null
 
     private var listCategoryChosen = ArrayList<String>()
@@ -64,8 +69,17 @@ class BookFragment : Fragment() {
 
     private var userInfo : Account? = Account()
 
-    private var comicRatingTV: TextView? = null
+    private var ratingLL:LinearLayout?=null
+    private var star1:ImageView?=null
+    private var star2:ImageView?=null
+    private var star3:ImageView?=null
+    private var star4:ImageView?=null
+    private var star5:ImageView?=null
 
+    private var recommendTV:TextView?=null
+    private var recommendFragmentContainer:FragmentContainerView?=null
+    private var cover_EditRL:RelativeLayout?=null
+    private var favoriteBtn:Button?=null
 
     companion object {
 
@@ -102,10 +116,21 @@ class BookFragment : Fragment() {
 
         var view=inflater.inflate(R.layout.fragment_book, container, false)
         comicCoverIV = view.findViewById<ImageView>(R.id.comicCoverIV)
-         val comicNameET = view.findViewById<EditText>(R.id.comicNameET)
-        val comicAuthorET = view.findViewById<EditText>(R.id.comicAuthorET)
-        comicRatingTV = view.findViewById<EditText>(R.id.comicRatingTV)
-        val comicSummaryET = view.findViewById<EditText>(R.id.comicSummaryET)
+        comicNameET = view.findViewById<EditText>(R.id.comicNameET)
+        comicAuthorET = view.findViewById<EditText>(R.id.comicAuthorET)
+        cover_EditRL=view.findViewById(R.id.cover_EditRL)
+        recommendTV=view.findViewById(R.id.recommendTV)
+        recommendFragmentContainer=view.findViewById<FragmentContainerView>(R.id.recommendFragmentContainer)
+        favoriteBtn = view.findViewById<Button>(R.id.markAsFavoriteBtn)
+
+        ratingLL=view.findViewById(R.id.ratingLL)
+        star1= view.findViewById<ImageView>(R.id.star1)
+        star2= view.findViewById<ImageView>(R.id.star2)
+        star3= view.findViewById<ImageView>(R.id.star3)
+        star4= view.findViewById<ImageView>(R.id.star4)
+        star5= view.findViewById<ImageView>(R.id.star5)
+
+        comicSummaryET = view.findViewById<EditText>(R.id.comicSummaryET)
 
         val categoryContent = view.findViewById<LinearLayout>(R.id.categoriesID)
         val uploadBtn = view.findViewById<Button>(R.id.uploadComic)
@@ -118,6 +143,7 @@ class BookFragment : Fragment() {
 
         if(createNew) // create new here
         {
+            hideWhenEdit()
             val singleFrame: View = layoutInflater.inflate(R.layout.item_categories, null)
             val categoryBtn = singleFrame.findViewById<MaterialButton>(R.id.categoryBtn)
 
@@ -125,7 +151,7 @@ class BookFragment : Fragment() {
 
             uploadBtn.visibility = View.VISIBLE
 
-            comicCoverIV!!.setOnClickListener {
+            cover_EditRL!!.setOnClickListener {
                 val intentPickIMG = Intent(Intent.ACTION_OPEN_DOCUMENT)
                 intentPickIMG.type = "image/*"
                 startActivityForResult(intentPickIMG, 1000)
@@ -133,7 +159,8 @@ class BookFragment : Fragment() {
             categoryBtn.setText("Add new category")
             categoryContent.addView(singleFrame)
             categoryView.add(singleFrame)
-            view.findViewById<ImageView>(R.id.recommendCoverIV).setVisibility(View.VISIBLE)
+            //view.findViewById<ImageView>(R.id.recommendCoverIV).setVisibility(View.VISIBLE)
+
 
             categoryBtn.setOnClickListener {
 
@@ -183,10 +210,10 @@ class BookFragment : Fragment() {
                 }
 
             uploadBtn.setOnClickListener {
-                detailComic.name = comicNameET.text.toString()
-                detailComic.author = comicAuthorET.text.toString()
+                detailComic.name = comicNameET!!.text.toString()
+                detailComic.author = comicAuthorET!!.text.toString()
 
-                detailComic.summary = comicSummaryET.text.toString()
+                detailComic.summary = comicSummaryET!!.text.toString()
 
                 detailComic.listCategory = listCategoryChosen
 
@@ -233,7 +260,6 @@ class BookFragment : Fragment() {
                 categoryContent.addView(singleFrame)
                 categoryView.add(singleFrame)
                 categoryBtn.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(),R.color.app_golden))
-                view.findViewById<ImageView>(R.id.recommendCoverIV).setVisibility(View.VISIBLE)
 
                 categoryBtn.setOnClickListener {
 
@@ -286,7 +312,7 @@ class BookFragment : Fragment() {
                         }).show()
                 }
 
-                comicCoverIV!!.setOnClickListener {
+                cover_EditRL!!.setOnClickListener {
                     val intentPickIMG = Intent(Intent.ACTION_OPEN_DOCUMENT)
                     intentPickIMG.type = "image/*"
                     startActivityForResult(intentPickIMG, 1000)
@@ -298,10 +324,10 @@ class BookFragment : Fragment() {
                     when (menuItem.itemId) {
                         R.id.saveInfoBook -> {
 
-                            detailComic.name = comicNameET.text.toString()
-                            detailComic.author = comicAuthorET.text.toString()
+                            detailComic.name = comicNameET!!.text.toString()
+                            detailComic.author = comicAuthorET!!.text.toString()
 
-                            detailComic.summary = comicSummaryET.text.toString()
+                            detailComic.summary = comicSummaryET!!.text.toString()
                             bookId = detailComic.id
                             Log.i("id", bookId.toString())
                             //change Cover
@@ -354,10 +380,9 @@ class BookFragment : Fragment() {
             }
             //Read
             else {
-                comicNameET.setFocusable(false)
-                comicAuthorET.setFocusable(false)
-                comicRatingTV!!.setFocusable(false)
-                comicSummaryET.setFocusable(false)
+                comicNameET!!.setFocusable(false)
+                comicAuthorET!!.setFocusable(false)
+                comicSummaryET!!.setFocusable(false)
 
             }
 
@@ -374,8 +399,8 @@ class BookFragment : Fragment() {
 //                "recommendedList"
 //            ) as ArrayList<Book>
 //
-            comicNameET.setText(detailComic.name)
-            comicAuthorET.setText(detailComic.author)
+            comicNameET!!.setText(detailComic.name)
+            comicAuthorET!!.setText(detailComic.author)
 
             var calScore = 0.0F
 
@@ -392,8 +417,9 @@ class BookFragment : Fragment() {
             val df = DecimalFormat("#.##")
             df.roundingMode = RoundingMode.CEILING
 
-            comicRatingTV!!.setText("${df.format(calScore)}/5")
-            comicSummaryET.setText(detailComic.summary)
+            calRating(calScore)
+
+            comicSummaryET!!.setText(detailComic.summary)
             Picasso.get()
                 .load(detailComic.imagePath)
                 .into(comicCoverIV);
@@ -430,37 +456,36 @@ class BookFragment : Fragment() {
                     userInfo!!.FavoriteList = document.data!!["FavoriteList"] as ArrayList<String>
                     userInfo!!.History = document.data!!["History"] as ArrayList<String>
 
-                    val favoriteBtn = view.findViewById<Button>(R.id.markAsFavoriteBtn)
 
                     if (userInfo!!.FavoriteList.contains(bookId))
                     {
-                        favoriteBtn.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.btn_star_big_on,0,0,0)
-                        favoriteBtn.isSelected = true
+                        favoriteBtn!!.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.btn_star_big_on,0,0,0)
+                        favoriteBtn!!.isSelected = true
                     }
                     else
                     {
-                        favoriteBtn.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.btn_star,0,0,0)
-                        favoriteBtn.isSelected = false
+                        favoriteBtn!!.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.btn_star,0,0,0)
+                        favoriteBtn!!.isSelected = false
                     }
 
-                    favoriteBtn.setOnClickListener {
+                    favoriteBtn!!.setOnClickListener {
 
-                        if (favoriteBtn.isSelected)
+                        if (favoriteBtn!!.isSelected)
                         {
                             val position = userInfo!!.FavoriteList.indexOf(bookId)
                             userInfo!!.FavoriteList.removeAt(position)
                             updateFavoriteList(currentUserAuth!!.uid, userInfo!!.FavoriteList)
 
-                            favoriteBtn.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.btn_star,0,0,0)
-                            favoriteBtn.isSelected = false
+                            favoriteBtn!!.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.btn_star,0,0,0)
+                            favoriteBtn!!.isSelected = false
                         }
                         else
                         {
                             userInfo!!.FavoriteList.add(0, bookId!!)
                             updateFavoriteList(currentUserAuth!!.uid, userInfo!!.FavoriteList)
 
-                            favoriteBtn.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.btn_star_big_on,0,0,0)
-                            favoriteBtn.isSelected = true
+                            favoriteBtn!!.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.btn_star_big_on,0,0,0)
+                            favoriteBtn!!.isSelected = true
                         }
                     }
 
@@ -486,6 +511,7 @@ class BookFragment : Fragment() {
         }
         //create && no edit
         else if (createNew && !editable){
+            hideWhenEdit()
             val bookViewPage2 = view.findViewById<ViewPager2>(R.id.bookViewPage2)
             var bookVPAdapter = BookPageView2Adapter(
                 activity as AppCompatActivity, 2,
@@ -496,6 +522,7 @@ class BookFragment : Fragment() {
         //no create && edit
         else
         {
+            hideWhenEdit()
             detailComic = requireArguments().getSerializable(
                 "comic"
             ) as Book
@@ -549,7 +576,7 @@ class BookFragment : Fragment() {
         val df = DecimalFormat("#.##")
         df.roundingMode = RoundingMode.CEILING
 
-        comicRatingTV!!.setText("${df.format(calScore)}/5")
+        calRating(calScore)
     }
 
 
@@ -740,5 +767,44 @@ class BookFragment : Fragment() {
         }
     }
 
+    private fun calRating(rating: Float){
+        if(rating==5.0f) {
+            star1!!.setImageResource(android.R.drawable.btn_star_big_on)
+            star2!!.setImageResource(android.R.drawable.btn_star_big_on)
+            star3!!.setImageResource(android.R.drawable.btn_star_big_on)
+            star4!!.setImageResource(android.R.drawable.btn_star_big_on)
+            star5!!.setImageResource(android.R.drawable.btn_star_big_on)
+        }
+        else if(4<=rating&&rating<5) {
+            star1!!.setImageResource(android.R.drawable.btn_star_big_on)
+            star2!!.setImageResource(android.R.drawable.btn_star_big_on)
+            star3!!.setImageResource(android.R.drawable.btn_star_big_on)
+            star4!!.setImageResource(android.R.drawable.btn_star_big_on)
+        }
+        else if(3<=rating&&rating<4)  {
+            star1!!.setImageResource(android.R.drawable.btn_star_big_on)
+            star2!!.setImageResource(android.R.drawable.btn_star_big_on)
+            star3!!.setImageResource(android.R.drawable.btn_star_big_on)
+        }
+        else if(2<=rating&&rating<3)  {
+            star1!!.setImageResource(android.R.drawable.btn_star_big_on)
+            star2!!.setImageResource(android.R.drawable.btn_star_big_on)
+        }
+        else if (1<=rating&&rating<2)  {
+            star1!!.setImageResource(android.R.drawable.btn_star_big_on)
+        }
+    }
+
+    private fun hideWhenEdit(){
+        recommendTV!!.visibility=View.GONE
+        recommendFragmentContainer!!.visibility=View.GONE
+        comicNameET!!.setBackgroundResource(R.drawable.edittextbackground)
+
+        comicAuthorET!!.setBackgroundResource(R.drawable.edittextbackground)
+
+        favoriteBtn!!.visibility=View.GONE
+        cover_EditRL!!.visibility=View.VISIBLE
+        ratingLL!!.visibility=View.GONE
+    }
 }
 

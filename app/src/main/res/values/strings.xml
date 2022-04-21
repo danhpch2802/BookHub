@@ -13,10 +13,10 @@
     <string name="comicCoverPath"></string>
     <string name="chapter">Chapters</string>
     <string name="comment">Comment</string>
-    <string name="bookName">Book name</string>
+    <string name="bookName">Enter book name</string>
     <string name="markAsFavorite">Mark as favorite</string>
-    <string name="bookSummary">Book Summary</string>
-    <string name="bookAuthor">Book Author</string>
+    <string name="bookSummary">Enter book Summary</string>
+    <string name="bookAuthor">Enter author</string>
     <string name="bookRating">Book rating</string>
     <string name="recommend">Recommend</string>
     <string name="send">Send</string>
@@ -67,6 +67,7 @@
     <string name="checked">Checked:</string>
     <string name="request_by_user">Request By User</string>
     <string name="create_account">Create Account</string>
+    <string name="edit_cover">Edit cover</string>
 
     <string-array name="category_names">
         <item>Horror</item>

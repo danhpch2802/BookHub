@@ -28,13 +28,41 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/markAsFavoriteBtn"
                 android:src="@drawable/ic_launcher_foreground"
-                />
+                >
+            </ImageView>
 
-            <Button
+            <RelativeLayout
+                android:id="@+id/cover_EditRL"
+                android:layout_width="130dp"
+                android:layout_height="250dp"
+                android:layout_marginStart="13dp"
+                android:clickable="true"
+                android:background="#AD4D4D4D"
+                android:elevation="2dp"
+                app:layout_constraintBottom_toTopOf="@+id/markAsFavoriteBtn"
+                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/edit_cover"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+android:layout_marginHorizontal="32dp"
+                    android:layout_marginVertical="100dp"
+                    />
+            </RelativeLayout>
+
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/uploadComic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
+                app:cornerRadius="20dp"
+                android:backgroundTint="@color/app_golden"
+                android:textColor="@color/black"
                 android:layout_marginStart="35dp"
                 android:layout_marginTop="45dp"
                 android:layout_marginEnd="48dp"
@@ -44,78 +72,98 @@
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/comicSummaryET"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/markAsFavoriteBtn"
-                app:layout_constraintTop_toBottomOf="@+id/comicAuthorET"></Button>
+                app:layout_constraintTop_toBottomOf="@+id/comicAuthorET"></com.google.android.material.button.MaterialButton>
 
             <EditText
                 android:id="@+id/comicNameET"
                 android:layout_width="227dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="80dp"
-
-                android:layout_marginEnd="20dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="30dp"
                 android:background="@android:color/transparent"
                 android:hint="@string/bookName"
+                android:padding="10dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"></EditText>
+                app:layout_constraintStart_toEndOf="@+id/comicCoverIV"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/comicRatingTV"
-                android:layout_width="79dp"
-                android:layout_height="45dp"
-                android:layout_marginEnd="168dp"
-
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ratingLL"
+                android:layout_marginStart="12dp"
                 android:layout_marginBottom="16dp"
                 android:background="@android:color/transparent"
-                android:hint="@string/bookRating"
-                android:textColor="#A8040404"
-
-                android:textSize="18sp"
-                android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/markAsFavoriteBtn"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/comicCoverIV"
                 app:layout_constraintTop_toBottomOf="@+id/comicAuthorET"
-                app:layout_constraintVertical_bias="0.0">
-
-            </EditText>
+                app:layout_constraintVertical_bias="0.89"
+                android:orientation="horizontal"
+                >
+                <ImageView
+                    android:id="@+id/star1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@android:drawable/btn_star"
+                    android:clickable="false"/>
+                <ImageView
+                    android:id="@+id/star2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@android:drawable/btn_star"
+                    android:clickable="false"/>
+                <ImageView
+                    android:id="@+id/star3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@android:drawable/btn_star"
+                    android:clickable="false"/>
+                <ImageView
+                    android:id="@+id/star4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@android:drawable/btn_star"
+                    android:clickable="false"/>
+                <ImageView
+                    android:id="@+id/star5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@android:drawable/btn_star"
+                    android:clickable="false"/>
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/comicAuthorET"
                 android:layout_width="226dp"
                 android:layout_height="42dp"
-                android:layout_marginTop="12dp"
-
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="24dp"
+                android:padding="10dp"
                 android:background="@android:color/transparent"
                 android:hint="@string/bookAuthor"
-                android:textColor="#68040404"
-
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/comicNameET">
-
+                app:layout_constraintStart_toEndOf="@+id/comicCoverIV"
+                app:layout_constraintTop_toBottomOf="@+id/comicNameET"
+                >
             </EditText>
 
             <EditText
                 android:id="@+id/comicSummaryET"
-                android:layout_width="376dp"
+                android:layout_width="0dp"
                 android:layout_height="202dp"
                 android:layout_marginStart="13dp"
-
+                android:layout_marginTop="68dp"
                 android:layout_marginEnd="13dp"
-                android:background="@android:color/transparent"
+                android:background="@drawable/edittextbackground"
+                android:gravity="fill_horizontal"
                 android:hint="@string/bookSummary"
-                android:textColor="#A8040404"
-                android:textSize="15sp"
+                android:padding="10dp"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.333"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/comicCoverIV">
-
-            </EditText>
+                app:layout_constraintTop_toBottomOf="@+id/comicCoverIV"/>
 
             <Button
                 android:id="@+id/markAsFavoriteBtn"
@@ -134,6 +182,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
 
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/comicSummaryET">
@@ -142,7 +193,7 @@
                     android:id="@+id/categoriesID"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal"/>
+                    android:orientation="horizontal" />
             </HorizontalScrollView>
             <TextView
                 android:id="@+id/recommendTV"
@@ -156,17 +207,6 @@
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/categoriesScrollView" />
-
-            <ImageView
-                android:id="@+id/recommendCoverIV"
-                android:layout_width="95dp"
-                android:layout_height="201dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:src="@drawable/ic_launcher_foreground"
-                android:visibility="invisible"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/recommendTV" />
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/recommendFragmentContainer"
@@ -186,14 +226,19 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
+                android:backgroundTint="@color/app_golden"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/recommendFragmentContainer"
                 app:tabGravity="fill"
+                app:tabIconTint="@color/black"
+                app:tabIndicatorColor="@color/black"
                 app:tabMinWidth="0dp"
                 app:tabMode="fixed"
                 app:tabPaddingEnd="0dp"
-                app:tabPaddingStart="0dp">
+                app:tabPaddingStart="0dp"
+                app:tabSelectedTextColor="@color/black"
+                app:tabTextColor="@color/black">
 
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="match_parent"
@@ -202,16 +247,8 @@
                     android:text="@string/chapter"
                     app:tabGravity="fill"
                     app:tabMinWidth="0dp"
-                    app:tabMode="fixed" />
+                    app:tabMode="auto" />
 
-                <com.google.android.material.tabs.TabItem
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:icon="@drawable/profile_icon"
-                    android:text="@string/comment"
-                    app:tabGravity="fill"
-                    app:tabMinWidth="0dp"
-                    app:tabMode="fixed" />
 
             </com.google.android.material.tabs.TabLayout>
             <androidx.viewpager2.widget.ViewPager2
