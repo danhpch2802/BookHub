@@ -380,9 +380,6 @@ class BookFragment : Fragment() {
             }
             //Read
             else {
-                recommendList = requireArguments().getSerializable(
-                    "recommendedList"
-                ) as ArrayList<Book>
                 comicNameET!!.setFocusable(false)
                 comicAuthorET!!.setFocusable(false)
                 comicSummaryET!!.setFocusable(false)
@@ -441,15 +438,14 @@ class BookFragment : Fragment() {
                 "comic"
             ) as Book
 
+            recommendList = requireArguments().getSerializable(
+                "recommendedList"
+            ) as ArrayList<Book>
+
             bookId = detailComic.id
 
             var recommendAdapter = ComicAdapter(recommendList!!)
-            recommendAdapter.onItemClick = { book ->
-                val intent = Intent(requireActivity(), BookDetailActivity::class.java)
-                intent.putExtra("id", book.id)
-                requireActivity().finish()
-                startActivity(intent)
-            }
+
             val recommendFt: FragmentTransaction = activity?.supportFragmentManager!!.beginTransaction()
             val recommendFragment: Fragment = ListRecommendComicFragment.newInstance(recommendAdapter, -1)
             recommendFt.replace(R.id.recommendFragmentContainer, recommendFragment)

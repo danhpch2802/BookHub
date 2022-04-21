@@ -45,6 +45,13 @@ class ListRecommendComicFragment : Fragment() {
 
         listComicsRW.adapter=adapter
 
+        adapter.onItemClick = { book ->
+            val intent = Intent(requireActivity(), BookDetailActivity::class.java)
+            intent.putExtra("id", book.id)
+            requireActivity().finish()
+            startActivity(intent)
+        }
+
         var layout=requireArguments().getSerializable(
             "gridLayoutSpanNum"
         ) as Int

@@ -135,7 +135,7 @@ class BookDetailActivity : AppCompatActivity() {
         return tempListComment
     }
 
-    fun getRecommendList(comic: Book?):ArrayList<Book> {
+    private suspend fun getRecommendList(comic: Book?):ArrayList<Book> {
         var fireStore = FirebaseFirestore.getInstance()
 
         val recommendList = ArrayList<Book>();
@@ -145,16 +145,21 @@ class BookDetailActivity : AppCompatActivity() {
             .orderBy("viewNumber", Query.Direction.DESCENDING)
         var count=0
         docRef.get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    val comicGet = document.toObject<Book>()
-                    if(comicGet.id==id) continue
-                    if(count==3) break
-                    comicGet.id = document.id
-                    recommendList.add(comicGet)
-                    count++
-                }
+            .await()
+            .forEach {
+                val comicGet = it.toObject<Book>()
 
+                if (!comicGet.id.equals(id))
+                {
+                    if(!count.equals(3))
+                    {
+                        if (!recommendList.contains(comicGet))
+                        {
+                            recommendList.add(comicGet)
+                            count++
+                        }
+                    }
+                }
             }
         return recommendList;
     }
