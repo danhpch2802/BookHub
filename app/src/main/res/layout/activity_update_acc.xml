@@ -69,8 +69,7 @@
                 android:layout_width="135dp"
                 android:layout_height="135dp"
                 android:layout_gravity="center"
-                tools:ignore="SpeakableTextPresentCheck"
-                tools:srcCompat="@tools:sample/avatars" />
+                tools:ignore="SpeakableTextPresentCheck" />
         </androidx.cardview.widget.CardView>
     </androidx.cardview.widget.CardView>
 
