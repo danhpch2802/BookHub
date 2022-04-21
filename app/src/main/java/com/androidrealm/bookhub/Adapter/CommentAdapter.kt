@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.androidrealm.bookhub.Models.Book
 import com.androidrealm.bookhub.Models.Comment
 import com.androidrealm.bookhub.R
 import java.io.Serializable
@@ -14,11 +15,19 @@ class CommentAdapter (private var listComments : List<Comment>
 ):
     RecyclerView.Adapter<CommentAdapter.ViewHolder>(), Serializable {
 
+    var onItemClick: ((Comment) -> Unit)? = null
+
     inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
         val commentorTV = listItemView.findViewById(R.id.commentorTV) as TextView
         val dateCommentTV = listItemView.findViewById(R.id.dateCommentTV) as TextView
         val contentTV = listItemView.findViewById(R.id.contentTV) as TextView
         val numRatedTV = listItemView.findViewById<TextView>(R.id.numratedComment)
+
+        init {
+            listItemView.setOnClickListener {
+                onItemClick?.invoke(listComments[adapterPosition])
+            }
+        }
 
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):

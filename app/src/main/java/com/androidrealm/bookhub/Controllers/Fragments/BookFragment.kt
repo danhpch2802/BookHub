@@ -466,6 +466,7 @@ class BookFragment : Fragment() {
                     userInfo!!.FavoriteList = document.data!!["FavoriteList"] as ArrayList<String>
                     userInfo!!.History = document.data!!["History"] as ArrayList<String>
 
+                    val role = document.data!!["Role"] as Long
 
                     if (userInfo!!.FavoriteList.contains(bookId))
                     {
@@ -502,7 +503,8 @@ class BookFragment : Fragment() {
                     val bookViewPage2 = view.findViewById<ViewPager2>(R.id.bookViewPage2)
                     var bookVPAdapter = BookPageView2Adapter(
                         activity as AppCompatActivity, 2,
-                        detailComic.listChapter!!, listComment!!, userInfo!!, bookId, createNew, editable,detailComic
+                        detailComic.listChapter!!, listComment!!, userInfo!!, bookId, createNew, editable,detailComic,
+                        role
                     )
                     Log.d("chapter",detailComic.listChapter.toString())
                     bookViewPage2.adapter = bookVPAdapter
@@ -525,7 +527,8 @@ class BookFragment : Fragment() {
             val bookViewPage2 = view.findViewById<ViewPager2>(R.id.bookViewPage2)
             var bookVPAdapter = BookPageView2Adapter(
                 activity as AppCompatActivity, 2,
-                emptyList(), emptyList(), null, bookId, createNew, editable,null
+                emptyList(), emptyList(), null, bookId, createNew, editable,null,
+                -1
             )
             bookViewPage2.adapter = bookVPAdapter
         }
@@ -541,7 +544,8 @@ class BookFragment : Fragment() {
             val bookViewPage2 = view.findViewById<ViewPager2>(R.id.bookViewPage2)
             var bookVPAdapter = BookPageView2Adapter(
                 activity as AppCompatActivity, 2,
-                detailComic.listChapter!!,emptyList()!!, null, bookId, createNew, editable,null
+                detailComic.listChapter!!,emptyList()!!, null, bookId, createNew, editable,null,
+                -1
             )
             bookViewPage2.adapter = bookVPAdapter
         }
@@ -562,6 +566,18 @@ class BookFragment : Fragment() {
             imageUri = data?.data
         }
 
+    }
+
+    fun reFreshStarAdminDel(currentListComment: ArrayList<Comment>) {
+        var calScore = 0.0F
+
+        for (i in currentListComment) {
+            calScore = calScore + i.starRated!!
+        }
+
+        calScore= calScore / (currentListComment.size)
+
+        calRating(calScore)
     }
 
     fun reFreshStar(indexNewStar: Long) {
@@ -598,6 +614,8 @@ class BookFragment : Fragment() {
                 }
             }
     }
+
+
 
     private fun deleteInAccountFavorite(bookId: String?) {
         fireStore!!.collection("accounts")

@@ -1,5 +1,6 @@
 package com.androidrealm.bookhub.Controllers.Fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -23,13 +24,14 @@ class CommentFragment() : Fragment(), Serializable {
     private lateinit var commentRW:RecyclerView
     companion object {
         fun newInstance
-                    (listComment: ArrayList<Comment>, userInfo: Account, bookId: String): CommentFragment
+                    (listComment: ArrayList<Comment>, userInfo: Account, bookId: String, role: Long): CommentFragment
         {
             val fragment= CommentFragment()
             val bundle = Bundle()
             bundle.putSerializable("listComment", listComment)
             bundle.putSerializable("userInfo", userInfo)
             bundle.putSerializable("bookId", bookId)
+            bundle.putSerializable("role", role)
             fragment.setArguments(bundle)
             return fragment
         }
@@ -77,14 +79,64 @@ class CommentFragment() : Fragment(), Serializable {
             "bookId"
         ) as String
 
+        val role = requireArguments().getSerializable(
+            "role"
+        ) as Long
+
+
 
         val commentEdt = view.findViewById<EditText>(R.id.commentBox)
         val sendBtn = view.findViewById<Button>(R.id.sendBtn)
         val ratingBar = view.findViewById<RatingBar>(R.id.ratingForComment)
+        if(role.equals(0L))
+        {
+            commentSection.visibility = View.GONE
+            adapter.onItemClick = { currentCmt ->
+                val builder = AlertDialog.Builder(requireActivity())
+                builder.setMessage("Are you sure you want to Delete?")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes") { dialog, id ->
 
+                        val position = listComment.indexOf(currentCmt)
 
+                        listComment.removeAt(position)
 
+                        adapter.notifyItemRemoved(position)
 
+                        val myFragment = requireActivity().supportFragmentManager
+                            .findFragmentById(R.id.fragment_book) as BookFragment
+
+                        myFragment.reFreshStarAdminDel(listComment)
+
+                        delScoreInFireStoreComic(currentCmt.bookID!!, currentCmt.starRated!!)
+
+                        // Delete selected note from database
+                        val cmtRef = FirebaseFirestore.getInstance().collection("comments")
+                            .whereEqualTo("starRated", currentCmt.starRated)
+                            .whereEqualTo("createdAt",currentCmt.createdAt)
+                            .whereEqualTo("content", currentCmt.content)
+                            .whereEqualTo("bookID",currentCmt.bookID)
+                            .whereEqualTo("accountName", currentCmt.accountName)
+                            .whereEqualTo("accountID",currentCmt.accountID)
+                            .get()
+                            .addOnSuccessListener { document->
+                                for (result in document)
+                                {
+                                    val delCmt = FirebaseFirestore.getInstance().collection("comments")
+                                        .document(result.id)
+                                        .delete()
+                                }
+                            }
+                    }
+                    .setNegativeButton("No") { dialog, id ->
+                        // Dismiss the dialog
+                        dialog.dismiss()
+                    }
+                val alert = builder.create()
+                alert.show()
+
+            }
+        }
 
         sendBtn.setOnClickListener {
             if (commentEdt.text.isEmpty())
@@ -125,6 +177,19 @@ class CommentFragment() : Fragment(), Serializable {
         }
 
         return view
+    }
+
+    private fun delScoreInFireStoreComic(currentBookId: String, index: Long) {
+        val comicRef = FirebaseFirestore.getInstance().collection("comics")
+            .document(currentBookId)
+            .get()
+            .addOnSuccessListener { doc->
+                val scoreList = doc.data!!["score"] as ArrayList<Long>
+                scoreList[index.toInt() - 1] = scoreList[index.toInt() - 1] - 1
+                val updateComicRef = FirebaseFirestore.getInstance().collection("comics")
+                    .document(currentBookId)
+                    .update("score", scoreList)
+            }
     }
 
     private fun addScoreInFireStoreComic(currentBookId: String, index: Long) {
