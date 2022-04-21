@@ -69,7 +69,7 @@ class BookFragment : Fragment() {
 
     private var userInfo : Account? = Account()
 
-    private var ratingLL:LinearLayout?=null
+    private var ratingLL:RatingBar?=null
     private var star1:ImageView?=null
     private var star2:ImageView?=null
     private var star3:ImageView?=null
@@ -124,11 +124,6 @@ class BookFragment : Fragment() {
         favoriteBtn = view.findViewById<Button>(R.id.markAsFavoriteBtn)
 
         ratingLL=view.findViewById(R.id.ratingLL)
-        star1= view.findViewById<ImageView>(R.id.star1)
-        star2= view.findViewById<ImageView>(R.id.star2)
-        star3= view.findViewById<ImageView>(R.id.star3)
-        star4= view.findViewById<ImageView>(R.id.star4)
-        star5= view.findViewById<ImageView>(R.id.star5)
 
         comicSummaryET = view.findViewById<EditText>(R.id.comicSummaryET)
 
@@ -768,31 +763,7 @@ class BookFragment : Fragment() {
     }
 
     private fun calRating(rating: Float){
-        if(rating==5.0f) {
-            star1!!.setImageResource(android.R.drawable.btn_star_big_on)
-            star2!!.setImageResource(android.R.drawable.btn_star_big_on)
-            star3!!.setImageResource(android.R.drawable.btn_star_big_on)
-            star4!!.setImageResource(android.R.drawable.btn_star_big_on)
-            star5!!.setImageResource(android.R.drawable.btn_star_big_on)
-        }
-        else if(4<=rating&&rating<5) {
-            star1!!.setImageResource(android.R.drawable.btn_star_big_on)
-            star2!!.setImageResource(android.R.drawable.btn_star_big_on)
-            star3!!.setImageResource(android.R.drawable.btn_star_big_on)
-            star4!!.setImageResource(android.R.drawable.btn_star_big_on)
-        }
-        else if(3<=rating&&rating<4)  {
-            star1!!.setImageResource(android.R.drawable.btn_star_big_on)
-            star2!!.setImageResource(android.R.drawable.btn_star_big_on)
-            star3!!.setImageResource(android.R.drawable.btn_star_big_on)
-        }
-        else if(2<=rating&&rating<3)  {
-            star1!!.setImageResource(android.R.drawable.btn_star_big_on)
-            star2!!.setImageResource(android.R.drawable.btn_star_big_on)
-        }
-        else if (1<=rating&&rating<2)  {
-            star1!!.setImageResource(android.R.drawable.btn_star_big_on)
-        }
+        ratingLL!!.setRating(rating)
     }
 
     private fun hideWhenEdit(){
