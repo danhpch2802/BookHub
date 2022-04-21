@@ -135,25 +135,32 @@ class ChapterFragment(listChapter: Any?, detailBook: Book?=null) : Fragment(), S
     }
 
     private fun updateHistory(history: ArrayList<String>, idBook: String?, uid: String) {
-        if(history[0].equals(""))
+        if (history.size.equals(0))
         {
-            history[0] = idBook.toString()
+            history.add(0,idBook.toString())
         }
         else
         {
-            if (history.contains(idBook.toString())) // exist in history
+            if(history[0].equals(""))
             {
-                val position = history.indexOf(idBook.toString())
-                history.removeAt(position)
-                history.add(0,idBook.toString())
+                history[0] = idBook.toString()
             }
-            else //not exist in history
+            else
             {
-                if (history.size>=10) //greater than 10 delete last
+                if (history.contains(idBook.toString())) // exist in history
                 {
-                    history.removeLast()
+                    val position = history.indexOf(idBook.toString())
+                    history.removeAt(position)
+                    history.add(0,idBook.toString())
                 }
-                history.add(0, idBook.toString())
+                else //not exist in history
+                {
+                    if (history.size>=10) //greater than 10 delete last
+                    {
+                        history.removeLast()
+                    }
+                    history.add(0, idBook.toString())
+                }
             }
         }
 
