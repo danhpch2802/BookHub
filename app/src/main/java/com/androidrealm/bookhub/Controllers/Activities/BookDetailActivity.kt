@@ -9,6 +9,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.androidrealm.bookhub.ComicAdapter
 import com.androidrealm.bookhub.Controllers.Fragments.BookFragment
 import com.androidrealm.bookhub.Models.Book
 import com.androidrealm.bookhub.Models.Comment
@@ -17,6 +20,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -50,7 +54,7 @@ class BookDetailActivity : AppCompatActivity() {
                         val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
                         val fragment: Fragment = BookFragment.newInstance(
                             book = comicGet,
-                            recommendList = null,
+                            recommendList = getRecommendList(comicGet),
                             listComment = listcommentGet,
                             editable = false
                         )
@@ -129,6 +133,30 @@ class BookDetailActivity : AppCompatActivity() {
         if (!tempListComment.isEmpty())
             tempListComment.sortByDescending { it.createdAt }
         return tempListComment
+    }
+
+    fun getRecommendList(comic: Book?):ArrayList<Book> {
+        var fireStore = FirebaseFirestore.getInstance()
+
+        val recommendList = ArrayList<Book>();
+        val docRef = fireStore
+            .collection("comics")
+            .whereArrayContains("listCategory", comic!!.listCategory!![0])
+            .orderBy("viewNumber", Query.Direction.DESCENDING)
+        var count=0
+        docRef.get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    val comicGet = document.toObject<Book>()
+                    if(comicGet.id==id) continue
+                    if(count==3) break
+                    comicGet.id = document.id
+                    recommendList.add(comicGet)
+                    count++
+                }
+
+            }
+        return recommendList;
     }
 
 

@@ -15,8 +15,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
+import androidx.fragment.app.FragmentTransaction
 import androidx.viewpager2.widget.ViewPager2
 import com.androidrealm.bookhub.Adapter.BookPageView2Adapter
+import com.androidrealm.bookhub.ComicAdapter
+import com.androidrealm.bookhub.Controllers.Activities.BookDetailActivity
 import com.androidrealm.bookhub.Controllers.Fragments.CreateNewChapterFragment.Companion.listChapterToCreate
 import com.androidrealm.bookhub.Controllers.Fragments.CreateNewChapterFragment.Companion.pdfListURIToCreate
 import com.androidrealm.bookhub.Controllers.Fragments.UpdateChapterFragment.Companion.listChapterToEdit
@@ -40,6 +43,7 @@ import kotlinx.android.synthetic.main.fragment_book.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import java.io.Serializable
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
@@ -49,7 +53,7 @@ import java.text.DecimalFormat
  * Use the [BookFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class BookFragment : Fragment() {
+class BookFragment : Fragment(),Serializable {
     private var detailComic=Book()
     private var listComment : ArrayList<Comment>? =ArrayList<Comment>()
     private var recommendList : ArrayList<Book>? =ArrayList<Book>()
@@ -93,6 +97,7 @@ class BookFragment : Fragment() {
                 bundle.putSerializable("recommendedList", recommendList)
                 bundle.putSerializable("listComment", listComment)
             }
+            bundle.putSerializable("recommendedList", recommendList)
             bundle.putSerializable("comic", book)
             bundle.putSerializable("editable", editable)
             bundle.putSerializable("createNew", createNew)
@@ -248,7 +253,8 @@ class BookFragment : Fragment() {
                 "comic"
             ) as Book
 
-            if(editable){
+            if(editable)
+            {
                 val singleFrame: View = layoutInflater.inflate(R.layout.item_categories, null)
                 val categoryBtn = singleFrame.findViewById<MaterialButton>(R.id.categoryBtn)
                 categoryBtn.setText("Add new category")
@@ -375,6 +381,9 @@ class BookFragment : Fragment() {
             }
             //Read
             else {
+                recommendList = requireArguments().getSerializable(
+                    "recommendedList"
+                ) as ArrayList<Book>
                 comicNameET!!.setFocusable(false)
                 comicAuthorET!!.setFocusable(false)
                 comicSummaryET!!.setFocusable(false)
@@ -390,10 +399,7 @@ class BookFragment : Fragment() {
                 categoryView.add(singleFrame)
             }
 
-//            recommendList = requireArguments().getSerializable(
-//                "recommendedList"
-//            ) as ArrayList<Book>
-//
+
             comicNameET!!.setText(detailComic.name)
             comicAuthorET!!.setText(detailComic.author)
 
@@ -439,6 +445,18 @@ class BookFragment : Fragment() {
             ) as Book
 
             bookId = detailComic.id
+
+            var recommendAdapter = ComicAdapter(recommendList!!)
+            recommendAdapter.onItemClick = { book ->
+                val intent = Intent(requireActivity(), BookDetailActivity::class.java)
+                intent.putExtra("id", book.id)
+                requireActivity().finish()
+                startActivity(intent)
+            }
+            val recommendFt: FragmentTransaction = activity?.supportFragmentManager!!.beginTransaction()
+            val recommendFragment: Fragment = ListRecommendComicFragment.newInstance(recommendAdapter, -1)
+            recommendFt.replace(R.id.recommendFragmentContainer, recommendFragment)
+            recommendFt.commit()
 
             val currentUserAuth = FirebaseAuth.getInstance().currentUser
 
