@@ -25,33 +25,30 @@
                 android:layout_height="250dp"
                 android:layout_marginStart="13dp"
 
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/markAsFavoriteBtn"
                 android:src="@drawable/ic_launcher_foreground"
-                >
-            </ImageView>
+                app:layout_constraintBottom_toTopOf="@+id/markAsFavoriteBtn"
+                app:layout_constraintStart_toStartOf="parent"></ImageView>
 
             <RelativeLayout
                 android:id="@+id/cover_EditRL"
                 android:layout_width="130dp"
                 android:layout_height="250dp"
                 android:layout_marginStart="13dp"
-                android:clickable="true"
                 android:background="#AD4D4D4D"
+                android:clickable="true"
                 android:elevation="2dp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/markAsFavoriteBtn"
-                app:layout_constraintStart_toStartOf="parent"
-                android:visibility="gone">
+                app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginHorizontal="32dp"
+                    android:layout_marginVertical="100dp"
                     android:text="@string/edit_cover"
                     android:textColor="@color/white"
-                    android:textStyle="bold"
-android:layout_marginHorizontal="32dp"
-                    android:layout_marginVertical="100dp"
-                    />
+                    android:textStyle="bold" />
             </RelativeLayout>
 
 
@@ -60,16 +57,16 @@ android:layout_marginHorizontal="32dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                app:cornerRadius="20dp"
-                android:backgroundTint="@color/app_golden"
-                android:textColor="@color/black"
                 android:layout_marginStart="35dp"
                 android:layout_marginTop="45dp"
                 android:layout_marginEnd="48dp"
                 android:layout_marginBottom="36dp"
+                android:backgroundTint="@color/app_golden"
                 android:text="Upload"
-
+                android:textColor="@color/black"
                 android:visibility="gone"
+
+                app:cornerRadius="20dp"
                 app:layout_constraintBottom_toTopOf="@+id/comicSummaryET"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/comicAuthorET"></com.google.android.material.button.MaterialButton>
@@ -89,20 +86,21 @@ android:layout_marginHorizontal="32dp"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
-
             <RatingBar
+                android:id="@+id/ratingLL"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/ratingLL"
                 android:layout_marginStart="12dp"
                 android:layout_marginBottom="16dp"
+
                 android:background="@android:color/transparent"
+                android:numStars="5"
+                android:orientation="horizontal"
+                android:progressTint="@color/app_golden"
                 app:layout_constraintBottom_toTopOf="@+id/markAsFavoriteBtn"
                 app:layout_constraintStart_toEndOf="@+id/comicCoverIV"
                 app:layout_constraintTop_toBottomOf="@+id/comicAuthorET"
-                app:layout_constraintVertical_bias="0.89"
-                android:orientation="horizontal"
-                />
+                app:layout_constraintVertical_bias="0.89" />
 
             <EditText
                 android:id="@+id/comicAuthorET"
@@ -110,15 +108,13 @@ android:layout_marginHorizontal="32dp"
                 android:layout_height="42dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="24dp"
-                android:padding="10dp"
                 android:background="@android:color/transparent"
                 android:hint="@string/bookAuthor"
+                android:padding="10dp"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/comicCoverIV"
-                app:layout_constraintTop_toBottomOf="@+id/comicNameET"
-                >
-            </EditText>
+                app:layout_constraintTop_toBottomOf="@+id/comicNameET"></EditText>
 
             <EditText
                 android:id="@+id/comicSummaryET"
@@ -134,7 +130,7 @@ android:layout_marginHorizontal="32dp"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/comicCoverIV"/>
+                app:layout_constraintTop_toBottomOf="@+id/comicCoverIV" />
 
             <Button
                 android:id="@+id/markAsFavoriteBtn"
@@ -166,6 +162,7 @@ android:layout_marginHorizontal="32dp"
                     android:layout_height="match_parent"
                     android:orientation="horizontal" />
             </HorizontalScrollView>
+
             <TextView
                 android:id="@+id/recommendTV"
                 android:layout_width="wrap_content"
@@ -222,6 +219,7 @@ android:layout_marginHorizontal="32dp"
 
 
             </com.google.android.material.tabs.TabLayout>
+
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/bookViewPage2"
                 android:layout_width="match_parent"
