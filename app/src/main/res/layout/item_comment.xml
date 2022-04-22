@@ -14,7 +14,38 @@
             android:orientation="horizontal"
             android:layout_height="match_parent">
 
+            <androidx.cardview.widget.CardView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                app:cardCornerRadius="250dp"
+                android:id="@+id/avartarCmt"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+
+                <ImageView
+                    android:id="@+id/avatarpf_img"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:scaleType="centerCrop"
+                    tools:ignore="ImageContrastCheck" />
+            </androidx.cardview.widget.CardView>
+
             <TextView
+                android:id="@+id/pf_prize"
+                android:layout_marginTop="5dp"
+                android:layout_width="60dp"
+                android:layout_marginLeft="5dp"
+                android:layout_height="15dp"
+                android:background="@color/gray"
+                android:text="Title"
+                android:layout_below="@+id/avartarCmt"
+                android:textColor="@color/black"
+                android:textSize="10dp"
+                android:gravity="center"/>
+
+            <TextView
+                android:layout_toRightOf="@+id/avartarCmt"
                 android:id="@+id/commentorTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -37,10 +68,12 @@
                 android:id="@+id/dateCommentTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/avartarCmt"
                 android:layout_below="@+id/commentorTV"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="1dp"
                 android:layout_marginEnd="2dp"
+                android:layout_toLeftOf="@+id/numratedComment"
                 android:background="?android:attr/selectableItemBackground"
                 android:ellipsize="end"
                 android:maxLines="1"
@@ -49,8 +82,7 @@
                 android:textAlignment="viewStart"
                 android:textAllCaps="false"
                 android:textColor="#60000000"
-                android:textSize="11dp"
-                android:layout_toLeftOf="@+id/numratedComment"/>
+                android:textSize="11dp" />
 
             <TextView
                 android:id="@+id/contentTV"
@@ -64,6 +96,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:singleLine="true"
+                android:layout_toRightOf="@+id/avartarCmt"
                 android:text="TextView"
                 android:textAlignment="viewStart"
                 android:textAllCaps="false"
