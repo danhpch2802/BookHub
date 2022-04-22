@@ -22,6 +22,9 @@
             android:name=".Controllers.Activities.NewPrizeActivity"
             android:exported="false" />
         <activity
+            android:name=".Controllers.Activities.BookSearchActivity"
+            android:exported="false" />
+        <activity
             android:name=".Controllers.Activities.RequestDetailActivity"
             android:exported="false" />
         <activity

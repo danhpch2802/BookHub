@@ -68,6 +68,7 @@
     <string name="request_by_user">Request By User</string>
     <string name="create_account">Create Account</string>
     <string name="edit_cover">Edit cover</string>
+    <string name="searchResult">Search Result</string>
 
     <string-array name="category_names">
         <item>Horror</item>

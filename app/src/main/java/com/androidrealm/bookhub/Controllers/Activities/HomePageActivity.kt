@@ -1,17 +1,26 @@
 package com.androidrealm.bookhub.Controllers.Activities
 
 import android.content.ContentValues.TAG
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.FrameLayout
+import android.widget.ImageView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.view.marginLeft
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.androidrealm.bookhub.Controllers.Fragments.*
 import com.androidrealm.bookhub.R
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.io.Serializable
@@ -28,6 +37,9 @@ class HomePageActivity : AppCompatActivity(),Serializable {
     val requestFragment = RequestFragment()
     val adminProfileFragment = AdminProfileFragment()
     val adminRequestListFragment = RequestListFragment()
+
+    private var listCategoryChosen = ArrayList<String>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_homepage)
@@ -37,6 +49,56 @@ class HomePageActivity : AppCompatActivity(),Serializable {
         val fragment: Fragment = ListComicFragment.newInstance(3)
         ft.replace(R.id.fragment_container_view, fragment)
         ft.commit()
+
+        findViewById<ImageView>(R.id.searchIV).setOnClickListener{
+            listCategoryChosen.clear()
+            val listCategoryToChoose = resources.getStringArray(R.array.category_names)
+
+            val checkedCategory = ArrayList<Int>(listCategoryToChoose.size)
+
+            val mBuilder = AlertDialog.Builder(this)
+
+            var editTextField=EditText(this)
+            editTextField.setHint("Enter book name")
+            mBuilder.setTitle("Select Category ")
+            mBuilder.setView(editTextField)
+
+            mBuilder.setMultiChoiceItems(listCategoryToChoose, null,
+                DialogInterface.OnMultiChoiceClickListener { dialogInterface, i, b ->
+                    if (b)
+                    {
+                        checkedCategory.add(i)
+                    }
+                    else if (checkedCategory.contains(i))
+                    {
+                        checkedCategory.remove(i)
+                    }
+                })
+            mBuilder.setPositiveButton("OK",
+                DialogInterface.OnClickListener { dialogInterface, i ->
+                    if(listCategoryChosen.isEmpty()&&editTextField.text.toString().equals("")){
+
+                    }
+                    else {
+                        if (listCategoryChosen.isEmpty()) {
+                            for (cat in listCategoryToChoose) {
+                                listCategoryChosen.add(cat)
+
+                            }
+                        } else {
+                            for (i in checkedCategory)
+                                listCategoryChosen.add(listCategoryToChoose[i])
+                        }
+                        val intent = Intent(this, BookSearchActivity::class.java)
+                        intent.putExtra("category", listCategoryChosen)
+                        intent.putExtra("name", editTextField.text.toString())
+
+                        startActivity(intent)
+                    }
+
+                }
+            ).show()
+        }
     }
 
     override fun onResume() {
