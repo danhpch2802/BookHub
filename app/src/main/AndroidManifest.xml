@@ -115,6 +115,8 @@
         <activity
             android:name=".Controllers.Activities.BookDetailActivity"
             android:exported="false" />
+        <activity android:name=".Controllers.Activities.UserRequestListActivity"
+            android:exported="false"/>
     </application>
 
 </manifest>
