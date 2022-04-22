@@ -1,5 +1,6 @@
 package com.androidrealm.bookhub.Controllers.Fragments
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,11 +10,16 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import com.androidrealm.bookhub.Controllers.Activities.LoginActivity
+import com.androidrealm.bookhub.Controllers.Activities.UserRequestListActivity
 import com.androidrealm.bookhub.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.HashMap
 
+@SuppressLint("SimpleDateFormat")
 class RequestFragment : Fragment() {
 
     var submitBtn: TextView? = null
@@ -21,6 +27,8 @@ class RequestFragment : Fragment() {
     var request_detail: EditText? = null
     var username: String? = null
     var to_request_list: TextView? = null
+    val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+    val currentTime = sdf.format(Date())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,6 +63,7 @@ class RequestFragment : Fragment() {
                         request["bookDetail"] = rq_detail
                         request["bookName"] = rq_name
                         request["checked"] = false
+                        request["time"] = currentTime
                         db.collection("requests")
                             .add(request)
                     }
@@ -76,7 +85,7 @@ class RequestFragment : Fragment() {
             request_detail!!.text.clear()
         }
         to_request_list!!.setOnClickListener{
-            val intent = Intent(context, UserRequestListFragment::class.java)
+            val intent = Intent(context, UserRequestListActivity::class.java)
             startActivity(intent)
         }
     }

@@ -30,6 +30,7 @@ class RequestAdapter(private val listRequest: ArrayList<Request>) : RecyclerView
         holder.username.text = request.accountName
         holder.requestDetail.text = request.bookDetail
         holder.requestTitle.text = request.bookName
+        holder.time.text = request.time
         holder.checked.text = request.checked.toString()
         if (holder.checked.text == "true"){
             holder.check_image.setImageResource(R.drawable.check)
@@ -47,6 +48,7 @@ class RequestAdapter(private val listRequest: ArrayList<Request>) : RecyclerView
         val requestDetail: TextView = itemView.findViewById(R.id.rq_detail_tv)
         val checked: TextView = itemView.findViewById(R.id.rq_checked_tv)
         var check_image: ImageView = itemView.findViewById(R.id.check_icon)
+        val time: TextView = itemView.findViewById(R.id.rq_time_tv)
 
         init{
             itemView.setOnClickListener { 

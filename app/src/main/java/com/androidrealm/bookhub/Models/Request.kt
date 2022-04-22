@@ -8,5 +8,6 @@ class Request(
     var accountName:String?=null,
     var bookDetail:String?=null,
     var bookName:String?=null,
-    var checked:Boolean? = false
+    var checked:Boolean? = false,
+    var time:String?=null
 )
