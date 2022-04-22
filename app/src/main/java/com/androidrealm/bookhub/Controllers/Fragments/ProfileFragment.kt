@@ -76,6 +76,10 @@ class ProfileFragment : Fragment() {
         getAcc()
 //
 //        //Log.d(TAG, Badge2)
+        BookmarkBtn!!.setOnClickListener{
+            val intent = Intent (getActivity(), BookmarkListActivity::class.java)
+            getActivity()?.startActivity(intent)
+        }
 
         PrizeBtn!!.setOnClickListener{
             val intent = Intent (getActivity(), PrizeActivity::class.java)
