@@ -49,13 +49,14 @@ class SignupActivity : AppCompatActivity() {
 
             val badgee = arrayListOf<String>()
             val db = FirebaseFirestore.getInstance()
-            db.collection("prizes").get().addOnSuccessListener { result ->
-                for (document in result) {
-                    badgee.add(document.id)
-                    if (badgee.last() == "s1")
-                        badgee.removeLast()
+            db.collection("prizes").get()
+                .addOnSuccessListener { result ->
+                    for (document in result) {
+                        badgee.add(document.id)
+                        if (badgee.last() == "s1")
+                            badgee.removeLast()
+                    }
                 }
-            }
                 .addOnFailureListener { exception ->
                     Log.d(TAG, "Error getting documents: ", exception)
                 }
@@ -104,12 +105,6 @@ class SignupActivity : AppCompatActivity() {
                             account["History"] = arrayListOf("")
                             account["Point"] = 0
                             account["Role"] = 1
-                            account["bookmark"] = hashMapOf(
-                                "Chapter" to 0,
-                                "Idbook" to "",
-                                "Notes" to "",
-                                "PageNumber" to 0
-                            )
                             account["password"] = passHash
                             account["username"] = name
 
