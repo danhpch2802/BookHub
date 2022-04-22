@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Controllers.Activities.LoginActivity">
 
     <LinearLayout
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="62dp"
-            android:layout_marginTop="37dp"
+            android:layout_marginTop="30dp"
             android:layout_marginRight="62dp"
             android:text="@string/login"
             android:textSize="27dp"
@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="62dp"
-            android:layout_marginTop="37dp"
+            android:layout_marginTop="25dp"
             android:layout_marginRight="62dp"
             android:background="@drawable/black_border_rounded_cornwe">
 
@@ -118,14 +118,14 @@
             android:layout_marginRight="62dp"
             android:background="@drawable/black_fill__rounded_color"
             android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:paddingTop="14dp"
             android:paddingBottom="14dp"
             android:text="@string/login"
             android:textColor="#ffffff"
             android:textSize="12sp"
-            android:textStyle="bold"
-            android:focusable="true" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/forgotPasswordBtn"
@@ -144,30 +144,45 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="25dp"
-            android:textColor="#303030"
+            android:layout_marginTop="10dp"
             android:text="@string/remember_me"
-            android:textSize="13.3sp"/>
+            android:textColor="#303030"
+            android:textSize="13sp" />
 
         <TextView
-        android:id="@+id/registerBtn1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="62dp"
-        android:layout_marginTop="19dp"
-        android:layout_marginRight="62dp"
-        android:background="@drawable/orange_fill__rounded_color"
-        android:clickable="true"
-        android:gravity="center"
-        android:paddingTop="14dp"
-        android:paddingBottom="14dp"
-        android:text="@string/register"
-        android:textColor="@color/black"
-        android:textSize="12sp"
-        android:textStyle="bold" android:focusable="true" />
+            android:id="@+id/registerBtn1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="62dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginRight="62dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/orange_fill__rounded_color"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:text="@string/register"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/fb_login"
+                android:layout_width="190dp"
+                android:layout_height="40dp" />
+
+        </LinearLayout>
 
     </LinearLayout>
-
 
 </RelativeLayout>

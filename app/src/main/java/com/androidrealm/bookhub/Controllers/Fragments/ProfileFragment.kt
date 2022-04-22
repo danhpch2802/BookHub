@@ -16,6 +16,8 @@ import android.widget.TextView
 import android.widget.Toast
 import com.androidrealm.bookhub.Controllers.Activities.*
 import com.androidrealm.bookhub.R
+import com.facebook.login.LoginManager
+import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_homepage.*
@@ -102,6 +104,8 @@ class ProfileFragment : Fragment() {
             editor.clear()
             editor.apply()
             FirebaseAuth.getInstance().signOut()
+            LoginManager.getInstance().logOut()
+
             startActivity(Intent(getActivity(), LoginActivity::class.java))
 //            finish()
         }

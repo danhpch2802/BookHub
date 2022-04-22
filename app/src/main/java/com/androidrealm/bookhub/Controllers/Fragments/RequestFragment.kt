@@ -1,5 +1,6 @@
 package com.androidrealm.bookhub.Controllers.Fragments
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import com.androidrealm.bookhub.Controllers.Activities.LoginActivity
 import com.androidrealm.bookhub.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
@@ -18,6 +20,7 @@ class RequestFragment : Fragment() {
     var request_name: EditText? = null
     var request_detail: EditText? = null
     var username: String? = null
+    var to_request_list: TextView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +36,7 @@ class RequestFragment : Fragment() {
         submitBtn = view.findViewById(R.id.rqsubmitBtn)
         request_name = view.findViewById(R.id.requestTitle)
         request_detail = view.findViewById(R.id.requestDetail)
+        to_request_list = view.findViewById(R.id.rqlistBtn)
 
         submitBtn!!.setOnClickListener{
             // Get input
@@ -71,6 +75,9 @@ class RequestFragment : Fragment() {
             request_name!!.text.clear()
             request_detail!!.text.clear()
         }
-
+        to_request_list!!.setOnClickListener{
+            val intent = Intent(context, UserRequestListFragment::class.java)
+            startActivity(intent)
+        }
     }
 }

@@ -1,4 +1,8 @@
 <resources>
+    <string name="facebook_app_id">463811382101325</string>
+    <string name="fb_login_protocol_scheme">fb463811382101325</string>
+    <string name="facebook_client_token">f913b02ce2b2902a68ef106fe85761ab</string>
+
     <string name="app_name">BookHub</string>
     <string name="home">Home</string>
     <string name="Favorite">Favorite</string>
@@ -69,6 +73,8 @@
     <string name="create_account">Create Account</string>
     <string name="edit_cover">Edit cover</string>
     <string name="searchResult">Search Result</string>
+    <string name="or_log_in_with">Or, log in with:</string>
+    <string name="check_your_requestlist">Check Your RequestList</string>
 
     <string-array name="category_names">
         <item>Horror</item>
