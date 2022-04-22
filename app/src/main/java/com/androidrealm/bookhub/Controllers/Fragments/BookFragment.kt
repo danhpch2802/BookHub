@@ -482,23 +482,43 @@ class BookFragment : Fragment() {
                     }
 
                     favoriteBtn!!.setOnClickListener {
-
-                        if (favoriteBtn!!.isSelected)
+                        if (userInfo!!.FavoriteList.size.equals(0))
                         {
-                            val position = userInfo!!.FavoriteList.indexOf(bookId)
-                            userInfo!!.FavoriteList.removeAt(position)
+                            userInfo!!.FavoriteList.add(0,bookId!!)
                             updateFavoriteList(currentUserAuth!!.uid, userInfo!!.FavoriteList)
-
-                            favoriteBtn!!.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.btn_star,0,0,0)
-                            favoriteBtn!!.isSelected = false
+                            favoriteBtn!!.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.btn_star_big_on,0,0,0)
+                            favoriteBtn!!.isSelected = true
                         }
                         else
                         {
-                            userInfo!!.FavoriteList.add(0, bookId!!)
-                            updateFavoriteList(currentUserAuth!!.uid, userInfo!!.FavoriteList)
+                            if (favoriteBtn!!.isSelected)
+                            {
+                                val position = userInfo!!.FavoriteList.indexOf(bookId)
+                                userInfo!!.FavoriteList.removeAt(position)
+                                updateFavoriteList(currentUserAuth!!.uid, userInfo!!.FavoriteList)
 
-                            favoriteBtn!!.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.btn_star_big_on,0,0,0)
-                            favoriteBtn!!.isSelected = true
+                                favoriteBtn!!.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.btn_star,0,0,0)
+                                favoriteBtn!!.isSelected = false
+                            }
+                            else
+                            {
+                                if(userInfo!!.FavoriteList[0].equals(""))
+                                {
+                                    userInfo!!.FavoriteList[0] = bookId!!
+                                    updateFavoriteList(currentUserAuth!!.uid, userInfo!!.FavoriteList)
+
+                                    favoriteBtn!!.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.btn_star_big_on,0,0,0)
+                                    favoriteBtn!!.isSelected = true
+                                }
+                                else
+                                {
+                                    userInfo!!.FavoriteList.add(0, bookId!!)
+                                    updateFavoriteList(currentUserAuth!!.uid, userInfo!!.FavoriteList)
+
+                                    favoriteBtn!!.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.btn_star_big_on,0,0,0)
+                                    favoriteBtn!!.isSelected = true
+                                }
+                            }
                         }
                     }
 

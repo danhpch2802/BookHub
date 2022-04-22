@@ -72,12 +72,14 @@ class FavoriteListActivity : AppCompatActivity() {
         val comicRef = FirebaseFirestore.getInstance().collection("comics")
         for(i in listFavorite)
         {
-            listInfoComic.add(
-                comicRef.document(i.toString())
-                    .get()
-                    .await()
-                    .toObject<Book>()!!
-            )
+            if (!i.equals(""))
+            {
+                listInfoComic.add(
+                    comicRef.document(i.toString())
+                        .get()
+                        .await()
+                        .toObject<Book>()!!)
+            }
         }
     }
 
