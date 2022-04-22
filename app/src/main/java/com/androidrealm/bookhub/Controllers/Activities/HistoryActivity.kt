@@ -71,20 +71,16 @@ class HistoryActivity : AppCompatActivity() {
 
     private suspend fun getInfoHistory(listHistory: ArrayList<String>, listInfoComic: ArrayList<Book>)
     {
-        if (!listHistory.size.equals(0))
+        val comicRef = FirebaseFirestore.getInstance().collection("comics")
+        for(i in listHistory)
         {
-            if (!listHistory[0].equals(""))
+            if(!i.equals(""))
             {
-                val comicRef = FirebaseFirestore.getInstance().collection("comics")
-                for(i in listHistory)
-                {
-                    listInfoComic.add(
-                        comicRef.document(i.toString())
-                            .get()
-                            .await()
-                            .toObject<Book>()!!
-                    )
-                }
+                listInfoComic.add(
+                    comicRef.document(i.toString())
+                        .get()
+                        .await()
+                        .toObject<Book>()!!)
             }
         }
     }
