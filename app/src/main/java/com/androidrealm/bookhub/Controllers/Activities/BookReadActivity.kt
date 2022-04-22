@@ -7,13 +7,21 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.androidrealm.bookhub.Models.Book
+import com.androidrealm.bookhub.Models.Bookmark
 import com.androidrealm.bookhub.Models.Chapter
 import com.androidrealm.bookhub.R
 import com.github.barteksc.pdfviewer.PDFView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.firestore.ktx.toObjects
+import com.google.firebase.firestore.model.mutation.Precondition.exists
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_book_read.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class BookReadActivity : AppCompatActivity()  {
@@ -26,8 +34,11 @@ class BookReadActivity : AppCompatActivity()  {
     var chapterSpinner:Spinner?=null
     var nextChapterBtn:Button?=null
     var currentChap=0
+    var bookmarkBtn:ImageView?=null
+    var bookmarked=false
     var book:Book?=null
 
+    var bookmarkID:String?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_read)
@@ -43,6 +54,7 @@ class BookReadActivity : AppCompatActivity()  {
         chapterSpinner=findViewById(R.id.chapterSpinner)
         topBar=findViewById(R.id.toolBar)
         nextChapterBtn=findViewById(R.id.nextChapterBtn)
+        bookmarkBtn=findViewById(R.id.bookmarkBtn)
         fireStore = FirebaseFirestore.getInstance()
 
         val docRef = fireStore!!.collection("comics").document(id.toString())
@@ -52,6 +64,47 @@ class BookReadActivity : AppCompatActivity()  {
                     book = document.toObject<Book>()
                     currentChap=ChapterPos
                     chapterName!!.setText(book?.listChapter?.get(currentChap)!!.name)
+
+                    setBookmark()
+                    bookmarkBtn!!.setOnClickListener{
+                        val fireStore = FirebaseFirestore.getInstance()
+                        val currentUserAuth = FirebaseAuth.getInstance().currentUser
+                        if(!bookmarked){
+                            val bookmark=Bookmark(accountID=currentUserAuth!!.uid,bookID = book!!.id,bookName = book!!.name, coverUrl = book!!.imagePath
+                            ,chapterUrl = currentChap,chapterName = book!!.listChapter!!.get(currentChap)!!.name,
+
+                            )
+                            bookmarkBtn!!.isClickable=false
+                            fireStore!!.collection("bookmarks")
+                                .add(bookmark)
+                                .addOnCompleteListener{documentReference->
+                                    Toast.makeText(this,"Chapter has been bookmarked",Toast.LENGTH_LONG).show()
+                                    bookmarkBtn!!.isClickable=true
+                                    bookmarked=true
+                                    bookmarkBtn!!.isSelected=true
+                                    bookmarkBtn!!.setImageResource(R.drawable.bookmarkon)
+                                    bookmarkID=documentReference.result.id
+                                }
+
+                        }
+                        else{
+                            bookmarkBtn!!.isClickable=false
+
+                            val docRef = fireStore
+                                ?.collection("bookmarks")
+                                ?.document(bookmarkID!!)
+                                ?.delete()
+                                .addOnCompleteListener{
+                                    Toast.makeText(this,"Chapter has been unbookmark",Toast.LENGTH_LONG).show()
+                                    bookmarkBtn!!.isClickable=true
+                                    bookmarked=false
+                                    bookmarkBtn!!.isSelected=false
+                                    bookmarkBtn!!.setImageResource(R.drawable.bookmarkoff)
+                                }
+
+                        }
+                    }
+
 
                     loadSpinner(book!!.listChapter!!)
                     chapterSpinner!!.setSelection(currentChap,false)
@@ -105,7 +158,7 @@ class BookReadActivity : AppCompatActivity()  {
     }
     fun loadPdfFromUri (pdfUri: String?){
         nextChapterBtn!!.visibility=View.INVISIBLE
-        val reference=FirebaseStorage.getInstance().getReferenceFromUrl(pdfUri.toString())
+        val reference= FirebaseStorage.getInstance().getReferenceFromUrl(pdfUri.toString())
         reference.getBytes(50000000) //Max PDF Bytes
             .addOnSuccessListener { bytes->
                 pdfViewer?.fromBytes(bytes)
@@ -169,6 +222,37 @@ class BookReadActivity : AppCompatActivity()  {
         }
     }
 
+    private fun setBookmark(){
 
+        val currentUserAuth = FirebaseAuth.getInstance().currentUser
+        val docRef = fireStore
+            ?.collection("bookmarks")
+            ?.whereEqualTo("accountID", currentUserAuth!!.uid)
+            ?.whereEqualTo("bookID", book!!.id)
+            ?.whereEqualTo("chapterUrl",currentChap)
+
+        docRef!!.get()
+            .addOnCompleteListener { task ->
+                if(task.isSuccessful) {
+                    if (task.result.size()>0) {
+                        var document=task.result.documents[0].toObject<Bookmark>()
+                        bookmarked = true
+                        bookmarkBtn!!.isSelected = true
+                        bookmarkBtn!!.setImageResource(R.drawable.bookmarkon)
+                        bookmarkID= task.result.documents[0].id
+                    } else {
+                        Log.i("testDoc", "Error")
+
+                        bookmarked = false
+                        bookmarkBtn!!.isSelected = false
+                        bookmarkBtn!!.setImageResource(R.drawable.bookmarkoff)
+
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                bookmarked=false
+            }
+    }
 
 }
