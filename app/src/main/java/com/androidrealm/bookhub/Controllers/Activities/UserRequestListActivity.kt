@@ -32,7 +32,10 @@ class UserRequestListActivity: AppCompatActivity() {
         recyclerView = findViewById(R.id.user_request_list_RV)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
+    }
 
+    override fun onResume() {
+        super.onResume()
         userRQList = arrayListOf()
         myAdapter = UserRequestAdapter(userRQList)
 
