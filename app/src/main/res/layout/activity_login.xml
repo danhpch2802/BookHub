@@ -180,6 +180,10 @@
                 android:id="@+id/fb_login"
                 android:layout_width="190dp"
                 android:layout_height="40dp" />
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/gmail_login"
+                android:layout_width="190dp"
+                android:layout_height="40dp" />
 
         </LinearLayout>
 

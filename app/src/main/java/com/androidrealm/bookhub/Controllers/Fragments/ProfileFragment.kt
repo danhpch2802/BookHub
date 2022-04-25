@@ -6,24 +6,25 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.androidrealm.bookhub.Controllers.Activities.*
 import com.androidrealm.bookhub.R
 import com.facebook.login.LoginManager
-import com.google.firebase.auth.FacebookAuthProvider
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_homepage.*
 
 
 class ProfileFragment : Fragment() {
+    private lateinit var googleSignInClient: GoogleSignInClient
     lateinit var preferences: SharedPreferences
     var PrizeBtn: ImageButton? = null
     var HistoryBtn: ImageButton? = null
@@ -104,10 +105,15 @@ class ProfileFragment : Fragment() {
 
         //Log out
         SignoutBtn!!.setOnClickListener{
+            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build()
+            googleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
             val editor: SharedPreferences.Editor = preferences.edit()
             editor.clear()
             editor.apply()
             FirebaseAuth.getInstance().signOut()
+            googleSignInClient.signOut()
             LoginManager.getInstance().logOut()
 
             startActivity(Intent(getActivity(), LoginActivity::class.java))

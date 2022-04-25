@@ -22,16 +22,25 @@ import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.SignInButton
+import com.google.android.gms.common.api.ApiException
 
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_login.*
 
 
 class LoginActivity : AppCompatActivity() {
+    companion object{
+        const val RC_SIGN_IN = 120
+    }
     lateinit var sharedPreferences: SharedPreferences
     var isRemembered = false
 
@@ -43,7 +52,10 @@ class LoginActivity : AppCompatActivity() {
     var passwordEt: EditText? = null
     var progressDialog: ProgressDialog? = null
     var loginWithFBBtn: LoginButton? = null
+    var loginWithGMBtn: SignInButton? = null
     lateinit var callbackManager: CallbackManager
+    private lateinit var mAuth: FirebaseAuth
+    private lateinit var googleSignInClient: GoogleSignInClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +78,8 @@ class LoginActivity : AppCompatActivity() {
         passwordEt = findViewById(R.id.passwordETLogin)
 
         loginWithFBBtn = findViewById(R.id.fb_login)
+        loginWithGMBtn = findViewById(R.id.gmail_login)
+
 
         if(isRemembered){
             val intent = Intent(this, HomePageActivity::class.java)
@@ -79,6 +93,17 @@ class LoginActivity : AppCompatActivity() {
         loginWithFBBtn!!.setReadPermissions("email")
         loginWithFBBtn!!.setOnClickListener{
             fbSignIn()
+        }
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
+        mAuth = FirebaseAuth.getInstance()
+        // Google
+        loginWithGMBtn!!.setOnClickListener {
+            gmSignIn()
         }
 
         loginBtn!!.setOnClickListener{
@@ -137,13 +162,13 @@ class LoginActivity : AppCompatActivity() {
                                     }
                                 }
                                 if (flag == 0) {
-                                Toast.makeText(
-                                    this,
-                                    "Error! Account Deleted Because Violate User Agreement or Account Not existed",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                progressDialog!!.dismiss()
-                            }
+                                    Toast.makeText(
+                                        this,
+                                        "Error! Account Deleted Because Violate User Agreement or Account Not existed",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    progressDialog!!.dismiss()
+                                }
 
                             }
 
@@ -191,6 +216,11 @@ class LoginActivity : AppCompatActivity() {
 
         })
 
+    }
+
+    private fun gmSignIn(){
+        val signInIntent = googleSignInClient.signInIntent
+        startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
     private fun handleFacebookAccessToken(accessToken: AccessToken?) {
@@ -261,7 +291,87 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        callbackManager.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == RC_SIGN_IN){
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            val exception = task.exception
+            if(task.isSuccessful){
+                try{
+                    val account = task.getResult(ApiException::class.java)
+                    Log.d("SignInActivity", "firebaseAuthWithGoogle: "+ account.id)
+                    firebaseAuthWithGoogle(account.idToken!!)
+                } catch (e:ApiException){
+                    Log.w("SignInActivity", "Google sign in failed", e)
+                }
+            }
+            else Log.w("SignInActivity", exception.toString())
+
+        }
+        else callbackManager.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun firebaseAuthWithGoogle(idToken: String) {
+        // Initialize Progress Dialog
+        progressDialog = ProgressDialog(this)
+        progressDialog!!.show()
+        progressDialog!!.setContentView(R.layout.progress_dialog)
+        progressDialog!!.window!!.setBackgroundDrawableResource(
+            android.R.color.transparent
+        )
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        mAuth.signInWithCredential(credential)
+            .addOnCompleteListener(this){ task ->
+                if(task.isSuccessful){
+                    Log.d("SignInActivity", "signInWithCredential: Success")
+                    progressDialog!!.dismiss()
+
+                    val badgee = arrayListOf<String>()
+                    val db = FirebaseFirestore.getInstance()
+                    db.collection("prizes").get()
+                        .addOnSuccessListener { snapshot ->
+                            for (document in snapshot) {
+                                badgee.add(document.id)
+                                if (badgee.last() == "s1")
+                                    badgee.removeLast()
+                            }
+                        }
+                        .addOnFailureListener { exception ->
+                            Log.d(ContentValues.TAG, "Error getting documents: ", exception)
+                        }
+
+                    //Get email & Facebook username
+                    val user = mAuth.currentUser
+                    val email = user?.email
+                    val name = user?.displayName
+
+                    val passHash = BCrypt.withDefaults().hashToString(12, name!!.toCharArray())
+
+                    // Save Facebook User to Firestore
+                    val currentUserId = FirebaseAuth.getInstance().currentUser!!.uid
+                    val documentRef = FirebaseFirestore.getInstance().collection("accounts")
+                        .document(currentUserId)
+                    val account: MutableMap<String, Any> = HashMap()
+                    account["Avatar"] = "1"
+                    account["Badge"] = arrayListOf("s1")
+                    account["BadgeUnown"] = badgee
+                    account["BadgeOwn"] = arrayListOf("s1")
+                    account["Email"] = email!!
+                    account["FavoriteList"] = arrayListOf("")
+                    account["History"] = arrayListOf("")
+                    account["Point"] = 0
+                    account["Role"] = 1
+                    account["password"] = passHash
+                    account["username"] = name!!
+
+                    documentRef.set(account)
+
+                    val intent = Intent(this, HomePageActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+                else{
+                    Log.d("SignInActivity", "signInWithCredential: Fail")
+                }
+            }
     }
 
     // disable back button pressed
