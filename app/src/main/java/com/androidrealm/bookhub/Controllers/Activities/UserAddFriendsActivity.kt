@@ -1,20 +1,17 @@
 package com.androidrealm.bookhub.Controllers.Activities
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.androidrealm.bookhub.Adapter.AccountAdapter
 import com.androidrealm.bookhub.Adapter.UserFriendsAdapter
 import com.androidrealm.bookhub.Models.User
 import com.androidrealm.bookhub.R
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 
-class UserFriendsListActivity: AppCompatActivity() {
+class UserAddFriendsActivity: AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var usersList: ArrayList<User>
     private lateinit var myAdapter: UserFriendsAdapter
@@ -41,32 +38,24 @@ class UserFriendsListActivity: AppCompatActivity() {
 
         recyclerView.adapter = myAdapter
 
-        myAdapter.setOnItemClickListener(object : UserFriendsAdapter.onItemClickListener{
-            override fun onItemClick(position: Int) {
-                val clickedItem = usersList[position]
-                val intent = Intent(this@UserFriendsListActivity, UserDetailActivity::class.java)
-                intent.putExtra("uid", clickedItem.documentId)
-                startActivity(intent)
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-                finish()
-            }
-        })
-
-        getFriendsList()
+        CheckAllUsersListener()
     }
 
-    private fun getFriendsList() {
-        val currentUserId = FirebaseAuth.getInstance().currentUser!!.uid
-        val docRef = db.collection("accounts").document(currentUserId)
-        docRef .get()
-            .addOnCompleteListener { task ->
-                if(task.isSuccessful){
-                    for (friend in task.result["FriendsList"] as ArrayList<*>) {
-                        usersList.add(friend as User)
+    private fun CheckAllUsersListener() {
+        db.collection("accounts").whereEqualTo("Role", 1) // not an admin
+            .addSnapshotListener(object : EventListener<QuerySnapshot>{
+                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                    if(error!=null){
+                        Log.e("Firebase Error: ", error.message.toString())
+                        return
+                    }
+                    for (dc: DocumentChange in value?.documentChanges!!){
+                        if(dc.type == DocumentChange.Type.ADDED){
+                            usersList.add(dc.document.toObject(User::class.java))
+                        }
                     }
                 }
-            }
+
+            })
     }
-
-
 }

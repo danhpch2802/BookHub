@@ -106,7 +106,9 @@ class SignupActivity : AppCompatActivity() {
                             account["Point"] = 0
                             account["Role"] = 1
                             account["password"] = passHash
+                            account["status"] = "Offline"
                             account["username"] = name
+                            account["FriendsList"] = arrayListOf("")
 
                             documentRef.set(account)
 

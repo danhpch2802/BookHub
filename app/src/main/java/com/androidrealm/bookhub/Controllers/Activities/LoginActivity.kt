@@ -250,6 +250,7 @@ class LoginActivity : AppCompatActivity() {
                 account["password"] = passHash
                 account["username"] = name!!
                 account["status"] = "Offline"
+                account["FriendsList"] = arrayListOf("")
 
                 documentRef.set(account)
 
