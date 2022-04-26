@@ -16,15 +16,11 @@ import androidx.fragment.app.Fragment
 import com.androidrealm.bookhub.Controllers.Activities.*
 import com.androidrealm.bookhub.R
 import com.facebook.login.LoginManager
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 
 class ProfileFragment : Fragment() {
-    private lateinit var googleSignInClient: GoogleSignInClient
     lateinit var preferences: SharedPreferences
     var PrizeBtn: ImageButton? = null
     var HistoryBtn: ImageButton? = null
@@ -105,25 +101,26 @@ class ProfileFragment : Fragment() {
 
         //Log out
         SignoutBtn!!.setOnClickListener{
-            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build()
-            googleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
             val editor: SharedPreferences.Editor = preferences.edit()
             editor.clear()
             editor.apply()
             FirebaseAuth.getInstance().signOut()
-            googleSignInClient.signOut()
             LoginManager.getInstance().logOut()
-
+            updateUserStatus("Offline")
             startActivity(Intent(getActivity(), LoginActivity::class.java))
-//            finish()
         }
     }
 
     override fun onResume() {
         super.onResume()
         getAcc()
+    }
+
+    private fun updateUserStatus(s: String) {
+        val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
+        val dbRef = FirebaseFirestore.getInstance().collection("accounts")
+            .document(currentUserID)
+        dbRef.update("status", s)
     }
 
     fun getAcc () {

@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.androidrealm.bookhub.Models.Request
+import com.androidrealm.bookhub.Models.User
 import com.androidrealm.bookhub.R
 
 class UserRequestAdapter(private val userRQList: ArrayList<Request>) : RecyclerView.Adapter<UserRequestAdapter.MyViewHolder>(){
