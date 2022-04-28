@@ -104,9 +104,9 @@ class ProfileFragment : Fragment() {
             val editor: SharedPreferences.Editor = preferences.edit()
             editor.clear()
             editor.apply()
+            updateUserStatus("Offline")
             FirebaseAuth.getInstance().signOut()
             LoginManager.getInstance().logOut()
-            updateUserStatus("Offline")
             startActivity(Intent(getActivity(), LoginActivity::class.java))
         }
     }

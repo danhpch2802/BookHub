@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
-    >
+    android:orientation="vertical">
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rq_list"
@@ -14,4 +20,4 @@
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
     </androidx.recyclerview.widget.RecyclerView>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>
