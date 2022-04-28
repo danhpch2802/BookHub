@@ -124,6 +124,12 @@
         <activity
             android:name=".Controllers.Activities.UserRequestListActivity"
             android:exported="false" />
+        <activity android:name=".Controllers.Activities.UserAddFriendsActivity"
+            android:exported="true"/>
+        <activity android:name=".Controllers.Activities.UserDetailActivity"
+            android:exported="true"/>
+        <activity android:name=".Controllers.Activities.UserFriendsListActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>

@@ -206,6 +206,31 @@
             tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageButton
+            android:id="@+id/friends_btn_pf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="180dp"
+            android:background="@color/white"
+            android:src="@drawable/friends"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/quiz_btn_pf"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <TextView
+            android:id="@+id/friends_btn_tv_pf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Friend List"
+            android:textAlignment="center"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="@color/blue"
+            app:layout_constraintEnd_toEndOf="@+id/friends_btn_pf"
+            app:layout_constraintStart_toStartOf="@+id/friends_btn_pf"
+            app:layout_constraintTop_toBottomOf="@+id/friends_btn_pf" />
+
+        <ImageButton
             android:id="@+id/signout_btn_pf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

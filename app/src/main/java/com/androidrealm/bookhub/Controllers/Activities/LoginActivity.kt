@@ -22,11 +22,11 @@ import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
+import com.google.android.gms.common.SignInButton
 
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -48,7 +48,10 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        this.getWindow().setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
         supportActionBar?.hide()
 
         setContentView(R.layout.activity_login)
@@ -67,7 +70,7 @@ class LoginActivity : AppCompatActivity() {
 
         loginWithFBBtn = findViewById(R.id.fb_login)
 
-        if(isRemembered){
+        if (isRemembered) {
             val intent = Intent(this, HomePageActivity::class.java)
             startActivity(intent)
             //
@@ -78,11 +81,11 @@ class LoginActivity : AppCompatActivity() {
         // Facebook
         callbackManager = CallbackManager.Factory.create()
         loginWithFBBtn!!.setReadPermissions("email")
-        loginWithFBBtn!!.setOnClickListener{
+        loginWithFBBtn!!.setOnClickListener {
             fbSignIn()
         }
 
-        loginBtn!!.setOnClickListener{
+        loginBtn!!.setOnClickListener {
             //Get input
             val email = emailEt!!.text.toString().trim()
             val pass = passwordEt!!.text.toString().trim()
@@ -96,13 +99,11 @@ class LoginActivity : AppCompatActivity() {
             editor.apply()
 
             //Validate
-            if (email.isEmpty()){
+            if (email.isEmpty()) {
                 Toast.makeText(this, "Please enter an email", Toast.LENGTH_SHORT).show()
-            }
-            else if(pass.isEmpty()){
+            } else if (pass.isEmpty()) {
                 Toast.makeText(this, "Please enter a password", Toast.LENGTH_SHORT).show()
-            }
-            else{
+            } else {
                 // Initialize Progress Dialog
                 progressDialog = ProgressDialog(this)
                 progressDialog!!.show()
@@ -115,39 +116,54 @@ class LoginActivity : AppCompatActivity() {
                     .addOnCompleteListener { task ->
                         // If login successful
                         if (task.isSuccessful) {
-                            FirebaseFirestore.getInstance().collection("accounts").get().addOnSuccessListener { result ->
-                                var flag = 0
-                                for (documents in result) {
-                                    if (FirebaseAuth.getInstance().currentUser!!.uid == documents.id) {
-                                        Toast.makeText(this, "Login Successful!", Toast.LENGTH_SHORT).show()
-                                        // Send user to Homepage Activity
-                                        val intentToHomePageActivity =
-                                            Intent(this, HomePageActivity::class.java)
-                                        intentToHomePageActivity.flags =
-                                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                        intentToHomePageActivity.putExtra(
-                                            "uid",
-                                            FirebaseAuth.getInstance().currentUser!!.uid
-                                        )
-                                        flag = 1
-                                        progressDialog!!.dismiss()
-                                        startActivity(intentToHomePageActivity)
-                                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-                                        //
-                                        finish()
-                                        break
+                            FirebaseFirestore.getInstance().collection("accounts").get()
+                                .addOnSuccessListener { result ->
+                                    var flag = 0
+                                    for (documents in result) {
+                                        if (FirebaseAuth.getInstance().currentUser!!.uid == documents.id) {
+                                            Toast.makeText(
+                                                this,
+                                                "Login Successful!",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                            // Update online status
+                                            updateUserStatus()
+                                            // Send user to Homepage Activity
+                                            val intentToHomePageActivity =
+                                                Intent(this, HomePageActivity::class.java)
+                                            intentToHomePageActivity.flags =
+                                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                            intentToHomePageActivity.putExtra(
+                                                "uid",
+                                                FirebaseAuth.getInstance().currentUser!!.uid
+                                            )
+                                            flag = 1
+                                            progressDialog!!.dismiss()
+                                            startActivity(intentToHomePageActivity)
+                                            overridePendingTransition(
+                                                R.anim.slide_in_right,
+                                                R.anim.slide_out_left
+                                            )
+                                            //
+                                            finish()
+                                            break
+                                        }
                                     }
+                                    if (flag == 0) {
+                                        Toast.makeText(
+                                            this,
+                                            "Error! Account was Deleted Because Of Violating User Agreement or Account Not existed",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                        progressDialog!!.dismiss()
+                                    }
+                                    Toast.makeText(
+                                        this,
+                                        "Error! Account Deleted Because Violate User Agreement or Account Not existed",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    progressDialog!!.dismiss()
                                 }
-                                if (flag == 0) {
-                                Toast.makeText(
-                                    this,
-                                    "Error! Account was Deleted Because Of Violating User Agreement or Account Not existed",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                progressDialog!!.dismiss()
-                            }
-
-                            }
 
                         } else {
                             // If login failed
@@ -162,14 +178,16 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        registerBtn!!.setOnClickListener{
+        registerBtn!!.setOnClickListener()
+        {
             val intent = Intent(this@LoginActivity, SignupActivity::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             finish()
         }
 
-        forPasBtn!!.setOnClickListener{
+        forPasBtn!!.setOnClickListener()
+        {
             val intent = Intent(this@LoginActivity, ForgotPasswordMainActivity::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
@@ -178,7 +196,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun fbSignIn() {
-        loginWithFBBtn!!.registerCallback(callbackManager, object : FacebookCallback<LoginResult>{
+        loginWithFBBtn!!.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onError(error: FacebookException) {
                 Log.e("ERROR_SIGNIN", error.message!!)
             }
@@ -206,7 +224,7 @@ class LoginActivity : AppCompatActivity() {
         // Get credential
         val credential = FacebookAuthProvider.getCredential(accessToken!!.token)
         FirebaseAuth.getInstance().signInWithCredential(credential)
-            .addOnFailureListener{ e->
+            .addOnFailureListener { e ->
                 Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
             }
             .addOnSuccessListener { result ->
@@ -246,8 +264,13 @@ class LoginActivity : AppCompatActivity() {
                 account["Role"] = 1
                 account["password"] = passHash
                 account["username"] = name!!
+                account["status"] = "Offline"
+                account["FriendsList"] = arrayListOf("")
 
                 documentRef.set(account)
+
+                // Update user status
+                updateUserStatus()
 
                 // Start Homepage Activity
                 val intentToHomePageActivity =
@@ -259,6 +282,13 @@ class LoginActivity : AppCompatActivity() {
                 finish()
                 progressDialog!!.dismiss()
             }
+    }
+
+    private fun updateUserStatus() {
+        val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
+        val dbRef = FirebaseFirestore.getInstance().collection("accounts")
+            .document(currentUserID)
+        dbRef.update("status", "Online")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

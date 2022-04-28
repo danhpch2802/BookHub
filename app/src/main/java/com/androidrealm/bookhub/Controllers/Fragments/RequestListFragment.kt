@@ -8,6 +8,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,9 +25,10 @@ import com.google.firebase.firestore.*
 class RequestListFragment : Fragment() {
     var recyclerView: RecyclerView ?= null
     var requestList: ArrayList<Request> ?= null
+    var tempRQList: ArrayList<Request> ?= null
     var myAdapter: RequestAdapter ?= null
     var db: FirebaseFirestore ?= null
-
+    lateinit var option: Spinner
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,12 +43,35 @@ class RequestListFragment : Fragment() {
         recyclerView = view.findViewById(R.id.rq_list)
         recyclerView!!.setHasFixedSize(true)
         recyclerView!!.layoutManager = LinearLayoutManager(context)
+
+        option = view.findViewById(R.id.spinner) as Spinner
+        var options = arrayOf("Sort by...", "Date", "Checked Status")
+        option.adapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_list_item_1, options)
+        option.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                var choice = p2
+                when (choice) {
+                    1 -> {
+                        requestList!!.sortByDescending { it.time }
+                    }
+                    2 -> {
+                        requestList!!.sortByDescending { it.checked }
+                    }
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                getDB()
+            }
+
+        }
     }
 
     override fun onResume() {
         super.onResume()
-
+        getDB()
         requestList = arrayListOf()
+
         myAdapter = RequestAdapter(requestList!!)
         recyclerView!!.adapter = myAdapter
 
@@ -58,12 +85,11 @@ class RequestListFragment : Fragment() {
 //                finish()
             }
         })
-        getDB()
     }
 
     private fun getDB() {
         db = FirebaseFirestore.getInstance()
-        db!!.collection("requests").orderBy("checked", Query.Direction.ASCENDING)
+        db!!.collection("requests")
             .addSnapshotListener(object : EventListener<QuerySnapshot>{
                 @SuppressLint("NotifyDataSetChanged")
                 override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
