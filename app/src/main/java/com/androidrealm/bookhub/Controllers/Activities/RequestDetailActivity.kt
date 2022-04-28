@@ -9,13 +9,25 @@ import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.Toast
 import com.androidrealm.bookhub.Controllers.Fragments.RequestListFragment
+import com.androidrealm.bookhub.Controllers.Services.NotificationData
+import com.androidrealm.bookhub.Controllers.Services.PushNotification
+import com.androidrealm.bookhub.Controllers.Services.RetrofitInstance
 import com.androidrealm.bookhub.Models.Request
 import com.androidrealm.bookhub.R
 import com.google.firebase.firestore.*
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
+const val TOPIC = "/topics/myTopic"
 
 class RequestDetailActivity : AppCompatActivity() {
+    val TAG = "RequestDetailActivity"
     var doneBtn: TextView? = null
     var username: TextView ?= null
+    var request_date: TextView?=null
     var request_name: TextView? = null
     var request_detail: TextView? = null
     var accept_checkbox: CheckBox? = null
@@ -24,8 +36,11 @@ class RequestDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_request_detail)
 
+        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
+
         doneBtn = findViewById(R.id.doneBtn)
         username = findViewById(R.id.userID_tv)
+        request_date = findViewById(R.id.date_tv)
         request_name = findViewById(R.id.requestTitle_tv)
         request_detail = findViewById(R.id.requestDetail_tv)
         accept_checkbox = findViewById(R.id.checkbox_request)
@@ -39,6 +54,7 @@ class RequestDetailActivity : AppCompatActivity() {
                 .addOnSuccessListener { documentSnapshot ->
                     val data = documentSnapshot.data
                     username!!.text = data?.get("accountName") as CharSequence?
+                    request_date!!.text = data?.get("time") as CharSequence?
                     request_name!!.text = data?.get("bookName") as CharSequence?
                     request_detail!!.text = data?.get("bookDetail") as CharSequence?
                     accept_checkbox!!.isChecked = data?.get("checked") as Boolean
@@ -48,6 +64,17 @@ class RequestDetailActivity : AppCompatActivity() {
         }
 
         doneBtn!!.setOnClickListener {
+            val title = request_name!!.text.toString()
+            val message = request_detail!!.text.toString()
+            if(title.isNotEmpty() && message.isNotEmpty()){
+                PushNotification(
+                    NotificationData(title, message),
+                    TOPIC
+                ).also {
+                    sendNotification(it)
+                }
+            }
+
             if (accept_checkbox!!.isChecked) {
                 if (docID != null) {
                     db.collection("requests").document(docID)
@@ -64,6 +91,20 @@ class RequestDetailActivity : AppCompatActivity() {
                 }
             }
             finish()
+        }
+    }
+
+    private fun sendNotification(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
+        try{
+            val response = RetrofitInstance.api.postNotification(notification)
+            if(response.isSuccessful){
+                Log.d(TAG, "Response: ${Gson().toJson(response)}")
+            }
+            else {
+                Log.e(TAG, response.errorBody().toString())
+            }
+        } catch (e:Exception){
+            Log.e(TAG, e.toString())
         }
     }
 }

@@ -42,6 +42,16 @@ class UserAddFriendsActivity: AppCompatActivity() {
 
         recyclerView.adapter = myAdapter
 
+        myAdapter.setOnItemClickListener(object : UserFriendsAdapter.onItemClickListener{
+            override fun onItemClick(position: Int) {
+                val clickedItem = usersList[position]
+                val intent = Intent( this@UserAddFriendsActivity,UserAccountDetailActivity::class.java)
+                intent.putExtra("uid", clickedItem.documentId)
+                startActivity(intent)
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+            }
+        })
+
         checkAllUsersListener()
     }
 
@@ -62,18 +72,5 @@ class UserAddFriendsActivity: AppCompatActivity() {
                     myAdapter.notifyDataSetChanged()
                 }
             })
-        usersList = arrayListOf()
-        myAdapter = UserFriendsAdapter(usersList)
-        recyclerView.adapter = myAdapter
-
-        myAdapter.setOnItemClickListener(object : UserFriendsAdapter.onItemClickListener{
-            override fun onItemClick(position: Int) {
-                val clickedItem = usersList[position]
-                val intent = Intent( this@UserAddFriendsActivity,UserAccountDetailActivity::class.java)
-                intent.putExtra("uid", clickedItem.documentId)
-                startActivity(intent)
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-            }
-        })
     }
 }
