@@ -13,8 +13,10 @@ class Account(
     var BadgeOwn:ArrayList<String> = ArrayList<String>(),
     var History:ArrayList<String> = ArrayList<String>(),
     var FavoriteList:ArrayList<String> = ArrayList<String>(),
+    var FriendsList:ArrayList<String> = ArrayList<String>(),
     var Point:Long?=1,
     var password:String?=  "",
+    val status: String?="",
     var username:String?= "",
     //var bookmark:Map<String, String>?=null
 ) : Serializable

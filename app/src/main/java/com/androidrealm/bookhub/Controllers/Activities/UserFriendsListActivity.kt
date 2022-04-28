@@ -2,21 +2,19 @@ package com.androidrealm.bookhub.Controllers.Activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.androidrealm.bookhub.Adapter.AccountAdapter
 import com.androidrealm.bookhub.Adapter.UserFriendsAdapter
-import com.androidrealm.bookhub.Models.User
+import com.androidrealm.bookhub.Models.Account
 import com.androidrealm.bookhub.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 
 class UserFriendsListActivity: AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
-    private lateinit var usersList: ArrayList<User>
+    private lateinit var usersList: ArrayList<Account>
     private lateinit var myAdapter: UserFriendsAdapter
     private lateinit var db: FirebaseFirestore
 
@@ -62,7 +60,7 @@ class UserFriendsListActivity: AppCompatActivity() {
             .addOnCompleteListener { task ->
                 if(task.isSuccessful){
                     for (friend in task.result["FriendsList"] as ArrayList<*>) {
-                        usersList.add(friend as User)
+                        usersList.add(friend as Account)
                     }
                 }
             }

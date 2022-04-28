@@ -33,8 +33,6 @@ class RankAdapter(private val listRank: ArrayList<Account>) : RecyclerView.Adapt
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val rank: Account = listRank[position]
-        var id: String ?= ""
-        //holder.userid.text = prize.AccountId
         holder.rankName.text = rank.username
         holder.rankPoint.text = rank.Point.toString()
         holder.rankBadge.text = rank.BadgeOwn.size.toString()
