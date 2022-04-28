@@ -72,6 +72,8 @@ class AccountDetailActivity : AppCompatActivity() {
 
         }
         reBtn!!.setOnClickListener{
+            val intent = Intent(this,  AccountActivity::class.java)
+            startActivity(intent)
             finish()
         }
         saveBtn!!.setOnClickListener{

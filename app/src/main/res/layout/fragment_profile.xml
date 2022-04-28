@@ -14,8 +14,6 @@
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
         tools:context=".Fragments.ProfileFragment">
 
-
-
         <androidx.cardview.widget.CardView
             android:id="@+id/avatarpf"
             android:layout_width="125dp"

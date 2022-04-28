@@ -24,6 +24,7 @@ class AdminProfileFragment : Fragment() {
     var AllAccBtn: ImageButton? = null
     var AvaBtn: ImageView? = null
     var SignoutBtn: ImageButton? = null
+    var QuizBtn: ImageButton? = null
     var uid:String = ""
 
     var Point:Number? = 0
@@ -61,12 +62,18 @@ class AdminProfileFragment : Fragment() {
         badgeTV = view.findViewById(R.id.pf_prize)
         AvaBtn = view.findViewById(R.id.avatarpf_img)
         SignoutBtn = view.findViewById(R.id.signout_btn_pf)
+        QuizBtn = view.findViewById(R.id.quiz_btn_pf)
         createNewBtn=view.findViewById<ImageButton>(R.id.createNewBtn)
         getAcc()
 
         //Log.d(TAG, Badge2)
         PrizeBtn!!.setOnClickListener{
             val intent = Intent(requireActivity(),  PrizeListActivity::class.java)
+            startActivity(intent)
+        }
+
+        QuizBtn!!.setOnClickListener{
+            val intent = Intent(requireActivity(),  QuizListActivity::class.java)
             startActivity(intent)
         }
 

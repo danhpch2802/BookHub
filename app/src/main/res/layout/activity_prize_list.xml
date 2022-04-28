@@ -41,7 +41,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/prize_list"
         android:layout_width="match_parent"
-        android:layout_height="545dp"
+        android:layout_height="540dp"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
     </androidx.recyclerview.widget.RecyclerView>
         <TextView

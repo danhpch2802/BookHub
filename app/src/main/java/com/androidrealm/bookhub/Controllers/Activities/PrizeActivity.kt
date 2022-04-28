@@ -153,7 +153,6 @@ class PrizeActivity : AppCompatActivity() {
                                 setPoint(point2)
                                 val values = prizeList!!.toList()
                                 val random = values.random()
-                                Log.d(TAG, random)
                                 setPrize(random)
                                 val intent = Intent(this,  PrizeDetailActivity::class.java)
                                 intent.putExtra("id",random)

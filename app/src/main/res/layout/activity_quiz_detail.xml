@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_golden"
+    app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+    tools:context=".Controllers.Activities.QuizDetailActivity">
+
+    <!-- TODO: Update blank fragment layout -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+        android:layout_height="wrap_content">
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:fitsSystemWindows="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:liftOnScroll="true">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:menu="@menu/top_app_long">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Daily Quiz"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="35dp"
+                android:id="@+id/quizReturnX"
+                android:layout_height="35dp"
+                android:layout_gravity="left"
+                android:src="@drawable/ic_back" />
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <ImageView
+        android:id="@+id/form_Quiz"
+        android:layout_width="411dp"
+        android:layout_height="393dp"
+        android:layout_marginTop="350dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/rectangle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/questionbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="32dp"
+        android:src="@drawable/quizbox"
+        app:layout_constraintBottom_toTopOf="@+id/form_Quiz"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/quizQuestionX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:maxWidth="300dp"
+        android:textColor="@color/black"
+        android:textSize="19sp"
+        app:layout_constraintBottom_toBottomOf="@+id/questionbox"
+        app:layout_constraintEnd_toEndOf="@+id/questionbox"
+        app:layout_constraintStart_toStartOf="@+id/questionbox"
+        app:layout_constraintTop_toTopOf="@+id/questionbox"
+        app:layout_constraintVertical_bias="0.5"
+        android:gravity="center"
+        tools:text="question" />
+
+    <TextView
+        android:id="@+id/quizValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:maxWidth="300dp"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/questionbox"
+        app:layout_constraintStart_toStartOf="@+id/questionbox"
+        app:layout_constraintTop_toTopOf="@+id/questionbox"
+        app:layout_constraintVertical_bias="0.5"
+        tools:text="100 Points" />
+
+    <Button
+        android:id="@+id/option1BTX"
+        android:layout_width="150dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginBottom="230dp"
+        android:backgroundTint="@color/app_base1"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Option1" />
+
+    <Button
+        android:id="@+id/option3BTX"
+        android:layout_width="150dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginBottom="100dp"
+        android:backgroundTint="@color/app_base1"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Option3" />
+
+    <Button
+        android:id="@+id/option4BTX"
+        android:layout_width="150dp"
+        android:layout_height="110dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="100dp"
+        android:backgroundTint="@color/app_base1"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Option4" />
+
+    <Button
+        android:id="@+id/option2BTX"
+        android:layout_width="150dp"
+        android:layout_height="110dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="230dp"
+        android:backgroundTint="@color/app_base1"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Option2" />
+
+    <Button
+        android:id="@+id/nextExBT"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="30dp"
+        android:text="next exercise"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:backgroundTint="@color/app_green"
+        android:visibility="invisible"
+        />
+
+    <TextView
+        android:id="@+id/quizReturn2X"
+        android:layout_width="150dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginBottom="30dp"
+        android:text="Return"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/black_fill__rounded_color"
+        android:clickable="true"
+        android:gravity="center"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:focusable="true" />
+
+    <TextView
+        android:id="@+id/delQuizX"
+        android:layout_width="150dp"
+        android:layout_height="55dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="30dp"
+        android:text="Delete Quiz"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/orange_fill__rounded_color"
+        android:clickable="true"
+        android:gravity="center"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:focusable="true" />
+
+    <TextView
+        android:id="@+id/answertext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:text="Answer"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/form_Quiz" />
+
+    <TextView
+        android:id="@+id/quizPointX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="70dp"
+        android:layout_marginBottom="30dp"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/questionbox"
+        app:layout_constraintStart_toStartOf="@+id/questionbox"
+        tools:text="1" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

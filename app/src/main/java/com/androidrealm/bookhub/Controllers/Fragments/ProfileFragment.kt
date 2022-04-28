@@ -100,10 +100,14 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
         }
 
+        QuizBtn!!.setOnClickListener{
+            val intent = Intent(requireActivity(), QuizActivity::class.java)
+            startActivity(intent)
+        }
+
         ProfileBtn!!.setOnClickListener{
             val intent = Intent(getActivity(),  UpdateAccActivity::class.java)
             getActivity()?.startActivity(intent)
-
         }
 
         //Log out

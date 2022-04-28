@@ -27,7 +27,6 @@ class NewPrizeActivity : AppCompatActivity() {
         cfBtn = findViewById(R.id.newPrize)
         prizeDes = findViewById( R.id.prizeDescription)
         prizeName = findViewById(R.id.prizeName)
-        var totalBigGift = 2
         reBtn!!.setOnClickListener{
             val intents = Intent(this,  PrizeListActivity::class.java)
             startActivity(intents)

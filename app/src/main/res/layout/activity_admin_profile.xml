@@ -175,6 +175,18 @@
         app:layout_constraintTop_toBottomOf="@id/prize_btn_pf"
         tools:ignore="SpeakableTextPresentCheck" />
 
+    <ImageButton
+        android:id="@+id/quiz_btn_pf"
+        android:src="@drawable/quiz_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="75dp"
+        android:layout_marginTop="63dp"
+        android:background="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/my_acc_btn_pf"
+        tools:ignore="SpeakableTextPresentCheck" />
+
     <ImageView
         android:id="@+id/imageViewSeperator"
         android:layout_width="wrap_content"
@@ -260,5 +272,16 @@
         app:layout_constraintEnd_toEndOf="@+id/createNewBtn"
         app:layout_constraintStart_toStartOf="@+id/createNewBtn"
         app:layout_constraintTop_toBottomOf="@+id/createNewBtn" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="All Quizzes"
+        android:textAlignment="center"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/quiz_btn_pf"
+        app:layout_constraintStart_toStartOf="@+id/quiz_btn_pf"
+        app:layout_constraintTop_toBottomOf="@+id/quiz_btn_pf" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

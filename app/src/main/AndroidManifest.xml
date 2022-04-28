@@ -27,6 +27,18 @@
         </service>
 
         <activity
+            android:name=".Controllers.Activities.QuizDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Controllers.Activities.QuizListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Controllers.Activities.AddQuizActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Controllers.Activities.QuizActivity"
+            android:exported="false" />
+        <activity
             android:name=".Controllers.Activities.UserAccountDetailActivity"
             android:exported="false" />
         <activity
