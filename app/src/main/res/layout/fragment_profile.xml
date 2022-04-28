@@ -193,6 +193,17 @@
             app:layout_constraintTop_toBottomOf="@id/prize_btn_pf"
             tools:ignore="SpeakableTextPresentCheck" />
 
+        <ImageButton
+            android:id="@+id/quiz_btn_pf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="75dp"
+            android:layout_marginTop="45dp"
+            android:background="@color/white"
+            android:src="@drawable/quiz_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/account_btn_pf"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageButton
             android:id="@+id/signout_btn_pf"
@@ -203,7 +214,7 @@
             android:background="@color/white"
             android:src="@drawable/sign_out_btn"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/prize_btn_pf"
+            app:layout_constraintTop_toBottomOf="@id/account_btn_pf"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageView
@@ -230,6 +241,44 @@
             app:layout_constraintEnd_toEndOf="@+id/bookmark_btn_pf"
             app:layout_constraintStart_toStartOf="@+id/bookmark_btn_pf"
             app:layout_constraintTop_toBottomOf="@+id/bookmark_btn_pf" />
+
+        <ImageButton
+            android:id="@+id/rank_btn_pf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="45dp"
+            android:layout_marginEnd="75dp"
+            android:background="@color/white"
+            android:src="@drawable/rank_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/prize_btn_pf"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+
+        <TextView
+            android:id="@+id/rank_btn_tv_pf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rank"
+            android:textAlignment="center"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/rank_btn_pf"
+            app:layout_constraintStart_toStartOf="@+id/rank_btn_pf"
+            app:layout_constraintTop_toBottomOf="@+id/rank_btn_pf" />
+
+        <TextView
+            android:id="@+id/quiz_btn_tv_pf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Daily Quiz"
+            android:textAlignment="center"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/quiz_btn_pf"
+            app:layout_constraintStart_toStartOf="@+id/quiz_btn_pf"
+            app:layout_constraintTop_toBottomOf="@+id/quiz_btn_pf" />
 
         <TextView
             android:id="@+id/fav_btn_tv_pf"

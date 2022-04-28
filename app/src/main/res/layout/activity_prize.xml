@@ -108,7 +108,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginStart="20dp"
         app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="250dp"
+        app:cardCornerRadius="160dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout2">
 
@@ -116,13 +116,14 @@
             android:layout_width="81dp"
             android:layout_height="81dp"
             android:layout_gravity="center"
-            app:cardCornerRadius="250dp">
+            app:cardCornerRadius="160dp">
 
             <ImageView
                 android:id="@+id/detailPrizeAvatar"
                 android:layout_width="81dp"
                 android:layout_height="81dp"
                 android:layout_gravity="center"
+                android:scaleType="centerCrop"
                 tools:ignore="SpeakableTextPresentCheck"
                 tools:srcCompat="@tools:sample/avatars" />
         </androidx.cardview.widget.CardView>

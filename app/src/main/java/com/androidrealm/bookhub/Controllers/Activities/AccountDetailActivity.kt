@@ -72,8 +72,6 @@ class AccountDetailActivity : AppCompatActivity() {
 
         }
         reBtn!!.setOnClickListener{
-            val intents = Intent(this, AccountActivity::class.java)
-            startActivity(intents)
             finish()
         }
         saveBtn!!.setOnClickListener{
@@ -133,14 +131,14 @@ class AccountDetailActivity : AppCompatActivity() {
                         else -> AvaBtn!!.setImageResource(R.drawable.amagami_cover)
                     }
                     var cnt = 0
-                    for (document in task.result["Badge"] as ArrayList<*>) {
+                    for (document in task.result["BadgeOwn"] as ArrayList<*>) {
                         cnt++
                     }
                 for (document in task.result["Badge"] as ArrayList<*>) {
                     Badge = document as String
                     break
                 }
-                    TotalBadge = cnt
+                TotalBadge = cnt
                 Point =  task.result["Point"] as Number?
                 role = task.result["Role"] as Long?
                 }

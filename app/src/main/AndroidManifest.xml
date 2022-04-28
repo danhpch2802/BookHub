@@ -15,6 +15,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BookHub">
+        <activity
+            android:name=".Controllers.Activities.UserAccountDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Controllers.Activities.RankActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -115,8 +121,9 @@
         <activity
             android:name=".Controllers.Activities.BookDetailActivity"
             android:exported="false" />
-        <activity android:name=".Controllers.Activities.UserRequestListActivity"
-            android:exported="false"/>
+        <activity
+            android:name=".Controllers.Activities.UserRequestListActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

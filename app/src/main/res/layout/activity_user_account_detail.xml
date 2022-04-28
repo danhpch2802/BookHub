@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
     android:layout_width="match_parent"
-
-    android:background="#33CFCFE3"
-    android:layout_height="match_parent" >
-
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context=".Controllers.Activities.UpdateAccActivity">
+    android:layout_height="match_parent"
+    android:background="#45CFCFE3"
+    tools:context=".Controllers.Activities.UserAccountDetailActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout2"
@@ -28,30 +21,45 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:menu="@menu/top_app_favorite">
+            app:menu="@menu/top_app_long">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/update_account"
+                android:text="@string/account"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/returnProfile"
                 android:layout_width="35dp"
+                android:id="@+id/accDetailReturn2"
                 android:layout_height="35dp"
-                android:layout_gravity="start"
+                android:layout_gravity="left"
                 android:src="@drawable/ic_back" />
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
+
+    <TextView
+        android:id="@+id/friend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Friend"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout2" />
+
     <androidx.cardview.widget.CardView
-        android:id="@+id/avatarAcc"
+        android:id="@+id/avatarAccDetail2"
         android:layout_width="125dp"
         android:layout_height="125dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="95dp"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="250dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -66,41 +74,41 @@
             app:cardCornerRadius="250dp">
 
             <ImageView
-                android:id="@+id/updateAccAvatar"
+                android:id="@+id/detailAccAvatar2"
                 android:layout_width="135dp"
                 android:layout_height="135dp"
-                android:scaleType="centerCrop"
                 android:layout_gravity="center"
-                tools:ignore="SpeakableTextPresentCheck" />
+                android:scaleType="centerCrop"
+                tools:ignore="SpeakableTextPresentCheck"
+                tools:srcCompat="@tools:sample/avatars" />
         </androidx.cardview.widget.CardView>
     </androidx.cardview.widget.CardView>
 
-    <EditText
-        android:id="@+id/updateAccUsername"
+    <TextView
+        android:id="@+id/detailAccUsername2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:hint="Username"
+        android:layout_marginTop="10dp"
         android:textAlignment="center"
         android:textColor="@color/darkred"
         android:textSize="35sp"
+        android:text="Name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/badgeChosen" />
+        app:layout_constraintTop_toBottomOf="@+id/badgeChosen2" />
 
     <ImageView
-        android:id="@+id/img_badge"
+        android:id="@+id/detail_img_badge2"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="50dp"
         android:layout_marginTop="20dp"
         android:src="@drawable/badge"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/updateAccUsername" />
+        app:layout_constraintTop_toBottomOf="@+id/detailAccUsername2" />
 
     <TextView
-        android:id="@+id/badge_tv"
+        android:id="@+id/detail_badge_tv2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -108,12 +116,12 @@
         android:text="Badges"
         android:textAlignment="center"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/img_badge"
-        app:layout_constraintTop_toBottomOf="@+id/updateAccUsername" />
+        app:layout_constraintStart_toEndOf="@+id/detail_img_badge2"
+        app:layout_constraintTop_toBottomOf="@+id/detailAccUsername2" />
 
 
     <TextView
-        android:id="@+id/badge_prize"
+        android:id="@+id/detail_badge_prize2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -121,22 +129,22 @@
         android:text="10"
         android:textAlignment="center"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/img_badge"
-        app:layout_constraintTop_toBottomOf="@+id/badge_tv" />
+        app:layout_constraintStart_toEndOf="@+id/detail_img_badge2"
+        app:layout_constraintTop_toBottomOf="@+id/detail_badge_tv2" />
 
 
     <ImageView
-        android:id="@+id/img_point"
+        android:id="@+id/detail_img_point2"
         android:layout_width="47dp"
         android:layout_height="47dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
         android:src="@drawable/award"
-        app:layout_constraintEnd_toStartOf="@+id/point_tv"
-        app:layout_constraintTop_toBottomOf="@+id/updateAccUsername" />
+        app:layout_constraintEnd_toStartOf="@+id/detail_point_tv2"
+        app:layout_constraintTop_toBottomOf="@+id/detailAccUsername2" />
 
     <TextView
-        android:id="@+id/point_tv"
+        android:id="@+id/detail_point_tv2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -145,11 +153,11 @@
         android:textAlignment="center"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/updateAccUsername" />
+        app:layout_constraintTop_toBottomOf="@+id/detailAccUsername2" />
 
 
     <TextView
-        android:id="@+id/point_prize"
+        android:id="@+id/detail_point_prize2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -157,29 +165,54 @@
         android:text="1000"
         android:textAlignment="center"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@id/img_point"
-        app:layout_constraintTop_toBottomOf="@+id/point_tv" />
+        app:layout_constraintStart_toEndOf="@id/detail_img_point2"
+        app:layout_constraintTop_toBottomOf="@+id/detail_point_tv2" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/badgeChosen"
+
+    <TextView
+        android:id="@+id/badgeChosen2"
         android:layout_width="270dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="25dp"
-        android:background="@color/gray"
-        android:gravity="center"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
         android:text="BadgeChosen"
-        android:textSize="18sp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/avatarAcc" />
+        app:layout_constraintTop_toBottomOf="@+id/avatarAccDetail2" />
+
 
     <TextView
-        android:id="@+id/updateButton"
+        android:id="@+id/saveFriendPass2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/orange_fill__rounded_color"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        android:text="Add Friend"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailAccDetail2" />
+
+    <TextView
+        android:id="@+id/delAccButton2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="88dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/black_fill__rounded_color"
         android:clickable="true"
@@ -188,50 +221,27 @@
         android:minHeight="48dp"
         android:paddingTop="14dp"
         android:paddingBottom="14dp"
-        android:text="Save Account"
+        android:text="Delete Friend"
         android:textColor="#ffffff"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/changePass" />
+        app:layout_constraintTop_toBottomOf="@+id/emailAccDetail2" />
+
 
     <TextView
-        android:id="@+id/changePass"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/orange_fill__rounded_color"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="center"
-        android:paddingTop="14dp"
-        android:paddingBottom="14dp"
-        android:text="@string/change_password"
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailAcc" />
-
-    <TextView
-        android:id="@+id/emailAcc"
+        android:id="@+id/emailAccDetail2"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="95dp"
+        android:layout_marginTop="100dp"
+        android:text="@string/email"
         android:textAlignment="center"
-        android:textSize="17sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/updateAccUsername" />
-
+        app:layout_constraintTop_toBottomOf="@+id/detailAccUsername2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>

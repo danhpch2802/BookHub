@@ -9,26 +9,54 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_height="match_parent">
+            android:background = "#45CFCFE3">
+            <ImageView
+                android:id="@+id/prize_icon"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/black_reward"
+                android:contentDescription="TODO" />
 
-            <TextView
-                android:id="@+id/prizeNameTV"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                android:layout_marginRight="10dp"
-                android:background="@color/gray"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:gravity="center"
-                android:textAllCaps="false"
-                android:textColor="#60000000"
-                android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/prizeNameTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textAllCaps="true"
+                    android:textSize="27sp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/prizeDesTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textAllCaps="false"
+                    android:textColor="#60000000"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

@@ -31,8 +31,9 @@ class ProfileFragment : Fragment() {
     var ProfileBtn: ImageButton? = null
     var BookmarkBtn: ImageButton? = null
     var AvaBtn: ImageView? = null
-    var ReBtn: ImageView? = null
     var SignoutBtn: ImageButton? = null
+    var QuizBtn: ImageButton? = null
+    var RankBtn: ImageButton? = null
     var uid:String = ""
     var Badge2 = "2"
     var TotalBadge:Int? = 0
@@ -70,12 +71,13 @@ class ProfileFragment : Fragment() {
         point = view.findViewById(R.id.point_prize_pf)
         badgeTV = view.findViewById(R.id.pf_prize)
         AvaBtn = view.findViewById(R.id.avatarpf_img)
+        QuizBtn = view.findViewById(R.id.quiz_btn_pf)
+        RankBtn = view.findViewById(R.id.rank_btn_pf)
         SignoutBtn = view.findViewById(R.id.signout_btn_pf)
 //        //ReBtn = findViewById(R.id.returnHomepage)
 //
         getAcc()
-//
-//        //Log.d(TAG, Badge2)
+
         BookmarkBtn!!.setOnClickListener{
             val intent = Intent (getActivity(), BookmarkListActivity::class.java)
             getActivity()?.startActivity(intent)
@@ -93,6 +95,11 @@ class ProfileFragment : Fragment() {
 
         FavBtn!!.setOnClickListener{
             val intent = Intent(requireActivity(), FavoriteListActivity::class.java)
+            startActivity(intent)
+        }
+
+        RankBtn!!.setOnClickListener{
+            val intent = Intent(requireActivity(), RankActivity::class.java)
             startActivity(intent)
         }
 

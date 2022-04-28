@@ -83,14 +83,13 @@ class PrizeListActivity : AppCompatActivity() {
                     onError(task.exception)
                 }
                 for(i in prizeList!!.indices){
-                    Log.d(TAG, "beforedb" + i.toString())
+                    // Log.d(TAG, "beforedb" + i.toString())
                     db2.collection("prizes").document(prizeList!![i]).get().addOnSuccessListener { result ->
-                        Log.d(TAG, "afterdb" + i.toString())
+                        // Log.d(TAG, "afterdb" + i.toString())
                         prizeNameList!!.add(result.get("prizeName") as String)
                         myAdapter = PrizeAdapter(prizeNameList!!)
                         recyclerView!!.adapter = myAdapter
-                        myAdapter!!.setOnItemClickListener(object :
-                            PrizeAdapter.onItemClickListener {
+                        myAdapter!!.setOnItemClickListener(object : PrizeAdapter.onItemClickListener {
                             override fun onItemClick(position: Int) {
                                 //Toast.makeText(this@RequestListActivity, "You click on item $position", Toast.LENGTH_SHORT).show()
                                 val intent = Intent(this@PrizeListActivity, PrizeDetailActivity::class.java)
@@ -114,7 +113,6 @@ class PrizeListActivity : AppCompatActivity() {
                     prizeNameList!!.add(document["prizeName"].toString())
                     //prizeList!!.add(document["id"].toString())
                 }
-
                 myAdapter = PrizeAdapter(prizeNameList!!)
                 recyclerView!!.adapter = myAdapter
 

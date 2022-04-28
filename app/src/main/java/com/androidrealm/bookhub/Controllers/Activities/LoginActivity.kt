@@ -70,6 +70,7 @@ class LoginActivity : AppCompatActivity() {
         if(isRemembered){
             val intent = Intent(this, HomePageActivity::class.java)
             startActivity(intent)
+            //
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             finish()
         }
@@ -132,6 +133,7 @@ class LoginActivity : AppCompatActivity() {
                                         progressDialog!!.dismiss()
                                         startActivity(intentToHomePageActivity)
                                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                                        //
                                         finish()
                                         break
                                     }
@@ -139,7 +141,7 @@ class LoginActivity : AppCompatActivity() {
                                 if (flag == 0) {
                                 Toast.makeText(
                                     this,
-                                    "Error! Account Deleted Because Violate User Agreement or Account Not existed",
+                                    "Error! Account was Deleted Because Of Violating User Agreement or Account Not existed",
                                     Toast.LENGTH_SHORT
                                 ).show()
                                 progressDialog!!.dismiss()

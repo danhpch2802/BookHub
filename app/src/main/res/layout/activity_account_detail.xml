@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:menu="@menu/top_app_favorite">
+            app:menu="@menu/top_app_long">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -46,7 +46,7 @@
         android:layout_height="125dp"
         android:layout_marginTop="100dp"
         app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="227dp"
+        app:cardCornerRadius="250dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,6 +63,7 @@
                 android:layout_width="135dp"
                 android:layout_height="135dp"
                 android:layout_gravity="center"
+                android:scaleType="centerCrop"
                 tools:ignore="SpeakableTextPresentCheck"
                 tools:srcCompat="@tools:sample/avatars" />
         </androidx.cardview.widget.CardView>

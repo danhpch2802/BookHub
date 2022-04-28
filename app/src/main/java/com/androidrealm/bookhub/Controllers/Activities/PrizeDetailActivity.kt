@@ -70,7 +70,6 @@ class PrizeDetailActivity : AppCompatActivity() {
                                     val intents = Intent(this, HomePageActivity::class.java)
                                     startActivity(intents)
                                     finish()},1200)
-
                                 }
                             }
                         else {

@@ -104,7 +104,7 @@ class UpdateAccActivity : AppCompatActivity() {
                         else -> AvaBtn!!.setImageResource(R.drawable.amagami_cover)
                     }
                     var cnt = 0
-                    for (document in task.result["Badge"] as ArrayList<*>) {
+                    for (document in task.result["BadgeOwn"] as ArrayList<*>) {
                         cnt++
                     }
                     for (document in task.result["Badge"] as ArrayList<*>) {
