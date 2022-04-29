@@ -174,15 +174,6 @@ class LoginActivity : AppCompatActivity() {
                                         ).show()
                                         progressDialog!!.dismiss()
                                     }
-<<<<<<< Updated upstream
-=======
-//                                    Toast.makeText(
-//                                        this,
-//                                        "Error! Account Was Deleted Because Violate User Agreement or Account Not existed",
-//                                        Toast.LENGTH_SHORT
-//                                    ).show()
-//                                    progressDialog!!.dismiss()
->>>>>>> Stashed changes
                                 }
                         } else {
                             // If login failed
@@ -285,12 +276,9 @@ class LoginActivity : AppCompatActivity() {
                 account["username"] = name!!
                 account["status"] = "Offline"
                 account["FriendsList"] = arrayListOf("")
-<<<<<<< Updated upstream
                 account["RecipientToken"] = ""
-=======
                 account["LastLogin"] = FieldValue.serverTimestamp()
                 account["quizCnt"] = 0
->>>>>>> Stashed changes
 
                 documentRef.set(account)
 

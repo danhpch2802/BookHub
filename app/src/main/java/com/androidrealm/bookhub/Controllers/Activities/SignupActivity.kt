@@ -19,17 +19,15 @@ import com.androidrealm.bookhub.R
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-<<<<<<< Updated upstream
+
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
-=======
 import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestore
 import java.text.DateFormat.getDateTimeInstance
 import java.text.SimpleDateFormat
->>>>>>> Stashed changes
+
 
 class SignupActivity : AppCompatActivity() {
     var signupBtn: TextView? = null
