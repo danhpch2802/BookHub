@@ -23,6 +23,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import java.io.Serializable
 
 
@@ -44,6 +45,7 @@ class HomePageActivity : AppCompatActivity(),Serializable {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_homepage)
         uid = FirebaseAuth.getInstance().currentUser!!.uid
+
         appBarLayout2 = findViewById(R.id.topAppbar)
         val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
         val fragment: Fragment = ListComicFragment.newInstance(3)
@@ -178,6 +180,7 @@ class HomePageActivity : AppCompatActivity(),Serializable {
             }
         }
     }
+
 
     private fun replaceFragment (fragment: Fragment, Location: Int, Cmp: Int)
     {

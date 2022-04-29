@@ -1,6 +1,7 @@
 package com.androidrealm.bookhub.Controllers.Activities
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,19 +11,20 @@ import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.Toast
 import com.androidrealm.bookhub.Controllers.Fragments.RequestListFragment
+import com.androidrealm.bookhub.Controllers.Services.FirebaseService
 import com.androidrealm.bookhub.Controllers.Services.NotificationData
 import com.androidrealm.bookhub.Controllers.Services.PushNotification
 import com.androidrealm.bookhub.Controllers.Services.RetrofitInstance
 import com.androidrealm.bookhub.Models.Request
 import com.androidrealm.bookhub.R
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.firestore.*
+import com.google.firebase.iid.FirebaseInstanceIdReceiver
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
-const val TOPIC = "/topics/myTopic"
 
 class RequestDetailActivity : AppCompatActivity() {
     val TAG = "RequestDetailActivity"
@@ -38,7 +40,7 @@ class RequestDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_request_detail)
 
-        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
+        FirebaseService.sharedPref = getSharedPreferences("sharedPref", Context.MODE_PRIVATE)
 
         doneBtn = findViewById(R.id.doneBtn)
         username = findViewById(R.id.userID_tv)
@@ -50,6 +52,14 @@ class RequestDetailActivity : AppCompatActivity() {
 
         val intent = intent
         val docID = intent.getStringExtra("documentID")
+
+        addNewBookBtn!!.visibility = View.GONE
+
+        accept_checkbox!!.setOnClickListener{
+            if(accept_checkbox!!.isChecked)
+                addNewBookBtn!!.visibility = View.VISIBLE
+            else addNewBookBtn!!.visibility = View.GONE
+        }
 
         val db = FirebaseFirestore.getInstance()
         if (docID != null) {
@@ -67,19 +77,26 @@ class RequestDetailActivity : AppCompatActivity() {
         }
 
         doneBtn!!.setOnClickListener {
-//            val title = request_name!!.text.toString()
-//            val message = request_detail!!.text.toString()
-//            if(title.isNotEmpty() && message.isNotEmpty()){
-//                PushNotification(
-//                    NotificationData(title, message),
-//                    TOPIC
-//                ).also {
-//                    sendNotification(it)
-//                }
-//            }
+            val title = "Request Confirmed!"
+            val message = "The request for ${username!!.text.toString()} has been accepted. Check out the gallery now!"
+            // find token of user that sends the request
+            db.collection("accounts").whereEqualTo("username", username!!.text)
+                .get()
+                .addOnSuccessListener { documents ->
+                    for(doc in documents){
+                        var token = doc.getString("RecipientToken").toString()
+                        if(title.isNotEmpty() && message.isNotEmpty() && token.isNotEmpty()){
+                            PushNotification(
+                                NotificationData(title, message),
+                                token
+                            ).also {
+                                sendNotification(it)
+                            }
+                        }
+                    }
+                }
 
             if (accept_checkbox!!.isChecked) {
-                addNewBookBtn!!.visibility = View.VISIBLE
                 if (docID != null) {
                     db.collection("requests").document(docID)
                         .update("checked", true)

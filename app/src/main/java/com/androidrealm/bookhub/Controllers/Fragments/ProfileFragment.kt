@@ -18,6 +18,7 @@ import com.androidrealm.bookhub.R
 import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 
 
 class ProfileFragment : Fragment() {
@@ -31,6 +32,7 @@ class ProfileFragment : Fragment() {
     var SignoutBtn: ImageButton? = null
     var QuizBtn: ImageButton? = null
     var RankBtn: ImageButton? = null
+    var FriendsBtn: ImageButton? = null
     var uid:String = ""
     var Badge2 = "2"
     var TotalBadge:Int? = 0
@@ -63,6 +65,7 @@ class ProfileFragment : Fragment() {
         FavBtn = view.findViewById(R.id.fav_btn_pf)
         ProfileBtn = view.findViewById(R.id.account_btn_pf)
         BookmarkBtn = view.findViewById(R.id.bookmark_btn_pf)
+        FriendsBtn = view.findViewById(R.id.friends_btn_pf)
         username = view.findViewById(R.id.pf_username)
         badge = view.findViewById(R.id.badge_pf)
         point = view.findViewById(R.id.point_prize_pf)
@@ -106,8 +109,13 @@ class ProfileFragment : Fragment() {
         }
 
         ProfileBtn!!.setOnClickListener{
-            val intent = Intent(getActivity(),  UpdateAccActivity::class.java)
-            getActivity()?.startActivity(intent)
+            val intent = Intent(activity,  UpdateAccActivity::class.java)
+            activity?.startActivity(intent)
+        }
+
+        FriendsBtn!!.setOnClickListener {
+            val intent = Intent(activity,  UserFriendsListActivity::class.java)
+            activity?.startActivity(intent)
         }
 
         //Log out
@@ -116,8 +124,19 @@ class ProfileFragment : Fragment() {
             editor.clear()
             editor.apply()
             updateUserStatus("Offline")
+
+            FirebaseMessaging.getInstance().deleteToken().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d("Log out", "Token deleted")
+                    val dbRef = FirebaseFirestore.getInstance().collection("accounts")
+                        .document(uid)
+                    dbRef.update("RecipientToken", "")
+                }
+            }
+
             FirebaseAuth.getInstance().signOut()
             LoginManager.getInstance().logOut()
+
             startActivity(Intent(getActivity(), LoginActivity::class.java))
         }
     }
@@ -126,6 +145,7 @@ class ProfileFragment : Fragment() {
         super.onResume()
         getAcc()
     }
+
 
     private fun updateUserStatus(s: String) {
         val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid

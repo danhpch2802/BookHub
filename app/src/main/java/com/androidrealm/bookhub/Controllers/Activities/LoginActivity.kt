@@ -23,11 +23,13 @@ import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.google.android.gms.common.SignInButton
+import com.google.android.gms.tasks.OnCompleteListener
 
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_login.*
 
 
@@ -111,6 +113,7 @@ class LoginActivity : AppCompatActivity() {
                 progressDialog!!.window!!.setBackgroundDrawableResource(
                     android.R.color.transparent
                 )
+
                 // Create instance and login a user with email and password
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(email, pass)
                     .addOnCompleteListener { task ->
@@ -128,6 +131,8 @@ class LoginActivity : AppCompatActivity() {
                                             ).show()
                                             // Update online status
                                             updateUserStatus()
+                                            // Update RecipientToken
+                                            updateRecipientToken()
                                             // Send user to Homepage Activity
                                             val intentToHomePageActivity =
                                                 Intent(this, HomePageActivity::class.java)
@@ -157,12 +162,6 @@ class LoginActivity : AppCompatActivity() {
                                         ).show()
                                         progressDialog!!.dismiss()
                                     }
-                                    Toast.makeText(
-                                        this,
-                                        "Error! Account Deleted Because Violate User Agreement or Account Not existed",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                    progressDialog!!.dismiss()
                                 }
 
                         } else {
@@ -266,11 +265,15 @@ class LoginActivity : AppCompatActivity() {
                 account["username"] = name!!
                 account["status"] = "Offline"
                 account["FriendsList"] = arrayListOf("")
+                account["RecipientToken"] = ""
 
                 documentRef.set(account)
 
                 // Update user status
                 updateUserStatus()
+
+                //Update Recipient Token
+                updateRecipientToken()
 
                 // Start Homepage Activity
                 val intentToHomePageActivity =
@@ -289,6 +292,18 @@ class LoginActivity : AppCompatActivity() {
         val dbRef = FirebaseFirestore.getInstance().collection("accounts")
             .document(currentUserID)
         dbRef.update("status", "Online")
+    }
+
+    private fun updateRecipientToken() {
+        val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
+        val dbRef = FirebaseFirestore.getInstance().collection("accounts")
+            .document(currentUserID)
+        FirebaseMessaging.getInstance().token.addOnCompleteListener{ task ->
+            if(task.isSuccessful){
+                val token = task.result.toString()
+                dbRef.update("RecipientToken", token)
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -31,7 +31,7 @@
     </com.google.android.material.appbar.MaterialToolbar>
 
     <TextView
-        android:id="@+id/saveChangePass2"
+        android:id="@+id/sendMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -44,7 +44,7 @@
         android:gravity="center"
         android:paddingTop="14dp"
         android:paddingBottom="14dp"
-        android:text="Add Friend"
+        android:text="Send A Message"
         android:textColor="@color/black"
         android:textSize="14sp"
         android:textStyle="bold"

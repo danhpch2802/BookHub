@@ -13,10 +13,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import at.favre.lib.crypto.bcrypt.BCrypt
+import com.androidrealm.bookhub.Controllers.Services.FirebaseService
 import com.androidrealm.bookhub.R
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 
 class SignupActivity : AppCompatActivity() {
     var signupBtn: TextView? = null
@@ -24,6 +27,7 @@ class SignupActivity : AppCompatActivity() {
     var passwordEt: EditText? = null
     var cpasswordEt: EditText? = null
     var emailEt: EditText? = null
+    var token: String ?= null
     var progressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,6 +87,7 @@ class SignupActivity : AppCompatActivity() {
                 progressDialog!!.window!!.setBackgroundDrawableResource(
                     android.R.color.transparent
                 )
+
                 // Create instance and register a user with email and password
                 FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, pass)
                     .addOnCompleteListener { task ->
@@ -109,6 +114,7 @@ class SignupActivity : AppCompatActivity() {
                             account["status"] = "Offline"
                             account["username"] = name
                             account["FriendsList"] = arrayListOf("")
+                            account["RecipientToken"] = ""
 
                             documentRef.set(account)
 
