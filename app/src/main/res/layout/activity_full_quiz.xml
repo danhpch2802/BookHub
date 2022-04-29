@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_golden"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:background="@drawable/seeulater3">
+
+        </FrameLayout>
+
+
+        <TextView
+            android:layout_width="360dp"
+            android:layout_height="170dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="62dp"
+            android:layout_marginTop="70dp"
+            android:layout_marginRight="62dp"
+            android:background="@drawable/black_border_rounded_cornwe"
+            android:text="You have already finished your daily quizzes. Comeback tomorrow."
+            android:gravity="center"
+            android:textSize="30sp"
+            android:textStyle="bold">
+
+        </TextView>
+
+
+        <TextView
+            android:id="@+id/reBtnFullQuiz"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="62dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginRight="62dp"
+            android:background="@drawable/black_fill__rounded_color"
+            android:clickable="true"
+            android:gravity="center"
+            android:minHeight="48dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:text="Return"
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

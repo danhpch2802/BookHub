@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_golden"
+    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
     tools:context=".Controllers.Activities.QuizActivity">
 
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,45 +14,46 @@
     android:layout_height="wrap_content">
     <!-- TODO: Update blank fragment layout -->
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
-        android:fitsSystemWindows="true"
-        app:layout_constraintTop_toTopOf="parent"
-        app:liftOnScroll="true">
+<!--    <com.google.android.material.appbar.AppBarLayout-->
+<!--        android:id="@+id/appBarLayout2"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:backgroundTint="@color/white"-->
+<!--        android:fitsSystemWindows="true"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:liftOnScroll="true">-->
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/topAppbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:menu="@menu/top_app_long">
+<!--        <com.google.android.material.appbar.MaterialToolbar-->
+<!--            android:id="@+id/topAppbar"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="?attr/actionBarSize"-->
+<!--            app:layout_scrollFlags="scroll|enterAlways|snap"-->
+<!--            app:menu="@menu/top_app_long">-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Daily Quiz"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_horizontal"-->
+<!--                android:text="Daily Quiz"-->
+<!--                android:textSize="20sp"-->
+<!--                android:textStyle="bold" />-->
 
-            <ImageView
-                android:layout_width="35dp"
-                android:id="@+id/quizReturn"
-                android:layout_height="35dp"
-                android:layout_gravity="left"
-                android:src="@drawable/ic_back" />
-        </com.google.android.material.appbar.MaterialToolbar>
-    </com.google.android.material.appbar.AppBarLayout>
+<!--            <ImageView-->
+<!--                android:layout_width="35dp"-->
+<!--                android:id="@+id/quizReturn"-->
+<!--                android:layout_height="35dp"-->
+<!--                android:visibility="invisible"-->
+<!--                android:layout_gravity="left"-->
+<!--                android:src="@drawable/ic_back" />-->
+<!--        </com.google.android.material.appbar.MaterialToolbar>-->
+<!--    </com.google.android.material.appbar.AppBarLayout>-->
 
 
     <ImageView
         android:id="@+id/form_Quiz"
         android:layout_width="411dp"
         android:layout_height="393dp"
-        android:layout_marginTop="350dp"
+        android:layout_marginTop="355dp"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
         android:src="@drawable/rectangle"
@@ -62,11 +64,11 @@
 
     <ImageView
         android:id="@+id/questionbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="360dp"
+        android:layout_height="255dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="57dp"
         android:src="@drawable/quizbox"
         app:layout_constraintBottom_toTopOf="@+id/form_Quiz"
         app:layout_constraintEnd_toEndOf="parent"
@@ -222,10 +224,32 @@
         android:layout_marginStart="70dp"
         android:layout_marginBottom="30dp"
         android:textColor="@color/black"
-        android:textSize="14sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/questionbox"
         app:layout_constraintStart_toStartOf="@+id/questionbox"
         tools:text="1" />
+
+    <TextView
+        android:id="@+id/quizCnt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="70dp"
+        android:layout_marginBottom="30dp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/questionbox"
+        app:layout_constraintEnd_toEndOf="@+id/questionbox"
+        tools:text="1" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="70dp"
+        android:layout_marginBottom="30dp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/questionbox"
+        app:layout_constraintStart_toEndOf="@+id/quizCnt"
+        android:text="/5" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

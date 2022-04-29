@@ -19,10 +19,17 @@ import com.androidrealm.bookhub.R
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+<<<<<<< Updated upstream
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
+=======
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
+import java.text.DateFormat.getDateTimeInstance
+import java.text.SimpleDateFormat
+>>>>>>> Stashed changes
 
 class SignupActivity : AppCompatActivity() {
     var signupBtn: TextView? = null
@@ -101,6 +108,8 @@ class SignupActivity : AppCompatActivity() {
 
                             // Save to Firestore
                             val currentUserId = FirebaseAuth.getInstance().currentUser!!.uid
+//                            val format = getDateTimeInstance()
+//                            //val date = format.parse("2000-01-01T09:27:37Z")
                             val documentRef = FirebaseFirestore.getInstance().collection("accounts")
                                 .document(currentUserId)
                             val account: MutableMap<String, Any> = HashMap()
@@ -113,6 +122,8 @@ class SignupActivity : AppCompatActivity() {
                             account["History"] = arrayListOf("")
                             account["Point"] = 0
                             account["Role"] = 1
+                            account["quizCnt"] = 0
+                            account["LastLogin"] = FieldValue.serverTimestamp()
                             account["password"] = passHash
                             account["status"] = "Offline"
                             account["username"] = name
@@ -163,7 +174,7 @@ class SignupActivity : AppCompatActivity() {
             R.anim.slide_in_left,
             R.anim.slide_out_right
         )
-        progressDialog!!.dismiss()
+        //progressDialog!!.dismiss()
         finish()
     }
 }

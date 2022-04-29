@@ -22,10 +22,11 @@ class QuizActivity : AppCompatActivity() {
     var currentDate = cal.get(Calendar.DAY_OF_YEAR)
     var uid: String = ""
     var corAns: String = "123"
-    var reBtn1: ImageView? = null
+    var reBtn1: TextView? = null
     var reBtn2: TextView? = null
     var nextBtn: TextView? = null
     var point: TextView? = null
+    var quizCnt: TextView? = null
     var quiz: TextView? = null
     var op1Btn: Button? = null
     var op2Btn: Button? = null
@@ -34,68 +35,91 @@ class QuizActivity : AppCompatActivity() {
     var quizList: ArrayList<Quiz>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_quiz)
-        quizList = arrayListOf()
         uid = FirebaseAuth.getInstance().currentUser!!.uid
-        reBtn1 = findViewById(R.id.quizReturn)
-        reBtn2 = findViewById(R.id.quizReturn2)
-        nextBtn = findViewById(R.id.nextQuiz)
-        point = findViewById(R.id.quizPoint)
-        quiz = findViewById(R.id.quizQuestion)
-        op1Btn = findViewById(R.id.option1BT)
-        op2Btn = findViewById(R.id.option2BT)
-        op3Btn = findViewById(R.id.option3BT)
-        op4Btn = findViewById(R.id.option4BT)
-
+        var cnt = 0L
         val db2 = FirebaseFirestore.getInstance()
         db2.collection("accounts").document(uid)
             .get().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    var point2 = (task.result["Point"] as Long?)!!
-                    point!!.text = point2.toString()
+                    cnt = (task.result["quizCnt"] as Long?)!!
+                    if (cnt >= 5L)
+                    {
+                        setContentView(R.layout.activity_full_quiz)
+                        reBtn1 = findViewById(R.id.reBtnFullQuiz)
+                        reBtn1!!.setOnClickListener{
+                            finish()
+                        }
+                    }
+
+                    else
+                    {
+                        setContentView(R.layout.activity_quiz)
+                        quizList = arrayListOf()
+
+                        //reBtn1 = findViewById(R.id.quizReturn)
+                        reBtn2 = findViewById(R.id.quizReturn2)
+                        nextBtn = findViewById(R.id.nextQuiz)
+                        point = findViewById(R.id.quizPoint)
+                        quizCnt = findViewById(R.id.quizCnt)
+                        quiz = findViewById(R.id.quizQuestion)
+                        op1Btn = findViewById(R.id.option1BT)
+                        op2Btn = findViewById(R.id.option2BT)
+                        op3Btn = findViewById(R.id.option3BT)
+                        op4Btn = findViewById(R.id.option4BT)
+
+                        db2.collection("accounts").document(uid)
+                            .get().addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    var point2 = (task.result["Point"] as Long?)!!
+                                    var quiz2 = (task.result["quizCnt"] as Long?)!!
+                                    point!!.text = point2.toString()
+                                    quizCnt!!.text = quiz2.toString()
+                                } else {
+                                    onError(task.exception)
+                                }
+                            }
+                        getQuiz()
+
+                        reBtn2!!.setOnClickListener {
+                            finish()
+                        }
+                        op1Btn!!.setOnClickListener {
+                            op2Btn!!.setEnabled(false)
+                            op3Btn!!.setEnabled(false)
+                            op4Btn!!.setEnabled(false)
+                            verifyanswer(op1Btn!!)
+                        }
+
+                        op2Btn!!.setOnClickListener {
+                            op1Btn!!.setEnabled(false)
+                            op3Btn!!.setEnabled(false)
+                            op4Btn!!.setEnabled(false)
+                            verifyanswer(op2Btn!!)
+                        }
+                        op3Btn!!.setOnClickListener {
+                            op2Btn!!.setEnabled(false)
+                            op1Btn!!.setEnabled(false)
+                            op4Btn!!.setEnabled(false)
+                            verifyanswer(op3Btn!!)
+                        }
+                        op4Btn!!.setOnClickListener {
+                            op2Btn!!.setEnabled(false)
+                            op3Btn!!.setEnabled(false)
+                            op1Btn!!.setEnabled(false)
+                            verifyanswer(op4Btn!!)
+                        }
+                        nextBtn!!.setOnClickListener {
+
+                            val intent = Intent(this, QuizActivity::class.java)
+                            startActivity(intent)
+                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                            finish()
+                        }
+                    }
                 } else {
                     onError(task.exception)
                 }
             }
-        getQuiz()
-
-        reBtn2!!.setOnClickListener {
-            finish()
-        }
-        reBtn1!!.setOnClickListener {
-            finish()
-        }
-        op1Btn!!.setOnClickListener {
-            op2Btn!!.setEnabled(false)
-            op3Btn!!.setEnabled(false)
-            op4Btn!!.setEnabled(false)
-            verifyanswer(op1Btn!!)
-        }
-
-        op2Btn!!.setOnClickListener {
-            op1Btn!!.setEnabled(false)
-            op3Btn!!.setEnabled(false)
-            op4Btn!!.setEnabled(false)
-            verifyanswer(op2Btn!!)
-        }
-        op3Btn!!.setOnClickListener {
-            op2Btn!!.setEnabled(false)
-            op1Btn!!.setEnabled(false)
-            op4Btn!!.setEnabled(false)
-            verifyanswer(op3Btn!!)
-        }
-        op4Btn!!.setOnClickListener {
-            op2Btn!!.setEnabled(false)
-            op3Btn!!.setEnabled(false)
-            op1Btn!!.setEnabled(false)
-            verifyanswer(op4Btn!!)
-        }
-        nextBtn!!.setOnClickListener {
-            val intent = Intent(this, QuizActivity::class.java)
-            startActivity(intent)
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-            finish()
-        }
     }
 
 
@@ -145,6 +169,17 @@ class QuizActivity : AppCompatActivity() {
         } else {
             button.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.darkred))
         }
+        val db2 = FirebaseFirestore.getInstance()
+        db2.collection("accounts").document(uid).get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    var cnt2 = (task.result["quizCnt"] as Long?)!!
+                    cnt2++
+                    db2.collection("accounts").document(uid).update("quizCnt", cnt2)
+                } else {
+                    onError(task.exception)
+                }
+            }
         showNextBtn()
     }
 

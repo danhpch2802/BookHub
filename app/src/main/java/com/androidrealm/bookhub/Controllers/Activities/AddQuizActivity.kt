@@ -48,12 +48,13 @@ class AddQuizActivity : AppCompatActivity() {
             newPrize["Result"] = quiz_des4
             newPrize["Question"] = quiz_name
             newPrize["Answer"] = quiz_answer
-            db.collection("quizzes").add(newPrize).addOnSuccessListener { documentReference ->
-                db.collection("quizzes").document(documentReference.id).update("id", documentReference.id)
-            }
-                .addOnFailureListener { e ->
-                    Log.w(ContentValues.TAG, "Error adding document", e)
-                }
+            db.collection("quizzes").add(newPrize)
+//                .addOnSuccessListener { documentReference ->
+//                db.collection("quizzes").document(documentReference.id).update("id", documentReference.id)
+//            }
+//                .addOnFailureListener { e ->
+//                    Log.w(ContentValues.TAG, "Error adding document", e)
+//                }
             //.document(prize_id)
             //.set(newPrize)
             val intents = Intent(this,  QuizListActivity::class.java)

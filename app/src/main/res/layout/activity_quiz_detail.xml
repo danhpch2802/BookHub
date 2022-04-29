@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_golden"
-    app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
     tools:context=".Controllers.Activities.QuizDetailActivity">
 
     <!-- TODO: Update blank fragment layout -->
@@ -51,7 +51,7 @@
         android:id="@+id/form_Quiz"
         android:layout_width="411dp"
         android:layout_height="393dp"
-        android:layout_marginTop="350dp"
+        android:layout_marginTop="355dp"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
         android:src="@drawable/rectangle"

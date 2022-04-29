@@ -1,5 +1,6 @@
 package com.androidrealm.bookhub.Models
 
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
 import java.io.Serializable
 
@@ -15,6 +16,8 @@ class Account(
     var FavoriteList:ArrayList<String> = ArrayList<String>(),
     var FriendsList:ArrayList<String> = ArrayList<String>(),
     var Point:Long?=1,
+    var quizCnt:Long?=1,
+    var LastLogin:Timestamp?= null,
     var password:String?=  "",
     val status: String?="",
     var username:String?= "",

@@ -85,7 +85,6 @@ class HomePageActivity : AppCompatActivity(),Serializable {
                         if (listCategoryChosen.isEmpty()) {
                             for (cat in listCategoryToChoose) {
                                 listCategoryChosen.add(cat)
-
                             }
                         } else {
                             for (i in checkedCategory)
@@ -112,6 +111,7 @@ class HomePageActivity : AppCompatActivity(),Serializable {
         findViewById<BottomNavigationView>(R.id.bottom_navigation).setOnNavigationItemSelectedListener { menuItem ->
             when {
                 menuItem.itemId == R.id.home_item-> {
+                    findViewById<ImageView>(R.id.searchIV).visibility = View.VISIBLE
                     if(location!=1) {
                         appBarLayout2.setTitle("Home")
 
@@ -120,9 +120,9 @@ class HomePageActivity : AppCompatActivity(),Serializable {
                         location=1
                     }
                     return@setOnNavigationItemSelectedListener true
-
                 }
                 menuItem.itemId == R.id.profile_item -> {
+                    findViewById<ImageView>(R.id.searchIV).visibility = View.INVISIBLE
                     if(location!=2) {
                         appBarLayout2.setTitle("Profile")
                         fireStore.collection("accounts").document(uid)
@@ -145,6 +145,7 @@ class HomePageActivity : AppCompatActivity(),Serializable {
                     return@setOnNavigationItemSelectedListener true
                 }
                 menuItem.itemId == R.id.manage_book_item -> {
+                    findViewById<ImageView>(R.id.searchIV).visibility = View.INVISIBLE
                     if(location!=3) {
                         appBarLayout2.setTitle("Request")
                         fireStore.collection("accounts").document(uid)
@@ -167,6 +168,7 @@ class HomePageActivity : AppCompatActivity(),Serializable {
                     return@setOnNavigationItemSelectedListener true
                 }
                 menuItem.itemId == R.id.downloaded_item->{
+                    findViewById<ImageView>(R.id.searchIV).visibility = View.INVISIBLE
                     if(location!=4) {
                         appBarLayout2.setTitle("Download")
                         val fragment: Fragment = DownloadedBookFragment.newInstance()

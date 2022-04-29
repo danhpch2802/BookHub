@@ -2,9 +2,11 @@ package com.androidrealm.bookhub.Controllers.Activities
 
 import android.app.ProgressDialog
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Window
@@ -12,6 +14,7 @@ import android.view.WindowManager
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import at.favre.lib.crypto.bcrypt.BCrypt
 import com.androidrealm.bookhub.R
@@ -28,9 +31,16 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_login.*
+import java.sql.Timestamp
+import java.text.DateFormat.getDateInstance
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.util.*
+import kotlin.collections.HashMap
 
 
 class LoginActivity : AppCompatActivity() {
@@ -47,6 +57,7 @@ class LoginActivity : AppCompatActivity() {
     var loginWithFBBtn: LoginButton? = null
     lateinit var callbackManager: CallbackManager
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -74,6 +85,7 @@ class LoginActivity : AppCompatActivity() {
 
         if (isRemembered) {
             val intent = Intent(this, HomePageActivity::class.java)
+            UpdateLoginDate()
             startActivity(intent)
             //
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
@@ -149,7 +161,7 @@ class LoginActivity : AppCompatActivity() {
                                                 R.anim.slide_in_right,
                                                 R.anim.slide_out_left
                                             )
-                                            //
+                                            UpdateLoginDate()
                                             finish()
                                             break
                                         }
@@ -157,13 +169,21 @@ class LoginActivity : AppCompatActivity() {
                                     if (flag == 0) {
                                         Toast.makeText(
                                             this,
-                                            "Error! Account was Deleted Because Of Violating User Agreement or Account Not existed",
+                                            "Error! Account Was Deleted Because Of Violating User Agreement or Account Not existed",
                                             Toast.LENGTH_SHORT
                                         ).show()
                                         progressDialog!!.dismiss()
                                     }
+<<<<<<< Updated upstream
+=======
+//                                    Toast.makeText(
+//                                        this,
+//                                        "Error! Account Was Deleted Because Violate User Agreement or Account Not existed",
+//                                        Toast.LENGTH_SHORT
+//                                    ).show()
+//                                    progressDialog!!.dismiss()
+>>>>>>> Stashed changes
                                 }
-
                         } else {
                             // If login failed
                             progressDialog!!.dismiss()
@@ -265,7 +285,12 @@ class LoginActivity : AppCompatActivity() {
                 account["username"] = name!!
                 account["status"] = "Offline"
                 account["FriendsList"] = arrayListOf("")
+<<<<<<< Updated upstream
                 account["RecipientToken"] = ""
+=======
+                account["LastLogin"] = FieldValue.serverTimestamp()
+                account["quizCnt"] = 0
+>>>>>>> Stashed changes
 
                 documentRef.set(account)
 
@@ -314,5 +339,37 @@ class LoginActivity : AppCompatActivity() {
     // disable back button pressed
     override fun onBackPressed() {
     }
+    private fun UpdateLoginDate ()
+    {
+        val fireStore = FirebaseFirestore.getInstance()
+        fireStore.collection("accounts").document(FirebaseAuth.getInstance().currentUser!!.uid)
+            .get().addOnSuccessListener { result ->
+                val lastDate = result.get("LastLogin") as com.google.firebase.Timestamp
+                //lastDate.toDate()
+                //Log.d(TAG,  role.toString())
 
+                val current = Calendar.getInstance().time
+                val sdf = getDateInstance()
+                val currentDateString = sdf.format(current)
+                val currentDate = sdf.parse(currentDateString)
+                val lastDateString = sdf.format(lastDate.toDate())
+                val lastDate2 = sdf.parse(lastDateString)
+
+                Log.d(TAG,  "---last " + lastDate.toDate().toString() + "---cur " + currentDate.toString())
+                if (currentDate.after(lastDate2))
+                {
+                    val updates = hashMapOf<String, Any>(
+                        "LastLogin" to FieldValue.serverTimestamp())
+                    val updatesCnt = hashMapOf<String, Any> ("quizCnt" to 0L)
+                    fireStore.collection("accounts").document(FirebaseAuth.getInstance().currentUser!!.uid)
+                        .update(updates).addOnCompleteListener { }
+                    fireStore.collection("accounts").document(FirebaseAuth.getInstance().currentUser!!.uid)
+                        .update(updatesCnt).addOnCompleteListener { }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(ContentValues.TAG, "Error getting documents: ", exception)
+            }
+
+    }
 }
