@@ -20,7 +20,7 @@
             android:id="@+id/topAppbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:menu="@menu/top_app_favorite"
+            app:menu="@menu/top_app_long"
             app:layout_scrollFlags="scroll|enterAlways|snap">
             <TextView
                 android:layout_width="wrap_content"
