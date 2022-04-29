@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.EditText
 import android.widget.ImageView
+import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,11 +16,16 @@ import com.androidrealm.bookhub.Models.Account
 import com.androidrealm.bookhub.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
+import com.google.firebase.firestore.EventListener
+import java.util.*
+import kotlin.collections.ArrayList
 
 class UserAddFriendsActivity: AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var usersList: ArrayList<Account>
+    private lateinit var tempList: ArrayList<Account>
     private lateinit var myAdapter: UserFriendsAdapter
+    private lateinit var searchView: androidx.appcompat.widget.SearchView
     private lateinit var db: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,23 +40,54 @@ class UserAddFriendsActivity: AppCompatActivity() {
         recyclerView = findViewById(R.id.users_list_RV)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
+        searchView = findViewById(R.id.friends_searchView)
     }
 
     override fun onResume() {
         super.onResume()
+        searchView.clearFocus()
         usersList = arrayListOf()
-        myAdapter = UserFriendsAdapter(usersList)
+        tempList = arrayListOf()
+        myAdapter = UserFriendsAdapter(tempList)
 
         recyclerView.adapter = myAdapter
 
         myAdapter.setOnItemClickListener(object : UserFriendsAdapter.onItemClickListener{
             override fun onItemClick(position: Int) {
-                val clickedItem = usersList[position]
+                val clickedItem = tempList[position]
                 val intent = Intent( this@UserAddFriendsActivity,UserAccountDetailActivity::class.java)
                 intent.putExtra("uid", clickedItem.documentId)
                 startActivity(intent)
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             }
+        })
+
+        searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                searchView.clearFocus()
+                return false
+            }
+
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onQueryTextChange(p0: String?): Boolean {
+                tempList.clear()
+                val searchText = p0!!.toLowerCase(Locale.getDefault())
+                if(searchText.isNotEmpty()){
+                    usersList.forEach{
+                        if(it.username!!.toLowerCase(Locale.getDefault()).contains(searchText)){
+                            tempList.add(it)
+                        }
+                    }
+                    myAdapter.notifyDataSetChanged()
+                }
+                else{
+                    tempList.clear()
+                    tempList.addAll(usersList)
+                    myAdapter.notifyDataSetChanged()
+                }
+                return false
+            }
+
         })
 
         checkAllUsersListener()
@@ -69,6 +107,7 @@ class UserAddFriendsActivity: AppCompatActivity() {
                             usersList.add(dc.document.toObject(Account::class.java))
                         }
                     }
+                    tempList.addAll(usersList)
                     myAdapter.notifyDataSetChanged()
                 }
             })

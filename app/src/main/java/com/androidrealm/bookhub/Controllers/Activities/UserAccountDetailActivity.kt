@@ -21,7 +21,6 @@ class UserAccountDetailActivity : AppCompatActivity() {
     var email: TextView? = null
     var friendBtn: TextView?= null
     var reBtn: ImageView?= null
-    var delBtn: TextView?= null
     var uid:String = "ERQnHq5YlmL78h2wDBQX"
     var TotalBadge:Int? = 0
     var Point:Number? = 0
@@ -44,7 +43,6 @@ class UserAccountDetailActivity : AppCompatActivity() {
         point = findViewById(R.id.detail_point_prize2)
         badgeTV = findViewById(R.id.badgeChosen2)
         email = findViewById(R.id.emailAccDetail2)
-        delBtn = findViewById(R.id.deleteFriendBtn)
         reBtn = findViewById(R.id.accDetailReturn2)
         friendBtn = findViewById(R.id.addFriendBtn)
 

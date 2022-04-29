@@ -48,14 +48,18 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <EditText
-            android:id="@+id/friends_searchView"
-            android:layout_width="250dp"
+        <androidx.appcompat.widget.SearchView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text"
-            android:hint="Search for user..."
-            android:layout_gravity="center_horizontal"/>
+            android:id="@+id/friends_searchView"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="16dp"
+            app:defaultQueryHint="Enter username..."
+            app:iconifiedByDefault="false"
+            android:background="@drawable/searchview_background"
+            android:elevation="5dp"
+            app:queryBackground="@android:color/transparent"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/users_list_RV"

@@ -1,5 +1,6 @@
 package com.androidrealm.bookhub.Controllers.Activities
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -13,33 +14,39 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
 class UserDetailActivity : AppCompatActivity() {
-    var avatar: ImageView? = null
+    var AvaBtn: ImageView? = null
     var username: TextView? = null
     var badge: TextView? = null
     var badgeTV: TextView? = null
-    var delBtn: TextView ?= null
     var point: TextView? = null
     var email: TextView? = null
-    private lateinit var db : FirebaseFirestore
-
-    var uid:String = ""
-    var Name:String? = ""
-    var Badge:String? = ""
-    var Email:String? = ""
+    var reBtn: ImageView?= null
+    var delBtn: TextView?= null
+    var uid:String = "ERQnHq5YlmL78h2wDBQX"
     var TotalBadge:Int? = 0
     var Point:Number? = 0
+    var Name:String? = ""
+    var Badge:String? = ""
+    var Badge2:String? = ""
+    var Email:String? = ""
+    var role :Long?=3L
+    private lateinit var db : FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_detail)
 
+        findViewById<ImageView>(R.id.accDetailReturn).setOnClickListener {
+            val intent = Intent(this, UserFriendsListActivity::class.java)
+            startActivity(intent)
+        }
+
         uid = intent.getStringExtra("uid").toString()
-        avatar = findViewById(R.id.detailAccAvatar)
-        username = findViewById(R.id.detailAccUsername)
-        badge = findViewById(R.id.detail_badge_prize)
-        point = findViewById(R.id.detail_point_prize)
-        badgeTV = findViewById(R.id.badgeChosen)
-        email = findViewById(R.id.emailAccDetail)
+        AvaBtn = findViewById(R.id.detailAccAvatar3)
+        username = findViewById(R.id.detailAccUsername3)
+        badge = findViewById(R.id.detail_badge_prize3)
+        point = findViewById(R.id.detail_point_prize3)
+        email = findViewById(R.id.emailAccDetail3)
         delBtn = findViewById(R.id.deleteFriendBtn)
 
         db = FirebaseFirestore.getInstance()
@@ -51,6 +58,8 @@ class UserDetailActivity : AppCompatActivity() {
 
             Toast.makeText(this, "Friend has been deleted from List", Toast.LENGTH_LONG).show()
         }
+
+        getAcc()
     }
 
     override fun onResume() {
@@ -66,22 +75,22 @@ class UserDetailActivity : AppCompatActivity() {
                     // Document found in the offline cache
                     Name = task.result["username"] as String?
                     Email = task.result["Email"] as String?
-                    var ava:String ?= ""
-                    ava = task.result["Avatar"] as String?
-                    when (ava) {
-                        "1" -> avatar!!.setImageResource(R.drawable.amagami_cover)
-                        "2" -> avatar!!.setImageResource(R.drawable.doll_cover)
-                        "3" -> avatar!!.setImageResource(R.drawable.fechippuru_cover)
-                        "4" -> avatar!!.setImageResource(R.drawable.kanojo_cover)
-                        "5" -> avatar!!.setImageResource(R.drawable.komi_cover)
-                        "6" -> avatar!!.setImageResource(R.drawable.meika_cover)
-                        "7" -> avatar!!.setImageResource(R.drawable.mokanojo_cover)
-                        "8" -> avatar!!.setImageResource(R.drawable.tonikaku_cover)
-                        "9" -> avatar!!.setImageResource(R.drawable.yofukashi_cover)
-                        else -> avatar!!.setImageResource(R.drawable.amagami_cover)
+                    var avatar:String ?= ""
+                    avatar = task.result["Avatar"] as String?
+                    when (avatar) {
+                        "1" -> AvaBtn!!.setImageResource(R.drawable.amagami_cover)
+                        "2" -> AvaBtn!!.setImageResource(R.drawable.doll_cover)
+                        "3" -> AvaBtn!!.setImageResource(R.drawable.fechippuru_cover)
+                        "4" -> AvaBtn!!.setImageResource(R.drawable.kanojo_cover)
+                        "5" -> AvaBtn!!.setImageResource(R.drawable.komi_cover)
+                        "6" -> AvaBtn!!.setImageResource(R.drawable.meika_cover)
+                        "7" -> AvaBtn!!.setImageResource(R.drawable.mokanojo_cover)
+                        "8" -> AvaBtn!!.setImageResource(R.drawable.tonikaku_cover)
+                        "9" -> AvaBtn!!.setImageResource(R.drawable.yofukashi_cover)
+                        else -> AvaBtn!!.setImageResource(R.drawable.amagami_cover)
                     }
                     var cnt = 0
-                    for (document in task.result["Badge"] as ArrayList<*>) {
+                    for (document in task.result["BadgeOwn"] as ArrayList<*>) {
                         cnt++
                     }
                     for (document in task.result["Badge"] as ArrayList<*>) {
@@ -90,9 +99,29 @@ class UserDetailActivity : AppCompatActivity() {
                     }
                     TotalBadge = cnt
                     Point =  task.result["Point"] as Number?
+                    role = task.result["Role"] as Long?
                 }
                 else {onError(task.exception)}
-
+                username!!.setText(Name)
+                badge!!.setText(TotalBadge.toString())
+                point!!.setText(Point.toString())
+                val db2 = FirebaseFirestore.getInstance()
+                email!!.setText(Email)
+                if(role == 0L)
+                {
+                    badgeTV!!.setText("Admin")
+                    badgeTV!!.setBackgroundColor(Color.parseColor("#f7971e"))
+                }
+                else{
+                    db2.collection("prizes").document(Badge!!).get().addOnCompleteListener { task2 ->
+                        if (task2.isSuccessful) {
+                            Badge2 = task2.result["prizeName"] as? String
+                        } else {
+                            onError(task2.exception)
+                        }
+                        badgeTV!!.setText(Badge2)
+                    }
+                }
             }
     }
 

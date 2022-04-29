@@ -27,7 +27,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailAccDetail2" />
+        app:layout_constraintTop_toBottomOf="@+id/emailAccDetail3" />
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/topAppbar2"
@@ -74,10 +74,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailAccDetail2" />
+        app:layout_constraintTop_toBottomOf="@+id/emailAccDetail3" />
 
     <TextView
-        android:id="@+id/detail_point_tv2"
+        android:id="@+id/detail_point_tv3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -86,37 +86,22 @@
         android:textAlignment="center"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detailAccUsername2" />
+        app:layout_constraintTop_toBottomOf="@+id/detailAccUsername3" />
 
     <TextView
-        android:id="@+id/detailAccUsername2"
+        android:id="@+id/detailAccUsername3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:hint="Username"
         android:textAlignment="center"
         android:textColor="@color/darkred"
-        android:textSize="35sp"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/badgeChosen2" />
+        app:layout_constraintTop_toBottomOf="@+id/avatarAccDetail3" />
 
     <TextView
-        android:id="@+id/badgeChosen2"
-        android:layout_width="270dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="25dp"
-        android:gravity="center"
-        android:text="BadgeChosen"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/avatarAccDetail" />
-
-    <TextView
-        android:id="@+id/detail_badge_prize2"
+        android:id="@+id/detail_badge_prize3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -124,31 +109,31 @@
         android:text="10"
         android:textAlignment="center"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/detail_img_badge2"
-        app:layout_constraintTop_toBottomOf="@+id/detail_badge_tv2" />
+        app:layout_constraintStart_toEndOf="@+id/detail_img_badge3"
+        app:layout_constraintTop_toBottomOf="@+id/detail_badge_tv3" />
 
     <ImageView
-        android:id="@+id/detail_img_badge2"
+        android:id="@+id/detail_img_badge3"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="50dp"
         android:layout_marginTop="20dp"
         android:src="@drawable/badge"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detailAccUsername2" />
+        app:layout_constraintTop_toBottomOf="@+id/detailAccUsername3" />
 
     <ImageView
-        android:id="@+id/detail_img_point2"
+        android:id="@+id/detail_img_point3"
         android:layout_width="47dp"
         android:layout_height="47dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
         android:src="@drawable/award"
-        app:layout_constraintEnd_toStartOf="@+id/detail_point_tv2"
-        app:layout_constraintTop_toBottomOf="@+id/detailAccUsername2" />
+        app:layout_constraintEnd_toStartOf="@+id/detail_point_tv3"
+        app:layout_constraintTop_toBottomOf="@+id/detailAccUsername3" />
 
     <TextView
-        android:id="@+id/detail_badge_tv2"
+        android:id="@+id/detail_badge_tv3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -156,11 +141,11 @@
         android:text="Badges"
         android:textAlignment="center"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/detail_img_badge2"
-        app:layout_constraintTop_toBottomOf="@+id/detailAccUsername2" />
+        app:layout_constraintStart_toEndOf="@+id/detail_img_badge3"
+        app:layout_constraintTop_toBottomOf="@+id/detailAccUsername3" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/avatarAccDetail"
+        android:id="@+id/avatarAccDetail3"
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:layout_marginTop="100dp"
@@ -178,17 +163,17 @@
             app:cardCornerRadius="250dp">
 
             <ImageView
-                android:id="@+id/detailAccAvatar"
-                tools:ignore="SpeakableTextPresentCheck"
-                tools:srcCompat="@tools:sample/avatars"
+                android:id="@+id/detailAccAvatar3"
                 android:layout_width="135dp"
                 android:layout_height="135dp"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                tools:ignore="SpeakableTextPresentCheck"
+                tools:srcCompat="@tools:sample/avatars" />
         </androidx.cardview.widget.CardView>
     </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/detail_point_prize2"
+        android:id="@+id/detail_point_prize3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -196,11 +181,11 @@
         android:text="1000"
         android:textAlignment="center"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@id/detail_img_point2"
-        app:layout_constraintTop_toBottomOf="@+id/detail_point_tv2" />
+        app:layout_constraintStart_toEndOf="@id/detail_img_point3"
+        app:layout_constraintTop_toBottomOf="@+id/detail_point_tv3" />
 
     <TextView
-        android:id="@+id/emailAccDetail2"
+        android:id="@+id/emailAccDetail3"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
@@ -210,5 +195,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detailAccUsername2" />
+        app:layout_constraintTop_toBottomOf="@+id/detailAccUsername3" />
 </androidx.constraintlayout.widget.ConstraintLayout>
