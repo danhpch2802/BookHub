@@ -185,7 +185,7 @@
 
 
     <TextView
-        android:id="@+id/saveFriendPass2"
+        android:id="@+id/addFriendBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -200,29 +200,6 @@
         android:paddingBottom="14dp"
         android:text="Add Friend"
         android:textColor="@color/black"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailAccDetail2" />
-
-    <TextView
-        android:id="@+id/delAccButton2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="88dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/black_fill__rounded_color"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="center"
-        android:minHeight="48dp"
-        android:paddingTop="14dp"
-        android:paddingBottom="14dp"
-        android:text="Delete Friend"
-        android:textColor="#ffffff"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

@@ -14,10 +14,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import at.favre.lib.crypto.bcrypt.BCrypt
 import com.androidrealm.bookhub.Controllers.Services.FirebaseService
+import com.androidrealm.bookhub.Models.Account
 import com.androidrealm.bookhub.R
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
 
@@ -27,7 +30,7 @@ class SignupActivity : AppCompatActivity() {
     var passwordEt: EditText? = null
     var cpasswordEt: EditText? = null
     var emailEt: EditText? = null
-    var token: String ?= null
+    private lateinit var mDbRef: DatabaseReference
     var progressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -118,6 +121,9 @@ class SignupActivity : AppCompatActivity() {
 
                             documentRef.set(account)
 
+                            // Save to Firebase Database
+                            addUserToRealtimeDatabase(name, email, currentUserId)
+
                             // Return to Login Page
                             val intentToLoginActivity =
                                 Intent(this@SignupActivity, LoginActivity::class.java)
@@ -143,6 +149,10 @@ class SignupActivity : AppCompatActivity() {
                     }
             }
         }
+    }
+
+    private fun addUserToRealtimeDatabase(name: String, email: String, currentUserId: String) {
+        //Not yet
     }
 
     override fun onBackPressed() {

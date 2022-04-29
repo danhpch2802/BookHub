@@ -4,10 +4,12 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.androidrealm.bookhub.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
 class UserAccountDetailActivity : AppCompatActivity() {
@@ -28,9 +30,12 @@ class UserAccountDetailActivity : AppCompatActivity() {
     var Badge2:String? = ""
     var Email:String? = ""
     var role :Long?=3L
+    private lateinit var db: FirebaseFirestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_account_detail)
+
+        db = FirebaseFirestore.getInstance()
 
         uid = intent.getStringExtra("uid").toString()
         AvaBtn = findViewById(R.id.detailAccAvatar2)
@@ -39,12 +44,20 @@ class UserAccountDetailActivity : AppCompatActivity() {
         point = findViewById(R.id.detail_point_prize2)
         badgeTV = findViewById(R.id.badgeChosen2)
         email = findViewById(R.id.emailAccDetail2)
-        delBtn = findViewById(R.id.delAccButton2)
+        delBtn = findViewById(R.id.deleteFriendBtn)
         reBtn = findViewById(R.id.accDetailReturn2)
-        friendBtn = findViewById(R.id.saveFriendPass2)
+        friendBtn = findViewById(R.id.addFriendBtn)
 
         reBtn!!.setOnClickListener{
             finish()
+        }
+
+        friendBtn!!.setOnClickListener{
+            val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
+            db.collection("accounts").document(currentUserID)
+                .update("FriendsList", FieldValue.arrayUnion(uid))
+
+            Toast.makeText(this, "Friend has been added to List", Toast.LENGTH_LONG).show()
         }
 
         getAcc()
