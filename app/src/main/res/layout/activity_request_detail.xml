@@ -230,6 +230,27 @@
                 android:text="@string/accept_request"/>
 
             <TextView
+                android:id="@+id/addNewBookBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:layout_marginLeft="62dp"
+                android:layout_marginTop="19dp"
+                android:layout_marginRight="62dp"
+                android:background="@drawable/green_fill__rounded_cornwe"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:minHeight="48dp"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
+                android:text="Add new book here..."
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
                 android:id="@+id/doneBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
