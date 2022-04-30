@@ -51,7 +51,7 @@
         <androidx.appcompat.widget.SearchView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/friends_searchView"
+            android:id="@+id/user_friends_searchView"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="16dp"
@@ -62,7 +62,7 @@
             app:queryBackground="@android:color/transparent"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/users_list_RV"
+            android:id="@+id/friends_RV"
             android:layout_width="match_parent"
             android:layout_height="540dp"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">

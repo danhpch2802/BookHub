@@ -41,17 +41,18 @@ class UserFriendsListActivity: AppCompatActivity() {
 
 
         db = FirebaseFirestore.getInstance()
-        recyclerView = findViewById(R.id.users_list_RV)
+        recyclerView = findViewById(R.id.friends_RV)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
-        searchView = findViewById(R.id.friends_searchView)
+        searchView = findViewById(R.id.user_friends_searchView)
     }
 
     override fun onResume() {
         super.onResume()
+        searchView.clearFocus()
         usersList = arrayListOf()
         tempList = arrayListOf()
-        myAdapter = UserFriendsAdapter(usersList)
+        myAdapter = UserFriendsAdapter(tempList)
 
         recyclerView.adapter = myAdapter
 
@@ -62,7 +63,6 @@ class UserFriendsListActivity: AppCompatActivity() {
                 intent.putExtra("uid", clickedItem.documentId)
                 startActivity(intent)
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-                finish()
             }
         })
 

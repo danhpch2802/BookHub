@@ -4,17 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.EditText
 import android.widget.ImageView
-import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.androidrealm.bookhub.Adapter.RankAdapter
 import com.androidrealm.bookhub.Adapter.UserFriendsAdapter
 import com.androidrealm.bookhub.Models.Account
 import com.androidrealm.bookhub.R
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
 import java.util.*

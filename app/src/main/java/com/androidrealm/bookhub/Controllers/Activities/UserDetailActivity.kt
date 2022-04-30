@@ -46,6 +46,7 @@ class UserDetailActivity : AppCompatActivity() {
         username = findViewById(R.id.detailAccUsername3)
         badge = findViewById(R.id.detail_badge_prize3)
         point = findViewById(R.id.detail_point_prize3)
+        badgeTV = findViewById(R.id.badgeChosen3)
         email = findViewById(R.id.emailAccDetail3)
         delBtn = findViewById(R.id.deleteFriendBtn)
 
