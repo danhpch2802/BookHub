@@ -12,21 +12,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:id="@+id/message_root"
         android:background="@drawable/rect_round_primary_color">
 
         <TextView
-            android:id="@+id/textView_message_text"
+            android:id="@+id/textView_message_sent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxWidth="250dp"
             android:minWidth="120dp"
-            android:padding="5dp"
+            android:padding="7dp"
             android:paddingStart="8dp"
-            android:paddingEnd="8dp"
             android:paddingTop="4dp"
-            android:textColor="@color/black"
-            android:text="Hello"/>
+            android:paddingEnd="8dp"
+            android:textSize="18sp"
+            android:text="Sent message"
+            android:textColor="@color/white" />
     </RelativeLayout>
 
 </FrameLayout>

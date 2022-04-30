@@ -22,6 +22,7 @@ class UserDetailActivity : AppCompatActivity() {
     var email: TextView? = null
     var reBtn: ImageView?= null
     var delBtn: TextView?= null
+    var chatBtn: TextView?= null
     var uid:String = "ERQnHq5YlmL78h2wDBQX"
     var TotalBadge:Int? = 0
     var Point:Number? = 0
@@ -37,8 +38,7 @@ class UserDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_user_detail)
 
         findViewById<ImageView>(R.id.accDetailReturn).setOnClickListener {
-            val intent = Intent(this, UserFriendsListActivity::class.java)
-            startActivity(intent)
+            onBackPressed()
         }
 
         uid = intent.getStringExtra("uid").toString()
@@ -49,6 +49,7 @@ class UserDetailActivity : AppCompatActivity() {
         badgeTV = findViewById(R.id.badgeChosen3)
         email = findViewById(R.id.emailAccDetail3)
         delBtn = findViewById(R.id.deleteFriendBtn)
+        chatBtn = findViewById(R.id.sendMessage)
 
         db = FirebaseFirestore.getInstance()
 
@@ -58,6 +59,17 @@ class UserDetailActivity : AppCompatActivity() {
                 .update("FriendsList", FieldValue.arrayRemove(uid))
 
             Toast.makeText(this, "Friend has been deleted from List", Toast.LENGTH_LONG).show()
+            finish()
+        }
+
+        chatBtn!!.setOnClickListener {
+            val intent = Intent(this, MessageActivity::class.java)
+
+            intent.putExtra("name", username!!.text)
+            intent.putExtra("uid", uid)
+
+            startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
 
         getAcc()

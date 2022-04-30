@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,9 +21,7 @@ import kotlin.collections.ArrayList
 class UserFriendsListActivity: AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var usersList: ArrayList<Account>
-    private lateinit var tempList: ArrayList<Account>
     private lateinit var myAdapter: UserFriendsAdapter
-    private lateinit var searchView: androidx.appcompat.widget.SearchView
     private lateinit var db: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,59 +38,27 @@ class UserFriendsListActivity: AppCompatActivity() {
             startActivity(intent)
         }
 
-
         db = FirebaseFirestore.getInstance()
         recyclerView = findViewById(R.id.friends_RV)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
-        searchView = findViewById(R.id.user_friends_searchView)
     }
 
     override fun onResume() {
         super.onResume()
-        searchView.clearFocus()
         usersList = arrayListOf()
-        tempList = arrayListOf()
-        myAdapter = UserFriendsAdapter(tempList)
+        myAdapter = UserFriendsAdapter(usersList)
 
         recyclerView.adapter = myAdapter
 
         myAdapter.setOnItemClickListener(object : UserFriendsAdapter.onItemClickListener{
             override fun onItemClick(position: Int) {
-                val clickedItem = tempList[position]
+                val clickedItem = usersList[position]
                 val intent = Intent(this@UserFriendsListActivity, UserDetailActivity::class.java)
                 intent.putExtra("uid", clickedItem.documentId)
                 startActivity(intent)
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             }
-        })
-
-        searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener{
-            override fun onQueryTextSubmit(p0: String?): Boolean {
-                searchView.clearFocus()
-                return false
-            }
-
-            @SuppressLint("NotifyDataSetChanged")
-            override fun onQueryTextChange(p0: String?): Boolean {
-                tempList.clear()
-                val searchText = p0!!.toLowerCase(Locale.getDefault())
-                if(searchText.isNotEmpty()){
-                    usersList.forEach{
-                        if(it.username!!.toLowerCase(Locale.getDefault()).contains(searchText)){
-                            tempList.add(it)
-                        }
-                    }
-                    myAdapter.notifyDataSetChanged()
-                }
-                else{
-                    tempList.clear()
-                    tempList.addAll(usersList)
-                    myAdapter.notifyDataSetChanged()
-                }
-                return false
-            }
-
         })
 
         getFriendsList()
@@ -104,24 +71,29 @@ class UserFriendsListActivity: AppCompatActivity() {
             .addOnCompleteListener { task ->
                 if(task.isSuccessful){
                     for (friendID in task.result["FriendsList"] as ArrayList<*>) {
-                        //get friend list
-                        db.collection("accounts").whereEqualTo(FieldPath.documentId(), friendID)
-                            .addSnapshotListener(object : EventListener<QuerySnapshot> {
-                                @SuppressLint("NotifyDataSetChanged")
-                                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
-                                    if (error != null){
-                                        Log.e("Firestore Error", error.message.toString())
-                                        return
-                                    }
-                                    for (dc: DocumentChange in value?.documentChanges!!){
-                                        if (dc.type == DocumentChange.Type.ADDED){
-                                            usersList.add(dc.document.toObject(Account::class.java))
+                        //check if friend list is empty
+                        if ((task.result["FriendsList"] as ArrayList<*>).size == 1 && friendID == "") {
+                            Toast.makeText(this, "Your Friend List is empty. Let's add some Friends!!", Toast.LENGTH_LONG).show()
+                        }
+                        else{
+                            //get friend list
+                            db.collection("accounts").whereEqualTo(FieldPath.documentId(), friendID)
+                                .addSnapshotListener(object : EventListener<QuerySnapshot> {
+                                    @SuppressLint("NotifyDataSetChanged")
+                                    override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                                        if (error != null){
+                                            Log.e("Firestore Error", error.message.toString())
+                                            return
                                         }
+                                        for (dc: DocumentChange in value?.documentChanges!!){
+                                            if (dc.type == DocumentChange.Type.ADDED){
+                                                usersList.add(dc.document.toObject(Account::class.java))
+                                            }
+                                        }
+                                        myAdapter.notifyDataSetChanged()
                                     }
-                                    tempList.addAll(usersList)
-                                    myAdapter.notifyDataSetChanged()
-                                }
-                            })
+                                })
+                        }
                     }
                 }
             }

@@ -154,11 +154,14 @@
             android:name=".Controllers.Activities.UserRequestListActivity"
             android:exported="false" />
         <activity android:name=".Controllers.Activities.UserAddFriendsActivity"
-            android:exported="true"/>
+            android:exported="false"/>
         <activity android:name=".Controllers.Activities.UserDetailActivity"
-            android:exported="true"/>
+            android:exported="false"/>
         <activity android:name=".Controllers.Activities.UserFriendsListActivity"
-            android:exported="true"/>
+            android:exported="false"/>
+        <activity android:name=".Controllers.Activities.MessageActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
+            android:exported="false"/>
     </application>
 
 </manifest>

@@ -16,6 +16,7 @@ import com.google.firebase.ktx.Firebase
 class AccountDetailActivity : AppCompatActivity() {
     var AvaBtn: ImageView? = null
     var username: EditText? = null
+    var sendMessageBtn: ImageView? = null
     var badge: TextView? = null
     var badgeTV: TextView? = null
     var point: TextView? = null
@@ -38,6 +39,7 @@ class AccountDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_account_detail)
 
         uid = intent.getStringExtra("uid").toString()
+        sendMessageBtn = findViewById(R.id.sendMessage2)
         AvaBtn = findViewById(R.id.detailAccAvatar)
         username = findViewById(R.id.detailAccUsername)
         badge = findViewById(R.id.detail_badge_prize)
@@ -102,6 +104,15 @@ class AccountDetailActivity : AppCompatActivity() {
                         }
                     }
                 }
+        }
+        sendMessageBtn!!.setOnClickListener {
+            val intent = Intent(this, MessageActivity::class.java)
+
+            intent.putExtra("name", username!!.text)
+            intent.putExtra("uid", uid)
+
+            startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
     }
 

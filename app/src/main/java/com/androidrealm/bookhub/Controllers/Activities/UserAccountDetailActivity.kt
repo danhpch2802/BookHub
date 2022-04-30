@@ -15,6 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class UserAccountDetailActivity : AppCompatActivity() {
     val TAG = "RequestDetailActivity"
+    var friendTV: TextView? = null
     var AvaBtn: ImageView? = null
     var username: TextView? = null
     var badge: TextView? = null
@@ -41,7 +42,9 @@ class UserAccountDetailActivity : AppCompatActivity() {
         val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
 
         uid = intent.getStringExtra("uid").toString()
+
         AvaBtn = findViewById(R.id.detailAccAvatar2)
+        friendTV = findViewById(R.id.friend)
         username = findViewById(R.id.detailAccUsername2)
         badge = findViewById(R.id.detail_badge_prize2)
         point = findViewById(R.id.detail_point_prize2)
@@ -51,39 +54,83 @@ class UserAccountDetailActivity : AppCompatActivity() {
         friendBtn = findViewById(R.id.addFriendBtn)
         friendAddedBtn = findViewById(R.id.friendAdded)
 
-        //Check if user already in Friend List
-        var foundInFriendList = 0
-        db.collection("accounts").document(currentUserID).get()
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    val data = it.result
-                    for (i in data["FriendsList"] as ArrayList<*>) {
-                        if (uid == i.toString()) foundInFriendList++
-                        Log.d("uidClicked: ", uid)
-                        Log.d("found: ", i.toString())
-                    }
+        //Check if user click is the user himself
+        if(currentUserID == uid){
+            friendTV!!.text = "You"
+            friendAddedBtn!!.visibility = View.GONE
+            friendBtn!!.visibility = View.GONE
+        }
+        else{
+            //Check if user already in Friend List
+            var foundInFriendList = 0
+            db.collection("accounts").document(currentUserID).get()
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        val data = it.result
+                        for (i in data["FriendsList"] as ArrayList<*>) {
+                            if (uid == i.toString()) foundInFriendList++
+                            Log.d("uidClicked: ", uid)
+                            Log.d("found: ", i.toString())
+                        }
 
-                    if (foundInFriendList != 0) {
-                        // Exist, gone the add friend, visible the added
-                        friendAddedBtn!!.visibility = View.VISIBLE
-                        friendBtn!!.visibility = View.GONE
-                    }
-                    else{
-                        //Not exist, visible the add friend, gone the added
-                        friendAddedBtn!!.visibility = View.GONE
-                        friendBtn!!.visibility = View.VISIBLE
+                        if (foundInFriendList != 0) {
+                            // Exist, gone the add friend, visible the added
+                            friendAddedBtn!!.visibility = View.VISIBLE
+                            friendBtn!!.visibility = View.GONE
+                        }
+                        else{
+                            //Not exist, visible the add friend, gone the added
+                            friendAddedBtn!!.visibility = View.GONE
+                            friendBtn!!.visibility = View.VISIBLE
+                        }
                     }
                 }
-            }
+        }
 
         reBtn!!.setOnClickListener {
             finish()
         }
 
         friendBtn!!.setOnClickListener {
-            //Add user to Friend List in Firestore
-            db.collection("accounts").document(currentUserID)
-                .update("FriendsList", FieldValue.arrayUnion(uid))
+            //Check if first field is empty
+            FirebaseFirestore.getInstance().collection("accounts")
+                .document(currentUserID).get()
+                .addOnCompleteListener { document ->
+                    val data = document.result
+                    val frList = data["FriendsList"] as ArrayList<*>
+                    if(frList.size == 1 && frList[0] == ""){
+                        // is Empty
+                        db.collection("accounts").document(currentUserID)
+                            .update("FriendsList", FieldValue.arrayRemove(""))
+                        db.collection("accounts").document(currentUserID)
+                            .update("FriendsList", FieldValue.arrayUnion(uid))
+                    }
+                    else{
+                        //Add user to Friend List in Firestore
+                        db.collection("accounts").document(currentUserID)
+                            .update("FriendsList", FieldValue.arrayUnion(uid))
+                    }
+                }
+
+            //Check if first field of the other user is empty
+            FirebaseFirestore.getInstance().collection("accounts")
+                .document(uid).get()
+                .addOnCompleteListener { document ->
+                    val data = document.result
+                    val frList = data["FriendsList"] as ArrayList<*>
+                    if(frList.size == 1 && frList[0] == ""){
+                        // is Empty
+                        db.collection("accounts").document(uid)
+                            .update("FriendsList", FieldValue.arrayRemove(""))
+                        db.collection("accounts").document(uid)
+                            .update("FriendsList", FieldValue.arrayUnion(currentUserID))
+                    }
+                    else{
+                        //Add current user to other user's Friend List in Firestore
+                        db.collection("accounts").document(uid)
+                            .update("FriendsList", FieldValue.arrayUnion(currentUserID))
+                    }
+                }
 
             Toast.makeText(
                 this,

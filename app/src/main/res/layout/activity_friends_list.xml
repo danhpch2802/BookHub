@@ -48,19 +48,6 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.appcompat.widget.SearchView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/user_friends_searchView"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="16dp"
-            app:defaultQueryHint="Enter username..."
-            app:iconifiedByDefault="false"
-            android:background="@drawable/searchview_background"
-            android:elevation="5dp"
-            app:queryBackground="@android:color/transparent"/>
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/friends_RV"
             android:layout_width="match_parent"

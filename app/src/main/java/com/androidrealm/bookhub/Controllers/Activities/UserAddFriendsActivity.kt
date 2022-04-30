@@ -41,6 +41,7 @@ class UserAddFriendsActivity: AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        searchView.setQuery("", false)
         searchView.clearFocus()
         usersList = arrayListOf()
         tempList = arrayListOf()
