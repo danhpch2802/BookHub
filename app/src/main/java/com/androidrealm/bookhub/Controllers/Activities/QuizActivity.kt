@@ -73,7 +73,7 @@ class QuizActivity : AppCompatActivity() {
                                     var point2 = (task.result["Point"] as Long?)!!
                                     var quiz2 = (task.result["quizCnt"] as Long?)!!
                                     point!!.text = point2.toString()
-                                    quizCnt!!.text = quiz2.toString()
+                                    quizCnt!!.text = (quiz2 + 1L).toString()
                                 } else {
                                     onError(task.exception)
                                 }

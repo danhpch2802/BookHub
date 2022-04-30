@@ -75,12 +75,10 @@ class LoginActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE)
         isRemembered = sharedPreferences.getBoolean("CHECKBOX", false)
         loginBtn = findViewById(R.id.loginBtn)
-
         forPasBtn = findViewById(R.id.forgotPasswordBtn)
         registerBtn = findViewById(R.id.registerBtn1)
         emailEt = findViewById(R.id.emailETLogin)
         passwordEt = findViewById(R.id.passwordETLogin)
-
         loginWithFBBtn = findViewById(R.id.fb_login)
 
         if (isRemembered) {
@@ -96,7 +94,9 @@ class LoginActivity : AppCompatActivity() {
         callbackManager = CallbackManager.Factory.create()
         loginWithFBBtn!!.setReadPermissions("email", "public_profile", "user_friends")
         loginWithFBBtn!!.setOnClickListener {
+
             fbSignIn()
+
         }
 
         loginBtn!!.setOnClickListener {
@@ -254,39 +254,61 @@ class LoginActivity : AppCompatActivity() {
 
                 //Get email & Facebook username
                 val email = result.user!!.email
+                val fbid = result.user!!.uid
+                Log.d(TAG, "Error getting documents: " + fbid)
                 val name = result.user!!.displayName
                 val pass = accessToken.userId
                 val passHash = BCrypt.withDefaults().hashToString(12, pass.toCharArray())
-
+                var flag = 0
                 // Save Facebook User to Firestore
+
                 val currentUserId = FirebaseAuth.getInstance().currentUser!!.uid
                 val documentRef = FirebaseFirestore.getInstance().collection("accounts")
                     .document(currentUserId)
-                val account: MutableMap<String, Any> = HashMap()
-                account["Avatar"] = "1"
-                account["Badge"] = arrayListOf("s1")
-                account["BadgeUnown"] = badgee
-                account["BadgeOwn"] = arrayListOf("s1")
-                account["Email"] = email!!
-                account["FavoriteList"] = arrayListOf("")
-                account["History"] = arrayListOf("")
-                account["Point"] = 0
-                account["Role"] = 1
-                account["password"] = passHash
-                account["username"] = name!!
-                account["status"] = "Offline"
-                account["FriendsList"] = arrayListOf("")
-                account["RecipientToken"] = ""
-                account["LastLogin"] = FieldValue.serverTimestamp()
-                account["quizCnt"] = 0
+                val dbx = FirebaseFirestore.getInstance().collection("accounts")
+                    .document(currentUserId).get().addOnCompleteListener { task ->
+                        // If login successful
+                        if (task.isSuccessful) {
+                            FirebaseFirestore.getInstance().collection("accounts").get().addOnSuccessListener { result ->
+                                for (documents in result) {
+                                    if (documents.id == fbid) {
+                                        flag = 1
+                                    }
 
-                documentRef.set(account)
+                                }
+                                if (flag == 0) {
+                                    val account: MutableMap<String, Any> = HashMap()
+                                    account["Avatar"] = "1"
+                                    account["Badge"] = arrayListOf("s1")
+                                    account["BadgeUnown"] = badgee
+                                    account["BadgeOwn"] = arrayListOf("s1")
+                                    account["Email"] = email!!
+                                    account["FavoriteList"] = arrayListOf("")
+                                    account["History"] = arrayListOf("")
+                                    account["Point"] = 0
+                                    account["Role"] = 1
+                                    account["password"] = passHash
+                                    account["username"] = name!!
+                                    account["status"] = "Offline"
+                                    account["FriendsList"] = arrayListOf("")
+                                    account["RecipientToken"] = ""
+                                    account["LastLogin"] = FieldValue.serverTimestamp()
+                                    account["quizCnt"] = 0
+                                    documentRef.set(account)
+                                }
 
-                // Update user status
-                updateUserStatus()
+                                // Update user status
+                                updateUserStatus()
 
-                //Update Recipient Token
-                updateRecipientToken()
+                                //Update Recipient Token
+                                updateRecipientToken()
+                            }
+                        } else {
+                            Toast.makeText(
+                                this, task.exception!!.message.toString(), Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
 
                 // Start Homepage Activity
                 val intentToHomePageActivity =
@@ -343,8 +365,8 @@ class LoginActivity : AppCompatActivity() {
                 val lastDateString = sdf.format(lastDate.toDate())
                 val lastDate2 = sdf.parse(lastDateString)
 
-                Log.d(TAG,  "---last " + lastDate.toDate().toString() + "---cur " + currentDate.toString())
-                if (currentDate.after(lastDate2))
+                // Log.d(TAG,  "---last " + lastDate.toDate().toString() + "---cur " + currentDate!!.toString())
+                if (currentDate!!.after(lastDate2))
                 {
                     val updates = hashMapOf<String, Any>(
                         "LastLogin" to FieldValue.serverTimestamp())

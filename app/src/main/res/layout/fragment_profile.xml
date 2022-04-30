@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="wrap_content" >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -43,7 +43,7 @@
 
         <TextView
             android:id="@+id/pf_username"
-            android:layout_width="wrap_content"
+            android:layout_width="257dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="Username"
@@ -58,7 +58,7 @@
             android:id="@+id/pf_prize"
             android:layout_width="170dp"
             android:layout_height="32dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="35dp"
             android:background="@color/gray"
             android:text="Title"
             android:gravity="center"
@@ -138,22 +138,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="75dp"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="70dp"
             android:background="@color/white"
             android:src="@drawable/view_bookmarks_button"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/pf_prize" />
 
         <ImageButton
             android:id="@+id/fav_btn_pf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="70dp"
             android:layout_marginEnd="75dp"
             android:background="@color/white"
             android:src="@drawable/rewards_button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@id/pf_prize"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageButton
@@ -244,12 +244,12 @@
             android:id="@+id/imageViewSeperator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="177dp"
+            android:layout_marginTop="40dp"
             android:background="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@id/pf_prize"
             app:srcCompat="@drawable/separator" />
 
         <TextView
