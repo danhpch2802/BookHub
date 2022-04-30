@@ -94,7 +94,7 @@ class LoginActivity : AppCompatActivity() {
 
         // Facebook
         callbackManager = CallbackManager.Factory.create()
-        loginWithFBBtn!!.setReadPermissions("email")
+        loginWithFBBtn!!.setReadPermissions("email", "public_profile", "user_friends")
         loginWithFBBtn!!.setOnClickListener {
             fbSignIn()
         }

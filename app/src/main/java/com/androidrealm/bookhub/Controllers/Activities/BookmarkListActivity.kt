@@ -30,7 +30,15 @@ class BookmarkListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bookmark_list)
+        val backIC = findViewById<ImageView>(R.id.backBookmarkIV)
 
+        backIC.setOnClickListener {
+            this.finish()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
         bookmarkRW = findViewById(R.id.bookmarkRW)
 
         var fireStore = FirebaseFirestore.getInstance()
@@ -51,7 +59,7 @@ class BookmarkListActivity : AppCompatActivity() {
                     listBookmark.add(bookmarkGet)
                     Log.i("testBookmark", bookmarkGet.chapterName.toString())
                 }
-                  var bookmarkAdapter = BookmarkAdapter(listBookmark)
+                var bookmarkAdapter = BookmarkAdapter(listBookmark)
                 bookmarkAdapter.onItemClick={
                         bookmark->
 
@@ -66,12 +74,7 @@ class BookmarkListActivity : AppCompatActivity() {
                 }
                 bookmarkRW!!.adapter = bookmarkAdapter
                 bookmarkRW!!.layoutManager = LinearLayoutManager(this)
-        }
-        val backIC = findViewById<ImageView>(R.id.backBookmarkIV)
-
-        backIC.setOnClickListener {
-            this.finish()
-        }
+            }
     }
 
     private fun updatePointAfterChapterClick( idAccount : String) {

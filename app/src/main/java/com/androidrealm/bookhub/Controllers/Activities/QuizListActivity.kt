@@ -40,7 +40,6 @@ class QuizListActivity : AppCompatActivity() {
         newQuizBtn!!.setOnClickListener{
             val intents = Intent(this,  AddQuizActivity::class.java)
             startActivity(intents)
-            finish()
         }
     }
 
