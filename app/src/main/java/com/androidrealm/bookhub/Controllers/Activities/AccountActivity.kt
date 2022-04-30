@@ -32,6 +32,11 @@ class AccountActivity : AppCompatActivity() {
         recyclerView!!.setHasFixedSize(true)
         recyclerView!!.layoutManager = LinearLayoutManager(this)
 
+
+    }
+
+    override fun onResume(){
+        super.onResume()
         accountList = arrayListOf()
         myAdapter = AccountAdapter(accountList!!)
         recyclerView!!.adapter = myAdapter
@@ -54,10 +59,6 @@ class AccountActivity : AppCompatActivity() {
 
         getDB()
     }
-
-//    override fun onResume(){
-//        super.onResume()
-//    }
 
     private fun getDB() {
         db = FirebaseFirestore.getInstance()

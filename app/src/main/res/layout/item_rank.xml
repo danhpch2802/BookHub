@@ -63,9 +63,10 @@
 
         <TextView
             android:id="@+id/topName"
-            android:layout_width="wrap_content"
+            android:layout_width="155dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center"
+            android:layout_marginStart="150dp"
+            android:layout_gravity="center_vertical"
             android:ellipsize="end"
             android:maxLines="1"
             android:singleLine="true"

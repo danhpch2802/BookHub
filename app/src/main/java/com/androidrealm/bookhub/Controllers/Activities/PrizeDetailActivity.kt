@@ -95,11 +95,6 @@ class PrizeDetailActivity : AppCompatActivity() {
             }
     }
 
-    override fun onResume()
-    {
-        super.onResume()
-        getPrize()
-    }
 
     fun getPrize () {
         val db = FirebaseFirestore.getInstance()

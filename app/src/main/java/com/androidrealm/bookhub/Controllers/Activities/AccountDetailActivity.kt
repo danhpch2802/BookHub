@@ -4,6 +4,7 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -38,6 +39,11 @@ class AccountDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_detail)
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         uid = intent.getStringExtra("uid").toString()
         sendMessageBtn = findViewById(R.id.sendMessage2)
         AvaBtn = findViewById(R.id.detailAccAvatar)
@@ -65,10 +71,10 @@ class AccountDetailActivity : AppCompatActivity() {
                     if (role == 0L)
                     {Toast.makeText(this, "This is an admin!!", Toast.LENGTH_SHORT).show()}
                     else {
-                    delAcc(uid)
-                    val intents = Intent(this, AccountActivity::class.java)
-                    startActivity(intents)
-                    finish()
+                        delAcc(uid)
+                        val intents = Intent(this, AccountActivity::class.java)
+                        startActivity(intents)
+                        finish()
                     }
                 }
 
@@ -98,9 +104,12 @@ class AccountDetailActivity : AppCompatActivity() {
                         {
                             setAcc(name, email)
                             Toast.makeText(this, "Edit Successfully!", Toast.LENGTH_SHORT).show()
-                            val intent = Intent(this,  AccountActivity::class.java)
-                            startActivity(intent)
-                            finish()
+                            Handler().postDelayed({
+                                val intent = Intent(this,  AccountActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            }, 1000)
+
                         }
                     }
                 }
@@ -114,11 +123,6 @@ class AccountDetailActivity : AppCompatActivity() {
             startActivity(intent)
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        getAcc()
     }
 //
     fun getAcc () {
