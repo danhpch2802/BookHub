@@ -5,15 +5,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.androidrealm.bookhub.Adapter.PrizeAdapter
 import com.androidrealm.bookhub.Adapter.RankAdapter
-import com.androidrealm.bookhub.Adapter.RequestAdapter
 import com.androidrealm.bookhub.Models.Account
-import com.androidrealm.bookhub.Models.Request
 import com.androidrealm.bookhub.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
@@ -24,6 +22,8 @@ class RankActivity : AppCompatActivity() {
     var top1Ava: ImageView? = null
     var myAva: ImageView? = null
     var myRank: TextView? = null
+    var pointRank: TextView? = null
+    var badgeRank: TextView? = null
     var recyclerView: RecyclerView?= null
     var rankList: ArrayList<Account> ?= null
     var myAdapter: RankAdapter?= null
@@ -46,6 +46,8 @@ class RankActivity : AppCompatActivity() {
         top1Point = findViewById(R.id.top1Point)
         top1Ava = findViewById(R.id.top1Avatar)
         myRank = findViewById(R.id.myRank)
+        pointRank = findViewById(R.id.pointRankingBtn)
+        badgeRank = findViewById(R.id.badgeRankingBtn)
         myAva = findViewById(R.id.myRankAvatar)
         reBtn!!.setOnClickListener {
             finish()
@@ -85,12 +87,28 @@ class RankActivity : AppCompatActivity() {
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             }
         })
-        getDB()
+
+        getDB("Point")
+
+        badgeRank!!.setOnClickListener {
+            rankList!!.clear()
+            getDB("Point")
+            pointRank!!.visibility = View.VISIBLE
+            badgeRank!!.visibility = View.INVISIBLE
+        }
+
+        pointRank!!.setOnClickListener {
+            rankList!!.clear()
+            getDB("BadgeOwn")
+            badgeRank!!.visibility = View.VISIBLE
+            pointRank!!.visibility = View.INVISIBLE
+        }
+
     }
 
-    private fun getDB() {
+    private fun getDB(fields: String) {
         db = FirebaseFirestore.getInstance()
-        db!!.collection("accounts").orderBy("Point", Query.Direction.DESCENDING)
+        db!!.collection("accounts").orderBy(fields, Query.Direction.DESCENDING)
             .addSnapshotListener(object : EventListener<QuerySnapshot> {
                 @SuppressLint("NotifyDataSetChanged")
                 override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
