@@ -99,11 +99,10 @@ class RankActivity : AppCompatActivity() {
 
         pointRank!!.setOnClickListener {
             rankList!!.clear()
-            getDB("BadgeOwn")
+            getDB("BadgeCnt")
             badgeRank!!.visibility = View.VISIBLE
             pointRank!!.visibility = View.INVISIBLE
         }
-
     }
 
     private fun getDB(fields: String) {

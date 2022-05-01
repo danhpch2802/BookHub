@@ -64,7 +64,7 @@ class ListComicFragment : Fragment() {
                     listOfComic.add(comicGet)
                 }
                 val uid = FirebaseAuth.getInstance().currentUser!!.uid
-                var adapter = ComicAdapter(listOfComic)
+                val adapter = ComicAdapter(listOfComic)
                 adapter.onItemClick = { book ->
                     val db = FirebaseFirestore.getInstance()
                     db.collection("accounts").document(uid)

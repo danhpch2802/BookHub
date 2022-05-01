@@ -38,7 +38,7 @@ class PrizeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_prize)
 
-        prizeList = arrayListOf()
+
         val db2 = FirebaseFirestore.getInstance()
         uid = FirebaseAuth.getInstance().currentUser!!.uid
 
@@ -61,12 +61,13 @@ class PrizeActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        getPrize()
     }
 
     override fun onResume() {
         super.onResume()
+        prizeList = arrayListOf()
         getAcc()
+        getPrize()
     }
     fun getAcc () {
         val db = FirebaseFirestore.getInstance()
@@ -125,7 +126,6 @@ class PrizeActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     for (document in task.result["BadgeUnown"] as ArrayList<*>) {
                         prizeList!!.add(document.toString())
-
                     }
                 } else {
                     onError(task.exception)

@@ -127,6 +127,7 @@ class SignupActivity : AppCompatActivity() {
                             account["username"] = name
                             account["FriendsList"] = arrayListOf("")
                             account["RecipientToken"] = ""
+                            account["BadgeCnt"] = 0
 
                             documentRef.set(account)
 

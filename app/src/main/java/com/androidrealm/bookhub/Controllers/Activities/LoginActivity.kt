@@ -295,6 +295,7 @@ class LoginActivity : AppCompatActivity() {
                                     account["RecipientToken"] = ""
                                     account["LastLogin"] = FieldValue.serverTimestamp()
                                     account["quizCnt"] = 0
+                                    account["BadgeCnt"] = 0
                                     documentRef.set(account)
                                 }
 
@@ -378,9 +379,21 @@ class LoginActivity : AppCompatActivity() {
                         .update(updatesCnt).addOnCompleteListener { }
                 }
             }
+
             .addOnFailureListener { exception ->
                 Log.d(ContentValues.TAG, "Error getting documents: ", exception)
             }
+        FirebaseFirestore.getInstance().collection("accounts").get().addOnSuccessListener { result ->
+            for (documents in result) {
+                val badge = documents.get("BadgeOwn") as ArrayList<*>
+                val updates = hashMapOf<String, Any>(
+                    "BadgeCnt" to badge.size
+                )
+                //Log.d(TAG, "Szize " + badge.size.toString())
+                FirebaseFirestore.getInstance().collection("accounts").document(documents.id).update(updates)
+                    .addOnCompleteListener { }
+            }
+        }
 
     }
 }
