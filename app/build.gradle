@@ -43,6 +43,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
+    //PDF Viewer
     implementation 'com.github.barteksc:android-pdf-viewer:3.2.0-beta.1'
 
     implementation "androidx.room:room-runtime:2.4.2"
