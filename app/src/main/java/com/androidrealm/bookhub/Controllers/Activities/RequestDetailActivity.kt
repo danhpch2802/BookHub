@@ -53,8 +53,6 @@ class RequestDetailActivity : AppCompatActivity() {
         val intent = intent
         val docID = intent.getStringExtra("documentID")
 
-        addNewBookBtn!!.visibility = View.GONE
-
         accept_checkbox!!.setOnClickListener{
             if(accept_checkbox!!.isChecked)
                 addNewBookBtn!!.visibility = View.VISIBLE
@@ -79,27 +77,27 @@ class RequestDetailActivity : AppCompatActivity() {
         doneBtn!!.setOnClickListener {
             val title = "Request Confirmed!"
             val message = "The request for ${username!!.text.toString()} has been accepted. Check out the gallery now!"
-            // find token of user that sends the request
-            db.collection("accounts").whereEqualTo("username", username!!.text)
-                .get()
-                .addOnSuccessListener { documents ->
-                    for(doc in documents){
-                        var token = doc.getString("RecipientToken").toString()
-                        if(title.isNotEmpty() && message.isNotEmpty() && token.isNotEmpty()){
-                            PushNotification(
-                                NotificationData(title, message),
-                                token
-                            ).also {
-                                sendNotification(it)
-                            }
-                        }
-                    }
-                }
 
             if (accept_checkbox!!.isChecked) {
                 if (docID != null) {
                     db.collection("requests").document(docID)
                         .update("checked", true)
+                    // find token of user that sends the request
+                    db.collection("accounts").whereEqualTo("username", username!!.text)
+                        .get()
+                        .addOnSuccessListener { documents ->
+                            for(doc in documents){
+                                var token = doc.getString("RecipientToken").toString()
+                                if(token.isNotEmpty()){
+                                    PushNotification(
+                                        NotificationData(title, message),
+                                        token
+                                    ).also {
+                                        sendNotification(it)
+                                    }
+                                }
+                            }
+                        }
                     Toast.makeText(this, "Request Confirmed", Toast.LENGTH_LONG).show()
                 } else {
                     Toast.makeText(this, "Unable to get data from Firestore", Toast.LENGTH_SHORT)
@@ -131,6 +129,15 @@ class RequestDetailActivity : AppCompatActivity() {
             }
         } catch (e:Exception){
             Log.e(TAG, e.toString())
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val intentGet = Intent()
+        val added = intentGet.getBooleanExtra("newbookadded", false)
+        if(added){
+            Toast.makeText(this, "New Book has been added to the Gallery", Toast.LENGTH_SHORT).show()
         }
     }
 }

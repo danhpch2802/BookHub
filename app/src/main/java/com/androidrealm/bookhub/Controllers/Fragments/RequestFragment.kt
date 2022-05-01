@@ -27,7 +27,7 @@ class RequestFragment : Fragment() {
     var request_detail: EditText? = null
     var username: String? = null
     var to_request_list: TextView? = null
-    val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+    val sdf = SimpleDateFormat("d/M/yyyy hh:mm:ss")
     val currentTime = sdf.format(Date())
 
     override fun onCreateView(

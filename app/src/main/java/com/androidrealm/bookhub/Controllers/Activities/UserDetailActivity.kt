@@ -57,6 +57,8 @@ class UserDetailActivity : AppCompatActivity() {
             val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
             db.collection("accounts").document(currentUserID)
                 .update("FriendsList", FieldValue.arrayRemove(uid))
+            db.collection("accounts").document(uid)
+                .update("FriendsList", FieldValue.arrayRemove(currentUserID))
 
             Toast.makeText(this, "Friend has been deleted from List", Toast.LENGTH_LONG).show()
             finish()

@@ -34,6 +34,7 @@ class RequestListFragment : Fragment() {
     var myAdapter: RequestAdapter ?= null
     var db: FirebaseFirestore ?= null
     lateinit var option: Spinner
+    val options = arrayOf("Sort by...", "Latest", "Checked Status")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,8 +51,43 @@ class RequestListFragment : Fragment() {
         recyclerView!!.layoutManager = LinearLayoutManager(context)
 
         option = view.findViewById(R.id.spinner) as Spinner
-        val options = arrayOf("Sort by...", "Latest", "Checked Status")
-        option.adapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_list_item_1, options)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        db = FirebaseFirestore.getInstance()
+        db!!.collection("requests")
+            .addSnapshotListener(object : EventListener<QuerySnapshot>{
+                @SuppressLint("NotifyDataSetChanged")
+                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                    if (error != null){
+                        Log.e("Firestore Error", error.message.toString())
+                        return
+                    }
+                    for (dc: DocumentChange in value?.documentChanges!!){
+                        if (dc.type == DocumentChange.Type.ADDED){
+                            requestList!!.add(dc.document.toObject(Request::class.java))
+                        }
+                    }
+                    myAdapter!!.notifyDataSetChanged()
+                }
+            })
+        requestList = arrayListOf()
+
+        myAdapter = RequestAdapter(requestList!!)
+        recyclerView!!.adapter = myAdapter
+
+        myAdapter!!.setOnItemClickListener(object : RequestAdapter.onItemClickListener{
+            override fun onItemClick(position: Int) {
+                val clickedItem = requestList!![position]
+                val intent = Intent(context, RequestDetailActivity::class.java)
+                intent.putExtra("documentID", clickedItem.documentId)
+                startActivity(intent)
+            }
+        })
+
+        option.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, options)
         option.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 when (p2) {
@@ -129,43 +165,5 @@ class RequestListFragment : Fragment() {
             }
 
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        getDB()
-        requestList = arrayListOf()
-
-        myAdapter = RequestAdapter(requestList!!)
-        recyclerView!!.adapter = myAdapter
-
-        myAdapter!!.setOnItemClickListener(object : RequestAdapter.onItemClickListener{
-            override fun onItemClick(position: Int) {
-                val clickedItem = requestList!![position]
-                val intent = Intent(context, RequestDetailActivity::class.java)
-                intent.putExtra("documentID", clickedItem.documentId)
-                startActivity(intent)
-            }
-        })
-    }
-
-    private fun getDB() {
-        db = FirebaseFirestore.getInstance()
-        db!!.collection("requests")
-            .addSnapshotListener(object : EventListener<QuerySnapshot>{
-                @SuppressLint("NotifyDataSetChanged")
-                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
-                    if (error != null){
-                        Log.e("Firestore Error", error.message.toString())
-                        return
-                    }
-                    for (dc: DocumentChange in value?.documentChanges!!){
-                        if (dc.type == DocumentChange.Type.ADDED){
-                            requestList!!.add(dc.document.toObject(Request::class.java))
-                        }
-                    }
-                    myAdapter!!.notifyDataSetChanged()
-                }
-            })
     }
 }

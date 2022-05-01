@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.androidrealm.bookhub.Models.Account
@@ -60,11 +61,17 @@ class AccountDetailActivity : AppCompatActivity() {
             Toast.makeText(this@AccountDetailActivity, "Submit Successfully!", Toast.LENGTH_SHORT).show()
         }
 
-        badgeTV!!.setOnClickListener{
+        // Remove message icon if user is admin
+        val db = FirebaseFirestore.getInstance()
+        db.collection("accounts").document(uid)
+            .get().addOnSuccessListener { result ->
+                role = result.get("Role") as Long
+                if (role == 0L)
+                    sendMessageBtn!!.visibility = View.GONE
+            }
 
-        }
+
         delBtn!!.setOnClickListener{
-            val db = FirebaseFirestore.getInstance()
             db.collection("accounts").document(uid)
                 .get().addOnSuccessListener { result ->
                     role = result.get("Role") as Long
@@ -85,7 +92,6 @@ class AccountDetailActivity : AppCompatActivity() {
             finish()
         }
         saveBtn!!.setOnClickListener{
-            val db = FirebaseFirestore.getInstance()
             db.collection("accounts").document(uid)
                 .get().addOnSuccessListener { result ->
                     role = result.get("Role") as Long?

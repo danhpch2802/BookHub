@@ -3,6 +3,7 @@ package com.androidrealm.bookhub.Controllers.Activities
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -30,6 +31,11 @@ class MessageActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
+
+        var actionBar = supportActionBar
+        if(actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true)
+        }
 
         val name = intent.getStringExtra("name")
         val receiverUid = intent.getStringExtra("uid")
@@ -81,5 +87,15 @@ class MessageActivity: AppCompatActivity() {
                 }
             messageBox.setText("")
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

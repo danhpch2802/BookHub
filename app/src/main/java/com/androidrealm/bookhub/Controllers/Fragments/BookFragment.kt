@@ -22,6 +22,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.androidrealm.bookhub.Adapter.BookPageView2Adapter
 import com.androidrealm.bookhub.ComicAdapter
 import com.androidrealm.bookhub.Controllers.Activities.BookDetailActivity
+import com.androidrealm.bookhub.Controllers.Activities.RequestDetailActivity
 import com.androidrealm.bookhub.Controllers.Fragments.CreateNewChapterFragment.Companion.listChapterToCreate
 import com.androidrealm.bookhub.Controllers.Fragments.CreateNewChapterFragment.Companion.pdfListURIToCreate
 import com.androidrealm.bookhub.Controllers.Fragments.UpdateChapterFragment.Companion.listChapterToEdit
@@ -209,6 +210,9 @@ class BookFragment : Fragment() {
                 }
 
             uploadBtn.setOnClickListener {
+                val intent = Intent(requireContext(), RequestDetailActivity::class.java)
+                intent.putExtra("newbookadded", true)
+
                 detailComic.name = comicNameET!!.text.toString()
                 detailComic.author = comicAuthorET!!.text.toString()
 

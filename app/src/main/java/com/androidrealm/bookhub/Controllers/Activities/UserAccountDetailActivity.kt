@@ -69,8 +69,6 @@ class UserAccountDetailActivity : AppCompatActivity() {
                         val data = it.result
                         for (i in data["FriendsList"] as ArrayList<*>) {
                             if (uid == i.toString()) foundInFriendList++
-                            Log.d("uidClicked: ", uid)
-                            Log.d("found: ", i.toString())
                         }
 
                         if (foundInFriendList != 0) {
