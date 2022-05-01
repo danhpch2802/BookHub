@@ -1,10 +1,13 @@
 package com.androidrealm.bookhub.Controllers.Fragments
 
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,10 +16,12 @@ import com.androidrealm.bookhub.ComicAdapter
 import com.androidrealm.bookhub.Controllers.Activities.BookDetailActivity
 import com.androidrealm.bookhub.Models.Book
 import com.androidrealm.bookhub.R
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 
 class ListComicFragment : Fragment() {
+    var flag = 0
     private lateinit var listComicsRW:RecyclerView
     companion object {
         fun newInstance
@@ -58,12 +63,40 @@ class ListComicFragment : Fragment() {
                     comicGet.id = document.id
                     listOfComic.add(comicGet)
                 }
-
+                val uid = FirebaseAuth.getInstance().currentUser!!.uid
                 var adapter = ComicAdapter(listOfComic)
                 adapter.onItemClick = { book ->
-                    val intent = Intent(activity, BookDetailActivity::class.java)
-                    intent.putExtra("id", book.id)
-                    startActivity(intent)
+                    val db = FirebaseFirestore.getInstance()
+                    db.collection("accounts").document(uid)
+                        .get().addOnSuccessListener { task ->
+                            if (book.name == "JoJo BA")
+                            {
+                                flag = 1
+                                var badge: ArrayList<String> = task.get("BadgeOwn") as ArrayList<String>
+                                for (i in badge)
+                                {
+                                    if (i == "b2" )
+                                    {
+                                        flag = 0
+                                        break
+                                    }
+                                }
+                                if (flag == 1)
+                                {
+                                    Toast.makeText(context, "You must have the Kono Dio Badge to read this " + book.name, Toast.LENGTH_SHORT)
+                                        .show()
+                                }
+                            }
+                            if (flag == 0) {
+                                val intent = Intent(activity, BookDetailActivity::class.java)
+                                intent.putExtra("id", book.id)
+                                startActivity(intent)
+                            }
+                            flag = 0
+                        }
+                        .addOnFailureListener { exception ->
+                            Log.d(ContentValues.TAG, "Error getting documents: ", exception)
+                        }
                 }
 
                 listComicsRW.adapter=adapter
