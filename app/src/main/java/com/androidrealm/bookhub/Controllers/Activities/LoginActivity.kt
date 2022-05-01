@@ -273,6 +273,7 @@ class LoginActivity : AppCompatActivity() {
                                 for (documents in result) {
                                     if (documents.id == fbid) {
                                         flag = 1
+                                        UpdateLoginDate()
                                     }
 
                                 }
